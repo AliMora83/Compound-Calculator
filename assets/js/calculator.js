@@ -27,13 +27,19 @@ function showToast(msg) {
   if (!t) {
     t = document.createElement('div');
     t.id = 'toast';
-    t.style = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111827;color:white;padding:10px 20px;border-radius:30px;font-size:0.85rem;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:none;';
     document.body.appendChild(t);
   }
   t.textContent = msg;
-  t.style.display = 'block';
-  t.classList.add('animated');
-  setTimeout(() => { t.style.display = 'none'; }, 3000);
+  t.classList.add('show');
+  setTimeout(() => { t.classList.remove('show'); }, 3000);
+}
+
+// Kinetic Feedback
+function triggerKineticFeedback() {
+  document.querySelectorAll('.metric-value').forEach(el => {
+    el.classList.add('updating');
+    setTimeout(() => el.classList.remove('updating'), 400);
+  });
 }
 
 function simulate(P, monthly, annualRate, years, n) {
@@ -164,8 +170,6 @@ function computeGrow() {
   // Delay Cost
   computeDelayCost(P, monthly, rate, years, n);
 
-  // Sync
-  if (typeof updateShareableURL === 'function') updateShareableURL();
   trackCalculation('grow', { p: P, y: years, r: rate });
 }
 
@@ -293,7 +297,6 @@ function computeGoal() {
     if (ctx) goalChart = new Chart(ctx, { type: 'bar', data: { labels, datasets }, options: chartOpts() });
   }
 
-  if (typeof updateShareableURL === 'function') updateShareableURL();
 }
 
 // --- Compare tab ---
@@ -341,7 +344,6 @@ function computeCompare() {
     if (ctx) compareChart = new Chart(ctx, { type: 'line', data: { labels, datasets }, options: { ...chartOpts(), scales: { x: { stacked: false, ticks: { autoSkip: true, maxTicksLimit: 10, font: { size: 11 }, color: '#9ca3af' }, grid: { display: false } }, y: { stacked: false, ticks: { callback: v => currencies[currentCurrency].symbol + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'k' : v), font: { size: 11 }, color: '#9ca3af' }, grid: { color: '#f3f4f6' } } } } });
   }
 
-  if (typeof updateShareableURL === 'function') updateShareableURL();
 }
 
 // --- Shared Utilities ---
@@ -444,18 +446,66 @@ async function downloadPDF() {
   }
 }
 
+function calculateNow() {
+  computeGrow();
+  computeGoal();
+  computeCompare();
+  triggerKineticFeedback();
+  showToast('Calculations updated!');
+}
+
+function clearInputs() {
+  const activeTab = document.querySelector('.tab-btn.active').textContent.toLowerCase();
+  if (activeTab.includes('grow')) {
+    $('g-principal').value = 10000;
+    $('g-monthly').value = 500;
+    $('g-rate').value = 8;
+    $('g-years').value = 10;
+    computeGrow();
+  } else if (activeTab.includes('goal')) {
+    $('goal-target').value = 1000000;
+    $('goal-principal').value = 0;
+    $('goal-monthly').value = 1000;
+    $('goal-rate').value = 8;
+    computeGoal();
+  } else {
+    ['ca','cb'].forEach(p => {
+      $(p+'-principal').value = 10000;
+      $(p+'-monthly').value = 500;
+      $(p+'-rate').value = 8;
+      $(p+'-years').value = 10;
+    });
+    computeCompare();
+  }
+  triggerKineticFeedback();
+  showToast('Values reset to defaults');
+}
+
 // --- Init ---
 document.addEventListener('DOMContentLoaded', () => {
   // Bind inputs
   ['g-principal','g-monthly','g-rate','g-years','g-freq','g-inflation'].forEach(id => {
-    if ($(id)) $(id).addEventListener('input', computeGrow);
+    if ($(id)) $(id).addEventListener('input', () => { computeGrow(); triggerKineticFeedback(); });
   });
   ['goal-target','goal-principal','goal-monthly','goal-rate','goal-freq'].forEach(id => {
-    if ($(id)) $(id).addEventListener('input', computeGoal);
+    if ($(id)) $(id).addEventListener('input', () => { computeGoal(); triggerKineticFeedback(); });
   });
   ['ca-principal','ca-monthly','ca-rate','ca-years','cb-principal','cb-monthly','cb-rate','cb-years','c-freq'].forEach(id => {
-    if ($(id)) $(id).addEventListener('input', computeCompare);
+    if ($(id)) $(id).addEventListener('input', () => { computeCompare(); triggerKineticFeedback(); });
   });
+
+  // Mobile Menu
+  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      const isOpen = navLinks.classList.contains('active');
+      mobileMenuBtn.innerHTML = isOpen 
+        ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'
+        : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+    });
+  }
 
   // Load from URL if present
   if (typeof loadFromURL === 'function') loadFromURL();

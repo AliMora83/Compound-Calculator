@@ -28,6 +28,7 @@
   
   <!-- Styles -->
   <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
 
   <!-- Chart.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -69,8 +70,8 @@
   <header>
     <div class="nav-container">
       <a href="/" class="logo">
-        <span class="logo-dot"></span>
-        CompoundCalc
+        <img src="/assets/logo.png" alt="CompoundCalc" height="32">
+        <span>CompoundCalc</span>
       </a>
       <nav class="nav-links">
         <a href="/savings-calculator.html" class="active">Savings Calculator</a>
@@ -91,11 +92,25 @@
         <p>See how your money grows — and how time is your most powerful tool.</p>
       </div>
 
-      <div class="currency-selector">
-        <button class="currency-btn active" data-cur="ZAR" onclick="setCurrency('ZAR')">ZAR</button>
-        <button class="currency-btn" data-cur="USD" onclick="setCurrency('USD')">USD</button>
-        <button class="currency-btn" data-cur="GBP" onclick="setCurrency('GBP')">GBP</button>
-        <button class="currency-btn" data-cur="EUR" onclick="setCurrency('EUR')">EUR</button>
+      <div class="action-bar">
+        <div class="currency-selector">
+          <button class="currency-btn active" data-cur="ZAR" onclick="setCurrency('ZAR')">ZAR</button>
+          <button class="currency-btn" data-cur="USD" onclick="setCurrency('USD')">USD</button>
+          <button class="currency-btn" data-cur="GBP" onclick="setCurrency('GBP')">GBP</button>
+          <button class="currency-btn" data-cur="EUR" onclick="setCurrency('EUR')">EUR</button>
+        </div>
+        <button class="btn-calculate" onclick="calculateNow()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 15h2m-2 4h2M11 11h2M7 11h2m-2 4h2m-2 4h2M15 11h2m-2 4h2m-2 4h2M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z"></path></svg>
+          <span>Calculate</span>
+        </button>
+        <button class="btn-clear" onclick="clearInputs()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+          <span>Clear</span>
+        </button>
+        <button class="btn-secondary btn-share" onclick="copyShareLink()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+          <span>Share Link</span>
+        </button>
       </div>
 
       <div class="tabs">
@@ -224,7 +239,6 @@
                   <tbody id="g-table-body"></tbody>
                 </table>
                 <div class="table-footer">
-                  <button class="btn-share" onclick="copyShareLink()">🔗 Copy link</button>
                   <button class="btn-download" onclick="downloadPDF()">📄 Download PDF</button>
                   <button class="btn-download" onclick="downloadCSV()">↓ CSV</button>
                 </div>

@@ -5,7 +5,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap');
 
-@font-face {
+/* @font-face {
   font-family: 'DM Sans';
   src: url('../fonts/dm-sans-regular.woff2') format('woff2');
   font-weight: 400;
@@ -35,7 +35,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-}
+} */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -132,6 +132,36 @@ header {
   border: none;
   cursor: pointer;
   padding: 8px;
+  color: var(--text);
+  margin-left: auto;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg);
+    flex-direction: column;
+    padding: 2rem;
+    gap: 2rem;
+    z-index: 1000;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links a {
+    font-size: 1.25rem;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
 }
 
 /* --- Calculator Wrapper --- */
@@ -385,6 +415,13 @@ select:focus { border-color: var(--border-focus); }
   letter-spacing: -0.02em;
   color: var(--text);
   font-family: 'DM Mono', monospace;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
+  display: inline-block;
+}
+
+.metric-value.updating {
+  transform: scale(1.05);
+  color: var(--green);
 }
 
 .metric-card.accent .metric-value { color: #14532d; }
@@ -565,25 +602,51 @@ tbody tr:hover { background: var(--bg-surface); }
   gap: 10px;
 }
 
-.btn-download, .btn-share {
+.btn-download, .btn-share, .btn-secondary, .btn-calculate, .btn-clear {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
   border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 500;
-  color: var(--text-muted);
-  transition: all 0.15s;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
 }
 
-.btn-download:hover, .btn-share:hover {
-  border-color: var(--text-muted);
+.btn-secondary, .btn-clear, .btn-download, .btn-share {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.btn-secondary:hover, .btn-clear:hover, .btn-download:hover, .btn-share:hover {
+  background: var(--bg-active);
   color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.btn-calculate {
+  background: var(--green);
+  color: white;
+  border: none;
+  font-weight: 600;
+}
+
+.btn-calculate:hover {
+  background: #15803d;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+}
+
+.action-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 /* --- New Features CSS --- */
@@ -631,11 +694,18 @@ tbody tr:hover { background: var(--bg-surface); }
   color: var(--green);
 }
 
-/* Currency Selector */
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .currency-selector {
   display: flex;
   gap: 4px;
-  margin-bottom: 1rem;
 }
 
 .currency-btn {
@@ -912,3 +982,29 @@ footer {
 }
 
 @media (max-width: 500px) { .goal-breakdown { grid-template-columns: 1fr; } }
+
+/* Toast Notification */
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 40px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  z-index: 10000;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+}
+
+#toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}

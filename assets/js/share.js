@@ -2,7 +2,7 @@
  * share.js - URL parameter encoding/decoding for CompoundCalc.co.za
  */
 
-function updateShareableURL() {
+function getShareableURL() {
   const activeTab = document.querySelector('.tab-btn.active').getAttribute('onclick').match(/'([^']+)'/)[1];
   
   let params = new URLSearchParams();
@@ -36,7 +36,13 @@ function updateShareableURL() {
   const cur = localStorage.getItem('cc_currency') || 'ZAR';
   params.set('c', cur);
 
-  window.history.replaceState({}, '', `?${params.toString()}`);
+  return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+}
+
+// Previously automatic, now explicitly called if needed or removed from auto-listeners
+function updateShareableURL() {
+  // We no longer update the history state automatically to keep the URL clean
+  // window.history.replaceState({}, '', `?${params.toString()}`);
 }
 
 function loadFromURL() {
@@ -79,25 +85,33 @@ function loadFromURL() {
 
   if (params.has('c')) {
     const cur = params.get('c');
-    setCurrency(cur);
+    if (typeof setCurrency === 'function') setCurrency(cur);
   }
 
   // Switch tab after loading values
-  switchTab(tab);
+  if (typeof switchTab === 'function') switchTab(tab);
 }
 
 function copyShareLink() {
-  navigator.clipboard.writeText(window.location.href).then(() => {
-    const btn = document.querySelector('.btn-share');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '✅ Copied!';
-    setTimeout(() => {
-      btn.innerHTML = originalText;
-    }, 2000);
+  const shareableURL = getShareableURL();
+  
+  navigator.clipboard.writeText(shareableURL).then(() => {
+    const btns = document.querySelectorAll('.btn-share');
+    btns.forEach(btn => {
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span>✅ Copied!</span>';
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+      }, 2000);
+    });
     
+    if (typeof showToast === 'function') showToast('Link copied to clipboard!');
+
     // GA4 event
     if (typeof gtag === 'function') {
       gtag('event', 'share_url_copied');
     }
+  }).catch(err => {
+    console.error('Failed to copy link: ', err);
   });
 }
