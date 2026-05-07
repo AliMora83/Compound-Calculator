@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary SEO -->
+  <title>Compound Interest Calculator South Africa | CompoundCalc</title>
+  <meta name="description" content="Free compound interest calculator for South African investors. See how your savings grow with monthly contributions, inflation adjustment, and a year-by-year breakdown. No sign-up needed.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://compoundcalc.co.za/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Compound Interest Calculator — CompoundCalc.co.za">
+  <meta property="og:description" content="See what your money could be worth in 10, 20, or 30 years. Free interactive calculator for SA investors.">
+  <meta property="og:image" content="https://compoundcalc.co.za/assets/og-image.png">
+  <meta property="og:url" content="https://compoundcalc.co.za/">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Compound Interest Calculator — CompoundCalc.co.za">
+  <meta name="twitter:description" content="Free calculator for SA investors. Monthly contributions, inflation toggle, downloadable PDF.">
+  <meta name="twitter:image" content="https://compoundcalc.co.za/assets/og-image.png">
+
+  <!-- Google Fonts (Self-hosting recommended, using CDN for now as per brief) -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  
+  <!-- PDF Export Libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "CompoundCalc — Compound Interest Calculator",
+    "url": "https://compoundcalc.co.za",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "ZAR"
+    },
+    "description": "Free South African compound interest calculator with monthly contributions, savings goal reverse-calculator, scenario comparison, inflation adjustment, and downloadable PDF summary.",
+    "inLanguage": "en-ZA"
+  }
+  </script>
+
+  <!-- Google Analytics Placeholder (Ali to replace ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <span class="logo-dot"></span>
+        CompoundCalc
+      </a>
+      <nav class="nav-links">
+        <a href="/savings-calculator.html" class="active">Savings Calculator</a>
+        <a href="/investment-goal-calculator.html">Goal Calculator</a>
+        <a href="/compare-investments.html">Compare</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+      <button class="mobile-menu-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="calc-wrap">
+      <div class="calc-header">
+        <h1>Compound Interest Calculator</h1>
+        <p>See how your money grows — and how time is your most powerful tool.</p>
+      </div>
+
+      <div class="currency-selector">
+        <button class="currency-btn active" data-cur="ZAR" onclick="setCurrency('ZAR')">ZAR</button>
+        <button class="currency-btn" data-cur="USD" onclick="setCurrency('USD')">USD</button>
+        <button class="currency-btn" data-cur="GBP" onclick="setCurrency('GBP')">GBP</button>
+        <button class="currency-btn" data-cur="EUR" onclick="setCurrency('EUR')">EUR</button>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('grow')">Grow savings</button>
+        <button class="tab-btn" onclick="switchTab('goal')">Reach a goal</button>
+        <button class="tab-btn" onclick="switchTab('compare')">Compare scenarios</button>
+      </div>
+
+      <!-- ===== TAB: GROW ===== -->
+      <div id="tab-grow" class="tab-panel active">
+        <div class="layout">
+          <div class="input-panel">
+            <div class="field">
+              <label>Starting principal</label>
+              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="g-principal" value="10000" min="0"></div>
+            </div>
+            <div class="field">
+              <label>Monthly contribution</label>
+              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="g-monthly" value="200" min="0"></div>
+            </div>
+            <div class="field">
+              <label>Annual interest rate</label>
+              <div class="input-row"><input type="number" id="g-rate" value="7" min="0" max="100" step="0.1"><span class="input-prefix">%</span></div>
+            </div>
+            <div class="field">
+              <label>Time horizon</label>
+              <div class="input-row"><input type="number" id="g-years" value="20" min="1" max="60"><span class="input-prefix">yrs</span></div>
+            </div>
+            <div class="field">
+              <label>Compounding</label>
+              <select id="g-freq">
+                <option value="1">Annually</option>
+                <option value="4">Quarterly</option>
+                <option value="12" selected>Monthly</option>
+                <option value="365">Daily</option>
+              </select>
+            </div>
+            <div class="divider"></div>
+            <div>
+              <div class="toggle-row">
+                <span class="toggle-label">Inflation adjustment</span>
+                <label class="toggle"><input type="checkbox" id="g-inflation-toggle" onchange="toggleInflation()"><span class="toggle-track"></span></label>
+              </div>
+              <div class="inflation-sub" id="inflation-sub">
+                <div class="field" style="margin-top:8px">
+                  <label>Inflation rate</label>
+                  <div class="input-row"><input type="number" id="g-inflation" value="2.5" min="0" max="20" step="0.1"><span class="input-prefix">%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="results-panel">
+            <div class="metric-grid animated" id="g-cards">
+              <div class="metric-card accent">
+                <div class="metric-label">Final balance</div>
+                <div class="metric-value" id="g-final">—</div>
+                <div class="metric-sub" id="g-real-row" style="display:none">Real value: <span id="g-real">—</span></div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Interest earned</div>
+                <div class="metric-value" id="g-interest">—</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Total contributed</div>
+                <div class="metric-value" id="g-contributed">—</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">ROI</div>
+                <div class="metric-value" id="g-roi">—</div>
+              </div>
+            </div>
+
+            <!-- Affiliate CTA -->
+            <div class="affiliate-cta" id="affiliate-cta" style="display:none;">
+              <p>Ready to put this plan in motion?</p>
+              <a href="#" target="_blank" rel="noopener sponsored" onclick="gtag('event','affiliate_click',{platform:'easyequities'})">
+                Open a free EasyEquities account →
+              </a>
+              <small>Affiliate disclosure: we may earn a commission at no cost to you.</small>
+            </div>
+
+            <div class="milestones" id="g-milestones"></div>
+
+            <!-- Ad Leaderboard Slot -->
+            <div id="ad-leaderboard" class="ad-slot">
+              <!-- AdSense placeholder -->
+            </div>
+
+            <div class="chart-box">
+              <div class="chart-legend">
+                <div class="legend-item"><span class="legend-swatch" style="background:#16a34a"></span>Interest</div>
+                <div class="legend-item"><span class="legend-swatch" style="background:#86efac"></span>Contributions</div>
+                <div class="legend-item"><span class="legend-swatch" style="background:#d1d5db"></span>Principal</div>
+                <div class="legend-item legend-item-real" id="legend-real" style="display:none"><span class="legend-swatch" style="background:#f97316;opacity:0.7"></span>Real value</div>
+              </div>
+              <div class="chart-container"><canvas id="growChart"></canvas></div>
+            </div>
+
+            <!-- Cost of Delay Panel -->
+            <div class="delay-cost-panel animated">
+              <div class="delay-header">
+                ⏳ The cost of waiting
+              </div>
+              <div class="delay-body" id="delay-list">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <div>
+              <div class="table-toggle" id="table-toggle-grow" onclick="toggleTable('grow')">
+                <span>Year-by-year breakdown</span>
+                <span class="arrow">▼</span>
+              </div>
+              <div class="table-wrap" id="table-wrap-grow">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Year</th>
+                      <th>Balance</th>
+                      <th>Contributed</th>
+                      <th>Interest</th>
+                      <th>Growth %</th>
+                    </tr>
+                  </thead>
+                  <tbody id="g-table-body"></tbody>
+                </table>
+                <div class="table-footer">
+                  <button class="btn-share" onclick="copyShareLink()">🔗 Copy link</button>
+                  <button class="btn-download" onclick="downloadPDF()">📄 Download PDF</button>
+                  <button class="btn-download" onclick="downloadCSV()">↓ CSV</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ad Rectangle Slot -->
+            <div id="ad-rectangle" class="ad-slot">
+              <!-- AdSense placeholder -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: GOAL ===== -->
+      <div id="tab-goal" class="tab-panel">
+        <div class="layout">
+          <div class="input-panel">
+            <div class="field">
+              <label>Savings target</label>
+              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="goal-target" value="500000" min="0"></div>
+            </div>
+            <div class="field">
+              <label>Starting principal</label>
+              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="goal-principal" value="10000" min="0"></div>
+            </div>
+            <div class="field">
+              <label>Monthly contribution</label>
+              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="goal-monthly" value="500" min="0"></div>
+            </div>
+            <div class="field">
+              <label>Annual interest rate</label>
+              <div class="input-row"><input type="number" id="goal-rate" value="7" min="0" max="100" step="0.1"><span class="input-prefix">%</span></div>
+            </div>
+            <div class="field">
+              <label>Compounding</label>
+              <select id="goal-freq">
+                <option value="1">Annually</option>
+                <option value="4">Quarterly</option>
+                <option value="12" selected>Monthly</option>
+                <option value="365">Daily</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="results-panel">
+            <div class="goal-result-big animated" id="goal-result-big">
+              <div class="years-num" id="goal-years-num">—</div>
+              <div class="years-label" id="goal-years-label">years to reach your goal</div>
+              <div class="goal-progress"><div class="goal-progress-fill" id="goal-prog-fill" style="width:0%"></div></div>
+              <div style="font-size:0.75rem; color:var(--text-faint); margin-top:6px;" id="goal-prog-label"></div>
+            </div>
+
+            <div class="goal-breakdown" id="goal-breakdown">
+              <div class="metric-card">
+                <div class="metric-label">You contribute</div>
+                <div class="metric-value" id="goal-contribute-total">—</div>
+              </div>
+              <div class="metric-card accent">
+                <div class="metric-label">Interest covers</div>
+                <div class="metric-value" id="goal-interest-covers">—</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Interest share</div>
+                <div class="metric-value" id="goal-interest-pct">—</div>
+              </div>
+            </div>
+
+            <div class="chart-box">
+              <div class="chart-container"><canvas id="goalChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: COMPARE ===== -->
+      <div id="tab-compare" class="tab-panel">
+        <div class="compare-grid">
+          <div class="compare-panel scenario-a">
+            <h3>Scenario A</h3>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div class="field"><label>Principal</label><div class="input-row"><span class="input-prefix">R</span><input type="number" id="ca-principal" value="10000" min="0"></div></div>
+              <div class="field"><label>Monthly</label><div class="input-row"><span class="input-prefix">R</span><input type="number" id="ca-monthly" value="300" min="0"></div></div>
+              <div class="field"><label>Rate</label><div class="input-row"><input type="number" id="ca-rate" value="5" step="0.1"><span class="input-prefix">%</span></div></div>
+              <div class="field"><label>Years</label><div class="input-row"><input type="number" id="ca-years" value="20" min="1" max="60"><span class="input-prefix">yrs</span></div></div>
+            </div>
+            <div class="compare-result">
+              <div class="metric-label">Final balance</div>
+              <div class="metric-value" id="ca-final">—</div>
+              <div class="metric-sub" id="ca-sub">—</div>
+            </div>
+          </div>
+
+          <div class="compare-panel scenario-b">
+            <h3>Scenario B</h3>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div class="field"><label>Principal</label><div class="input-row"><span class="input-prefix">R</span><input type="number" id="cb-principal" value="10000" min="0"></div></div>
+              <div class="field"><label>Monthly</label><div class="input-row"><span class="input-prefix">R</span><input type="number" id="cb-monthly" value="300" min="0"></div></div>
+              <div class="field"><label>Rate</label><div class="input-row"><input type="number" id="cb-rate" value="8" step="0.1"><span class="input-prefix">%</span></div></div>
+              <div class="field"><label>Years</label><div class="input-row"><input type="number" id="cb-years" value="20" min="1" max="60"><span class="input-prefix">yrs</span></div></div>
+            </div>
+            <div class="compare-result">
+              <div class="metric-label">Final balance</div>
+              <div class="metric-value" id="cb-final">—</div>
+              <div class="metric-sub" id="cb-sub">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <div class="field" style="max-width:200px;">
+            <label>Compounding (both)</label>
+            <select id="c-freq">
+              <option value="1">Annually</option>
+              <option value="4">Quarterly</option>
+              <option value="12" selected>Monthly</option>
+              <option value="365">Daily</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="compare-winner-box" style="margin-bottom:1rem;"></div>
+
+        <div class="chart-box">
+          <div class="chart-container"><canvas id="compareChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h2>CompoundCalc.co.za</h2>
+        <p>Free compound interest calculator for South African investors. See how your savings grow over time.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/savings-calculator.html">Grow Savings</a></li>
+          <li><a href="/investment-goal-calculator.html">Goal Calculator</a></li>
+          <li><a href="/compare-investments.html">Compare Scenarios</a></li>
+          <li><a href="/blog/">Financial Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="/terms-of-service.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-disclaimer">
+        Disclaimer: This tool is for informational purposes only and does not constitute financial advice. 
+        CompoundCalc is not a registered financial services provider.
+      </p>
+      <p class="footer-copy">&copy; 2026 CompoundCalc. Built in South Africa. 🇿🇦</p>
+    </div>
+  </footer>
+
+  <!-- Cookie Banner -->
+  <div id="cookie-banner" style="display:none;">
+    <span>We use cookies to analyse site traffic and serve relevant ads. 
+      <a href="/privacy-policy.html" style="color:#86efac;">Privacy Policy</a>
+    </span>
+    <button onclick="acceptCookies()" style="background:#16a34a; color:white; border:none; padding:8px 18px; border-radius:6px; cursor:pointer; font-family:inherit; font-size:0.85rem; white-space:nowrap;">
+      Got it
+    </button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/assets/js/share.js"></script>
+  <script src="/assets/js/calculator.js"></script>
+</body>
+</html>

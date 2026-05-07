@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Rule of 72: How to Calculate When Your Money Doubles | CompoundCalc</title>
+  <meta name="description" content="Learn the Rule of 72, a simple mental shortcut to estimate how long it takes for your investment to double at any interest rate.">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="/" class="logo"><span class="logo-dot"></span>CompoundCalc</a>
+      <nav class="nav-links">
+        <a href="/savings-calculator.html">Savings Calculator</a>
+        <a href="/investment-goal-calculator.html">Goal Calculator</a>
+        <a href="/compare-investments.html">Compare</a>
+        <a href="/blog/" class="active">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <article class="blog-post">
+    <div class="container">
+      <header class="post-header">
+        <span class="post-tag">Strategy</span>
+        <h1>The Rule of 72: How to Calculate When Your Money Doubles</h1>
+        <div class="post-meta">
+          <span>By CompoundCalc Team</span> • <span>4 min read</span> • <span>Updated May 2026</span>
+        </div>
+      </header>
+
+      <div class="prose">
+        <p>Want to know how long it will take for your investment to double without pulling out a spreadsheet? The Rule of 72 is one of the most useful mental shortcuts in finance. Whether you're looking at a savings account or a stock market index, this rule gives you a quick answer in seconds.</p>
+
+        <h3>What is the Rule of 72?</h3>
+        <p>The Rule of 72 is a simple formula used to estimate the number of years required to double the invested money at a given annual rate of return. It's surprisingly accurate for interest rates between 5% and 20%.</p>
+
+        <h3>The Formula</h3>
+        <div class="formula-box">
+          Years to Double = 72 / Annual Interest Rate
+        </div>
+        <p>For example, if your investment earns <strong>8% per year</strong>, it will take approximately <strong>9 years</strong> to double (72 / 8 = 9).</p>
+
+        <h3>Doubling Times at Common Rates</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Interest Rate</th><th>Years to Double</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>4%</td><td>18 years</td></tr>
+            <tr><td>6%</td><td>12 years</td></tr>
+            <tr><td>8%</td><td>9 years</td></tr>
+            <tr><td>10%</td><td>7.2 years</td></tr>
+            <tr><td>12%</td><td>6 years</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Connection to Milestones</h3>
+        <p>On our main calculator, you'll see "Milestone Badges" that highlight when you've reached 2×, 5×, or 10× your initial investment. The Rule of 72 is exactly what determines that first 2× badge! By increasing your rate of return by just 2%, you can often shave years off your doubling time.</p>
+
+        <div class="mini-calc-widget">
+          <h4>Test a rate</h4>
+          <p>Enter an interest rate to see how fast your money doubles:</p>
+          <div class="mini-calc-row">
+            <input type="number" id="mini-rate" value="10">
+            <span class="input-prefix">%</span>
+            <a href="/" id="mini-calc-link" class="btn-primary">Calculate Doubling →</a>
+          </div>
+        </div>
+      </div>
+
+      <footer class="post-footer">
+        <div class="share-box">
+          <span>Share:</span>
+          <button onclick="window.open('https://twitter.com/intent/tweet?url='+encodeURIComponent(window.location.href))">𝕏</button>
+          <button onclick="window.open('whatsapp://send?text='+encodeURIComponent(window.location.href))">WhatsApp</button>
+          <button onclick="copyShareLink()">🔗 Copy Link</button>
+        </div>
+      </footer>
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h2>CompoundCalc.co.za</h2>
+        <p>Free compound interest calculator for South African investors.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/savings-calculator.html">Grow Savings</a></li>
+          <li><a href="/investment-goal-calculator.html">Goal Calculator</a></li>
+          <li><a href="/compare-investments.html">Compare Scenarios</a></li>
+          <li><a href="/blog/">Financial Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="/terms-of-service.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-disclaimer">Disclaimer: This tool is for informational purposes only and does not constitute financial advice.</p>
+      <p class="footer-copy">&copy; 2026 CompoundCalc. Built in South Africa. 🇿🇦</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/share.js"></script>
+  <script>
+    document.getElementById('mini-rate').addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.getElementById('mini-calc-link').href = `/?r=${val}&tab=grow`;
+    });
+  </script>
+</body>
+</html>

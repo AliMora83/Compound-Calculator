@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compound Interest Calculator South Africa (2025 Guide) | CompoundCalc</title>
+  <meta name="description" content="Master compound interest in South Africa. Learn the formula, see worked examples in ZAR, and find out how to grow your wealth faster.">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="/" class="logo"><span class="logo-dot"></span>CompoundCalc</a>
+      <nav class="nav-links">
+        <a href="/savings-calculator.html">Savings Calculator</a>
+        <a href="/investment-goal-calculator.html">Goal Calculator</a>
+        <a href="/compare-investments.html">Compare</a>
+        <a href="/blog/" class="active">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <article class="blog-post">
+    <div class="container">
+      <header class="post-header">
+        <span class="post-tag">Investing</span>
+        <h1>Compound Interest Calculator South Africa (2025 Guide)</h1>
+        <div class="post-meta">
+          <span>By CompoundCalc Team</span> • <span>5 min read</span> • <span>Updated May 2026</span>
+        </div>
+      </header>
+
+      <div class="prose">
+        <p>Compound interest is often called the "eighth wonder of the world," and for good reason. For South African investors, understanding how it works is the key to building long-term wealth in a volatile economy. In this guide, we'll break down the mechanics of compound interest and how you can use it to your advantage.</p>
+
+        <h3>What is Compound Interest?</h3>
+        <p>Unlike simple interest, which is calculated only on the principal amount, compound interest is calculated on the principal plus the accumulated interest from previous periods. This creates a "snowball effect" where your money grows faster over time.</p>
+
+        <h3>The Formula Explained</h3>
+        <p>The standard formula for compound interest is:</p>
+        <div class="formula-box">
+          A = P(1 + r/n)^(nt)
+        </div>
+        <ul>
+          <li><strong>A</strong> = the future value of the investment</li>
+          <li><strong>P</strong> = the principal amount (initial investment)</li>
+          <li><strong>r</strong> = the annual interest rate (decimal)</li>
+          <li><strong>n</strong> = the number of times interest compounds per year</li>
+          <li><strong>t</strong> = the time the money is invested for (years)</li>
+        </ul>
+
+        <h3>Worked Example in ZAR</h3>
+        <p>Imagine you start with <strong>R10,000</strong> and contribute <strong>R1,000 every month</strong> into an account with an <strong>8% annual return</strong>, compounded monthly. After 20 years, you wouldn't just have your contributions (R250,000); you'd have nearly <strong>R650,000</strong>. More than half of that final balance would be pure interest earned!</p>
+
+        <h3>Frequently Asked Questions</h3>
+        <div class="faq-section">
+          <div class="faq-item">
+            <h4>How often should I compound?</h4>
+            <p>The more frequent the compounding, the better. Monthly compounding is standard for most SA savings accounts and unit trusts.</p>
+          </div>
+          <div class="faq-item">
+            <h4>Does inflation affect my returns?</h4>
+            <p>Yes. In South Africa, inflation typically hovers around 4-6%. It's important to use a calculator that accounts for inflation to see the "real" purchasing power of your future money.</p>
+          </div>
+        </div>
+
+        <div class="mini-calc-widget">
+          <h4>Try it yourself</h4>
+          <p>Enter a monthly amount to see your 20-year projection:</p>
+          <div class="mini-calc-row">
+            <span class="input-prefix">R</span>
+            <input type="number" id="mini-monthly" value="1000">
+            <a href="/" id="mini-calc-link" class="btn-primary">See Growth →</a>
+          </div>
+        </div>
+      </div>
+
+      <footer class="post-footer">
+        <div class="share-box">
+          <span>Share:</span>
+          <button onclick="window.open('https://twitter.com/intent/tweet?url='+encodeURIComponent(window.location.href))">𝕏</button>
+          <button onclick="window.open('whatsapp://send?text='+encodeURIComponent(window.location.href))">WhatsApp</button>
+          <button onclick="copyShareLink()">🔗 Copy Link</button>
+        </div>
+      </footer>
+    </div>
+  </article>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <h2>CompoundCalc.co.za</h2>
+        <p>Free compound interest calculator for South African investors.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Calculators</h4>
+        <ul>
+          <li><a href="/savings-calculator.html">Grow Savings</a></li>
+          <li><a href="/investment-goal-calculator.html">Goal Calculator</a></li>
+          <li><a href="/compare-investments.html">Compare Scenarios</a></li>
+          <li><a href="/blog/">Financial Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="/terms-of-service.html">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-disclaimer">Disclaimer: This tool is for informational purposes only and does not constitute financial advice.</p>
+      <p class="footer-copy">&copy; 2026 CompoundCalc. Built in South Africa. 🇿🇦</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/share.js"></script>
+  <script>
+    document.getElementById('mini-monthly').addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.getElementById('mini-calc-link').href = `/?m=${val}&tab=grow`;
+    });
+  </script>
+</body>
+</html>
