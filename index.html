@@ -193,6 +193,82 @@
               <small>Affiliate disclosure: we may earn a commission at no cost to you.</small>
             </div>
 
+            <!-- ══════════════════════════════════════════════════
+                 EMAIL CAPTURE — slides in after trigger conditions met
+                 Position: below #affiliate-cta, above milestone badges
+                 ══════════════════════════════════════════════════ -->
+            <div id="email-capture" class="email-capture hidden" aria-live="polite">
+            
+              <div class="email-capture-inner">
+            
+                <!-- Left: copy -->
+                <div class="email-capture-copy">
+                  <div class="email-capture-icon">📩</div>
+                  <div>
+                    <p class="email-capture-headline">Want to save this projection?</p>
+                    <p class="email-capture-sub">
+                      We'll send your full results as a PDF — chart, year-by-year breakdown,
+                      and final balance. Free, no spam.
+                    </p>
+                  </div>
+                </div>
+            
+                <!-- Right: form -->
+                <div class="email-capture-form-wrap">
+                  <div id="ec-form-state">
+                    <div class="ec-input-row">
+                      <input
+                        type="email"
+                        id="ec-email"
+                        class="ec-input"
+                        placeholder="your@email.com"
+                        autocomplete="email"
+                        inputmode="email"
+                        aria-label="Email address"
+                      />
+                      <button
+                        id="ec-submit"
+                        class="ec-btn"
+                        onclick="submitEmailCapture()"
+                        type="button"
+                      >
+                        Send my PDF
+                      </button>
+                    </div>
+                    <p class="ec-disclaimer">
+                      By submitting you agree to our
+                      <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>.
+                      Unsubscribe anytime.
+                    </p>
+                  </div>
+            
+                  <!-- Success state — shown after submit -->
+                  <div id="ec-success-state" class="ec-success hidden">
+                    <span class="ec-success-icon">✅</span>
+                    <div>
+                      <p class="ec-success-headline">On its way!</p>
+                      <p class="ec-success-sub">Check your inbox in the next few minutes.</p>
+                    </div>
+                  </div>
+            
+                  <!-- Error state -->
+                  <div id="ec-error-state" class="ec-error hidden">
+                    <span>⚠️</span>
+                    <p id="ec-error-msg">Something went wrong — please try again.</p>
+                  </div>
+                </div>
+            
+                <!-- Dismiss -->
+                <button
+                  class="ec-dismiss"
+                  onclick="dismissEmailCapture()"
+                  aria-label="Dismiss"
+                  type="button"
+                >✕</button>
+            
+              </div>
+            </div>
+
             <div class="milestones" id="g-milestones"></div>
 
             <!-- Ad Leaderboard Slot -->
