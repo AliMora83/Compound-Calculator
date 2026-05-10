@@ -102,7 +102,7 @@
             <option value="EUR">EUR — Euro</option>
           </select>
         </div>
-        <button class="btn-calculate" onclick="calculateNow()">
+        <button id="calculate-btn" class="btn-calculate" onclick="handleCalculate()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 15h2m-2 4h2M11 11h2M7 11h2m-2 4h2m-2 4h2M15 11h2m-2 4h2m-2 4h2M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z"></path></svg>
           <span>Calculate</span>
         </button>
@@ -166,28 +166,6 @@
                 Open a free EasyEquities account →
               </a>
               <small>Affiliate disclosure: we may earn a commission at no cost to you.</small>
-            </div>
-          </div>
-
-          <div class="results-panel">
-            <div class="metric-grid animated" id="g-cards">
-              <div class="metric-card accent">
-                <div class="metric-label">Final balance</div>
-                <div class="metric-value" id="g-final">—</div>
-                <div class="metric-sub" id="g-real-row" style="display:none">Real value: <span id="g-real">—</span></div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-label">Interest earned</div>
-                <div class="metric-value" id="g-interest">—</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-label">Total contributed</div>
-                <div class="metric-value" id="g-contributed">—</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-label">ROI</div>
-                <div class="metric-value" id="g-roi">—</div>
-              </div>
             </div>
 
             <!-- ══════════════════════════════════════════════════
@@ -263,6 +241,28 @@
                   type="button"
                 >✕</button>
             
+              </div>
+            </div>
+          </div>
+
+          <div class="results-panel">
+            <div class="metric-grid animated" id="g-cards">
+              <div class="metric-card accent">
+                <div class="metric-label">Final balance</div>
+                <div class="metric-value" id="g-final">—</div>
+                <div class="metric-sub" id="g-real-row" style="display:none">Real value: <span id="g-real">—</span></div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">You contribute</div>
+                <div class="metric-value" id="g-contributed">—</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Interest earned</div>
+                <div class="metric-value" id="g-interest">—</div>
+              </div>
+              <div class="metric-card" id="roi-card">
+                <div class="metric-label">Return on investment</div>
+                <div class="metric-value" id="g-roi">—</div>
               </div>
             </div>
 
