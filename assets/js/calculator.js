@@ -77,9 +77,10 @@ function setCurrency(code) {
   currentCurrency = code;
   localStorage.setItem('cc_currency', code);
   
-  document.querySelectorAll('.currency-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.cur === code);
-  });
+  const selectEl = document.getElementById('currency-select');
+  if (selectEl && selectEl.value !== code) {
+    selectEl.value = code;
+  }
   
   // Update prefixes in UI
   const symbol = currencies[code].symbol;
@@ -469,15 +470,33 @@ function calculateNow() {
   showToast('Calculations updated!');
 }
 
+function handleCalculate() {
+  const btn = document.getElementById('calculate-btn');
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Calculating…';
+
+  setTimeout(() => {
+    calculateNow();
+    ecCalculationRan = true;
+    triggerEmailCaptureNow();
+
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+  }, 0);
+}
+
 function clearInputs() {
-  const activeTab = document.querySelector('.tab-btn.active').textContent.toLowerCase();
-  if (activeTab.includes('grow')) {
+  const activeTabPanel = document.querySelector('.tab-panel.active');
+  const activeTabId = activeTabPanel ? activeTabPanel.id : 'tab-grow';
+
+  if (activeTabId === 'tab-grow') {
     $('g-principal').value = 10000;
     $('g-monthly').value = 500;
     $('g-rate').value = 8;
     $('g-years').value = 10;
     computeGrow();
-  } else if (activeTab.includes('goal')) {
+  } else if (activeTabId === 'tab-goal') {
     $('goal-target').value = 1000000;
     $('goal-principal').value = 0;
     $('goal-monthly').value = 1000;
@@ -545,6 +564,16 @@ if (!localStorage.getItem('cc_accepted')) {
 }
 
 // ── Email Capture Logic ────────────────────────────────
+
+function triggerEmailCaptureNow() {
+  if (ecShown) return;
+  if (ecDismissed) return;
+  if (localStorage.getItem(EC_STORAGE_KEY)) return;
+
+  setTimeout(() => {
+    showEmailCapture();
+  }, 800);
+}
 
 function maybeShowEmailCapture() {
   // Don't show if:
