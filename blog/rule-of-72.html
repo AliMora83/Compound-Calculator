@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Rule of 72: How to Calculate When Your Money Doubles | CompoundCalc</title>
-  <meta name="description" content="Learn the Rule of 72, a simple mental shortcut to estimate how long it takes for your investment to double at any interest rate.">
+  <meta name="description" content="The Rule of 72 is the fastest way to estimate how long it takes your money to double. Learn the formula, see ZAR examples, and check your own scenario with CompoundCalc.">
+  <link rel="canonical" href="https://compoundcalc.co.za/blog/rule-of-72.html">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/styles.css">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
+
 </head>
 <body>
   <header>
@@ -22,53 +24,196 @@
     </div>
   </header>
 
-  <article class="blog-post">
-    <div class="container">
-      <header class="post-header">
-        <span class="post-tag">Strategy</span>
-        <h1>The Rule of 72: How to Calculate When Your Money Doubles</h1>
-        <div class="post-meta">
-          <span>By CompoundCalc Team</span> • <span>4 min read</span> • <span>Updated May 2026</span>
-        </div>
-      </header>
+  <main class="content-page calc-wrap">
+    <div class="container blog-container">
+<article>
 
-      <div class="prose">
-        <p>Want to know how long it will take for your investment to double without pulling out a spreadsheet? The Rule of 72 is one of the most useful mental shortcuts in finance. Whether you're looking at a savings account or a stock market index, this rule gives you a quick answer in seconds.</p>
+  <header class="blog-header">
+    <h1>The Rule of 72: How to Calculate When Your Money Doubles</h1>
+    <p class="blog-meta">By CompoundCalc Team · 4 min read · Updated May 2026</p>
+  </header>
 
-        <h3>What is the Rule of 72?</h3>
-        <p>The Rule of 72 is a simple formula used to estimate the number of years required to double the invested money at a given annual rate of return. It's surprisingly accurate for interest rates between 5% and 20%.</p>
+  <p>
+    The Rule of 72 is one of the most useful shortcuts in personal finance. It tells you,
+    almost instantly and without a calculator, roughly how many years it will take for
+    your money to double at a given interest rate.
+  </p>
+  <p>
+    It's not perfectly precise — but it's close enough to be genuinely useful for
+    quick comparisons, back-of-envelope planning, and understanding the real cost
+    of inflation.
+  </p>
 
-        <h3>The Formula</h3>
-        <div class="formula-box">
-          Years to Double = 72 / Annual Interest Rate
-        </div>
-        <p>For example, if your investment earns <strong>8% per year</strong>, it will take approximately <strong>9 years</strong> to double (72 / 8 = 9).</p>
+  <h2>The Formula</h2>
+  <p>Divide 72 by your annual interest rate:</p>
 
-        <h3>Doubling Times at Common Rates</h3>
-        <table class="data-table">
-          <thead>
-            <tr><th>Interest Rate</th><th>Years to Double</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>4%</td><td>18 years</td></tr>
-            <tr><td>6%</td><td>12 years</td></tr>
-            <tr><td>8%</td><td>9 years</td></tr>
-            <tr><td>10%</td><td>7.2 years</td></tr>
-            <tr><td>12%</td><td>6 years</td></tr>
-          </tbody>
-        </table>
+  <div class="formula-block">
+    <p><strong>Years to double = 72 ÷ annual interest rate (%)</strong></p>
+  </div>
 
-        <h3>Connection to Milestones</h3>
-        <p>On our main calculator, you'll see "Milestone Badges" that highlight when you've reached 2×, 5×, or 10× your initial investment. The Rule of 72 is exactly what determines that first 2× badge! By increasing your rate of return by just 2%, you can often shave years off your doubling time.</p>
+  <p>
+    That's it. If your investment earns 9% per year, your money doubles in roughly
+    72 ÷ 9 = <strong>8 years</strong>. If it earns 6%, it doubles in
+    72 ÷ 6 = <strong>12 years</strong>.
+  </p>
 
-        <div class="mini-calc-widget">
-          <h4>Test a rate</h4>
-          <p>Enter an interest rate to see how fast your money doubles:</p>
-          <div class="mini-calc-row">
-            <input type="number" id="mini-rate" value="10">
-            <span class="input-prefix">%</span>
-            <a href="/" id="mini-calc-link" class="btn-primary">Calculate Doubling →</a>
-          </div>
+  <h2>Doubling Times at Common Rates</h2>
+  <p>
+    Here's how the rule plays out across the interest rates most relevant to South
+    African investors in 2026:
+  </p>
+
+  <table class="blog-table">
+    <thead>
+      <tr>
+        <th>Annual Return</th>
+        <th>Years to Double (Rule of 72)</th>
+        <th>Typical SA context</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>5%</td>
+        <td>14.4 years</td>
+        <td>High-yield savings account</td>
+      </tr>
+      <tr>
+        <td>7%</td>
+        <td>10.3 years</td>
+        <td>Money market / fixed deposit</td>
+      </tr>
+      <tr>
+        <td>9%</td>
+        <td>8 years</td>
+        <td>Conservative equity portfolio</td>
+      </tr>
+      <tr>
+        <td>10%</td>
+        <td>7.2 years</td>
+        <td>JSE All Share (long-term average)</td>
+      </tr>
+      <tr>
+        <td>12%</td>
+        <td>6 years</td>
+        <td>Aggressive equity / small cap</td>
+      </tr>
+      <tr>
+        <td>22%</td>
+        <td>3.3 years</td>
+        <td>Credit card debt — working against you</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    That last row is worth sitting with. The same rule that tells you your
+    investment doubles in 7 years at 10% also tells you that unpaid credit card
+    debt at 22% doubles in just over 3 years.
+  </p>
+
+  <h2>A South African Rand Example</h2>
+  <p>
+    You invest <strong>R50,000</strong> in a diversified equity ETF returning an
+    average of <strong>10% per year</strong>. Using the Rule of 72:
+  </p>
+  <p>
+    72 ÷ 10 = <strong>7.2 years</strong> to double.
+  </p>
+  <p>So the rough milestones look like this:</p>
+
+  <table class="blog-table">
+    <thead>
+      <tr>
+        <th>After approximately</th>
+        <th>Your R50,000 becomes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>7 years</td><td>~R100,000</td></tr>
+      <tr><td>14 years</td><td>~R200,000</td></tr>
+      <tr><td>21 years</td><td>~R400,000</td></tr>
+      <tr><td>28 years</td><td>~R800,000</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    That's a single lump sum — no additional contributions — growing to 16× its
+    original value over 28 years. The doubling interval stays constant as long
+    as the rate stays constant, which is why the Rule of 72 reveals the
+    exponential pattern so clearly.
+  </p>
+
+  <h2>Using It to Understand Inflation</h2>
+  <p>
+    The Rule of 72 works in reverse too. If South Africa's inflation rate is
+    running at 5.5%, then the purchasing power of R100,000 in cash
+    halves in approximately 72 ÷ 5.5 = <strong>13 years</strong>.
+  </p>
+  <p>
+    This is why leaving large sums in a standard bank account — even one paying
+    5% interest — quietly erodes your wealth when real inflation is at 5.5%.
+    Your balance grows in nominal terms. Your purchasing power shrinks.
+  </p>
+  <p>
+    Use the inflation adjustment toggle in the
+    <a href="/">CompoundCalc calculator</a> to see this effect applied to
+    your own projection.
+  </p>
+
+  <h2>How Accurate Is the Rule?</h2>
+  <p>
+    Very accurate for rates between 6% and 12%. Outside that range it drifts
+    slightly — at very high rates, 69.3 is a more precise divisor (derived
+    from the natural log of 2). But for everyday planning, 72 is close enough
+    and far easier to divide mentally.
+  </p>
+
+  <table class="blog-table">
+    <thead>
+      <tr>
+        <th>Rate</th>
+        <th>Rule of 72 (years)</th>
+        <th>Exact (years)</th>
+        <th>Difference</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>3%</td><td>24.0</td><td>23.4</td><td>+0.6</td></tr>
+      <tr><td>6%</td><td>12.0</td><td>11.9</td><td>+0.1</td></tr>
+      <tr><td>9%</td><td>8.0</td><td>8.0</td><td>0.0</td></tr>
+      <tr><td>12%</td><td>6.0</td><td>6.1</td><td>-0.1</td></tr>
+      <tr><td>20%</td><td>3.6</td><td>3.8</td><td>-0.2</td></tr>
+    </tbody>
+  </table>
+
+  <p>At 9%, the rule is exact. It's deliberately tuned for that range.</p>
+
+  <h2>The Connection to CompoundCalc's Milestone Badges</h2>
+  <p>
+    When you run a calculation in the Grow Savings tab, CompoundCalc shows
+    you <strong>milestone badges</strong> — the exact year your balance hits
+    2×, 5×, and 10× your initial investment. The 2× badge is the Rule of 72
+    in action, calculated precisely from your exact inputs rather than the
+    approximation.
+  </p>
+  <p>
+    For quick mental estimates before running the full projection, the Rule of 72
+    is your starting point. For the precise figure, the calculator does the rest.
+  </p>
+
+  <p>
+    <a href="/" class="btn-cta">Check your own doubling time →</a>
+  </p>
+
+</article>
+      
+      <div class="mini-calc-widget">
+        <h4>Try it yourself</h4>
+        <p>Enter a monthly amount to see your 20-year projection:</p>
+        <div class="mini-calc-row">
+          <span class="input-prefix">R</span>
+          <input type="number" id="mini-monthly" value="1000">
+          <a href="/" id="mini-calc-link" class="btn-primary">See Growth →</a>
         </div>
       </div>
 
@@ -81,7 +226,7 @@
         </div>
       </footer>
     </div>
-  </article>
+  </main>
 
   <footer>
     <div class="footer-container">
@@ -115,9 +260,9 @@
 
   <script src="/assets/js/share.js"></script>
   <script>
-    document.getElementById('mini-rate').addEventListener('input', (e) => {
+    document.getElementById('mini-monthly').addEventListener('input', (e) => {
       const val = e.target.value;
-      document.getElementById('mini-calc-link').href = `/?r=${val}&tab=grow`;
+      document.getElementById('mini-calc-link').href = `/?m=${val}&tab=grow`;
     });
   </script>
 </body>
