@@ -55,7 +55,7 @@
         <span>CompoundCalc</span>
       </a>
       <nav class="nav-links">
-        <a href="/savings-calculator.html">Savings Calculator</a>
+        <a href="/">Savings Calculator</a>
         <a href="/investment-goal-calculator.html" class="active">Goal Calculator</a>
         <a href="/compare-investments.html">Compare</a>
         <a href="/blog/">Blog</a>
@@ -95,44 +95,6 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
           <span>Share Link</span>
         </button>
-      </div>
-
-      <div class="tabs">
-        <button class="tab-btn" onclick="switchTab('grow')">Grow savings</button>
-        <button class="tab-btn active" onclick="switchTab('goal')">Reach a goal</button>
-        <button class="tab-btn" onclick="switchTab('compare')">Compare scenarios</button>
-      </div>
-
-      <!-- Tab panels (keep all for SPA switching, but active class on Goal) -->
-      <div id="tab-grow" class="tab-panel">
-        <!-- Grow content (same as index.html) -->
-        <div class="layout">
-          <div class="input-panel">
-            <div class="field"><label>Starting principal</label><div class="input-row"><span class="input-prefix">R</span><input type="number" id="g-principal" value="10000" min="0"></div></div>
-            <div class="field"><label>Monthly contribution</label><div class="input-row"><span class="input-prefix">R</span><input type="number" id="g-monthly" value="200" min="0"></div></div>
-            <div class="field"><label>Annual interest rate</label><div class="input-row"><input type="number" id="g-rate" value="7" min="0" max="100" step="0.1"><span class="input-prefix">%</span></div></div>
-            <div class="field"><label>Time horizon</label><div class="input-row"><input type="number" id="g-years" value="20" min="1" max="60"><span class="input-prefix">yrs</span></div></div>
-            <div class="field">
-              <label>Compounding</label>
-              <select id="g-freq">
-                <option value="1">Annually</option>
-                <option value="4">Quarterly</option>
-                <option value="12" selected>Monthly</option>
-                <option value="365">Daily</option>
-              </select>
-            </div>
-          </div>
-          <div class="results-panel">
-            <!-- Summary cards etc -->
-            <div class="metric-grid animated" id="g-cards">
-              <div class="metric-card accent"><div class="metric-label">Final balance</div><div class="metric-value" id="g-final">—</div></div>
-              <div class="metric-card"><div class="metric-label">Interest earned</div><div class="metric-value" id="g-interest">—</div></div>
-              <div class="metric-card"><div class="metric-label">Total contributed</div><div class="metric-value" id="g-contributed">—</div></div>
-              <div class="metric-card"><div class="metric-label">ROI</div><div class="metric-value" id="g-roi">—</div></div>
-            </div>
-            <div class="chart-box"><div class="chart-container"><canvas id="growChart"></canvas></div></div>
-          </div>
-        </div>
       </div>
 
       <div id="tab-goal" class="tab-panel active">
@@ -195,22 +157,6 @@
         </div>
       </div>
 
-      <div id="tab-compare" class="tab-panel">
-        <!-- Compare content -->
-        <div class="compare-grid">
-          <div class="compare-panel scenario-a">
-            <h3>Scenario A</h3>
-            <div class="field"><label>Rate</label><div class="input-row"><input type="number" id="ca-rate" value="5" step="0.1"><span class="input-prefix">%</span></div></div>
-            <div class="metric-value" id="ca-final">—</div>
-          </div>
-          <div class="compare-panel scenario-b">
-            <h3>Scenario B</h3>
-            <div class="field"><label>Rate</label><div class="input-row"><input type="number" id="cb-rate" value="8" step="0.1"><span class="input-prefix">%</span></div></div>
-            <div class="metric-value" id="cb-final">—</div>
-          </div>
-        </div>
-        <div class="chart-box"><div class="chart-container"><canvas id="compareChart"></canvas></div></div>
-      </div>
     </div>
   </main>
 
@@ -223,7 +169,7 @@
       <div class="footer-links">
         <h4>Calculators</h4>
         <ul>
-          <li><a href="/savings-calculator.html">Grow Savings</a></li>
+          <li><a href="/">Grow Savings</a></li>
           <li><a href="/investment-goal-calculator.html">Goal Calculator</a></li>
           <li><a href="/compare-investments.html">Compare Scenarios</a></li>
           <li><a href="/blog/">Financial Blog</a></li>
