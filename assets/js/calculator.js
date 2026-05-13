@@ -29,6 +29,7 @@ const fmt = n => {
 const pct = n => (Math.round(n * 10) / 10).toFixed(1) + '%';
 
 // Toast System
+let toastTimer;
 function showToast(msg) {
   let t = $('toast');
   if (!t) {
@@ -37,8 +38,9 @@ function showToast(msg) {
     document.body.appendChild(t);
   }
   t.textContent = msg;
+  clearTimeout(toastTimer);
   t.classList.add('show');
-  setTimeout(() => { t.classList.remove('show'); }, 3000);
+  toastTimer = setTimeout(() => { t.classList.remove('show'); }, 3000);
 }
 
 // Kinetic Feedback
@@ -77,10 +79,10 @@ function setCurrency(code) {
   currentCurrency = code;
   localStorage.setItem('cc_currency', code);
   
-  const selectEl = document.getElementById('currency-select');
-  if (selectEl && selectEl.value !== code) {
-    selectEl.value = code;
-  }
+  // Update currency button active states
+  document.querySelectorAll('.currency-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-cur') === code);
+  });
   
   // Update prefixes in UI
   const symbol = currencies[code].symbol;
@@ -91,7 +93,11 @@ function setCurrency(code) {
   });
   
   // Re-run current calculation
-  const activeTab = document.querySelector('.tab-btn.active').getAttribute('onclick').match(/'([^']+)'/)[1];
+  const activeBtn = document.querySelector('.tab-btn.active');
+  if (!activeBtn) return;
+  const match = activeBtn.getAttribute('onclick')?.match(/'([^']+)'/);
+  if (!match) return;
+  const activeTab = match[1];
   if (activeTab === 'grow') computeGrow();
   if (activeTab === 'goal') computeGoal();
   if (activeTab === 'compare') computeCompare();
@@ -386,7 +392,9 @@ function chartOpts() {
 function animateValue(id, target, isCurrency) {
   const el = $(id);
   if (!el) return;
-  const start = 0;
+  // Parse current displayed value to animate from it (avoids 0 → target flash)
+  const raw = el.textContent.replace(/[^0-9.-]/g, '');
+  const start = parseFloat(raw) || 0;
   const duration = 600;
   const startTime = performance.now();
   function step(now) {
@@ -472,14 +480,16 @@ function calculateNow() {
 
 function handleCalculate() {
   const btn = document.getElementById('calculate-btn');
+  if (!btn) { calculateNow(); return; }
   const originalText = btn.innerHTML;
   btn.disabled = true;
   btn.innerHTML = '⏳ Calculating…';
 
   setTimeout(() => {
     calculateNow();
+    // Use the standard dual-gate (timer + calc) instead of bypassing
     ecCalculationRan = true;
-    triggerEmailCaptureNow();
+    maybeShowEmailCapture();
 
     btn.disabled = false;
     btn.innerHTML = originalText;
@@ -515,9 +525,52 @@ function clearInputs() {
   showToast('Values reset to defaults');
 }
 
-// --- Init ---
+// ── Email Capture Logic ────────────────────────────────
+
+function triggerEmailCaptureNow() {
+  if (ecShown) return;
+  if (ecDismissed) return;
+  if (localStorage.getItem(EC_STORAGE_KEY)) return;
+
+  setTimeout(() => {
+    showEmailCapture();
+  }, 800);
+}
+
+function maybeShowEmailCapture() {
+  // Don't show if already shown, dismissed, or previously submitted
+  if (ecShown || ecDismissed) return;
+  if (localStorage.getItem(EC_STORAGE_KEY)) return;
+
+  // Both conditions must be true
+  if (ecCalculationRan && ecTimerFired) {
+    showEmailCapture();
+  }
+}
+
+function showEmailCapture() {
+  const el = document.getElementById('email-capture');
+  if (!el) return;
+  el.classList.remove('hidden');
+  ecShown = true;
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function dismissEmailCapture() {
+  const el = document.getElementById('email-capture');
+  if (el) el.classList.add('hidden');
+  ecDismissed = true;
+}
+
+function acceptCookies() {
+  localStorage.setItem('cc_accepted', '1');
+  document.getElementById('cookie-banner').style.display = 'none';
+  if (typeof showToast === 'function') showToast('Preferences saved!');
+}
+
+// --- Init (single consolidated listener) ---
 document.addEventListener('DOMContentLoaded', () => {
-  // Bind inputs
+  // Bind calculator inputs
   ['g-principal','g-monthly','g-rate','g-years','g-freq','g-inflation'].forEach(id => {
     if ($(id)) $(id).addEventListener('input', () => { computeGrow(); triggerKineticFeedback(); });
   });
@@ -549,74 +602,27 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Default run
   computeGrow();
-});
 
-function acceptCookies() {
-  localStorage.setItem('cc_accepted', '1');
-  document.getElementById('cookie-banner').style.display = 'none';
-  if (typeof showToast === 'function') showToast('Preferences saved!');
-}
-if (!localStorage.getItem('cc_accepted')) {
-  document.addEventListener('DOMContentLoaded', () => {
+  // Cookie banner
+  if (!localStorage.getItem('cc_accepted')) {
     const banner = document.getElementById('cookie-banner');
     if (banner) banner.style.display = 'flex';
-  });
-}
-
-// ── Email Capture Logic ────────────────────────────────
-
-function triggerEmailCaptureNow() {
-  if (ecShown) return;
-  if (ecDismissed) return;
-  if (localStorage.getItem(EC_STORAGE_KEY)) return;
-
-  setTimeout(() => {
-    showEmailCapture();
-  }, 800);
-}
-
-function maybeShowEmailCapture() {
-  // Don't show if:
-  // - already shown this session
-  // - user dismissed it
-  // - user already submitted (stored in localStorage)
-  if (ecShown || ecDismissed) return;
-  if (localStorage.getItem(EC_STORAGE_KEY)) return;
-
-  // Both conditions must be true
-  if (ecCalculationRan && ecTimerFired) {
-    showEmailCapture();
   }
-}
 
-function showEmailCapture() {
-  const el = document.getElementById('email-capture');
-  if (!el) return;
-  el.classList.remove('hidden');
-  ecShown = true;
-
-  // Smooth scroll to bring it into view (don't force-jump)
-  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function dismissEmailCapture() {
-  const el = document.getElementById('email-capture');
-  if (el) el.classList.add('hidden');
-  ecDismissed = true;
-  // Don't set localStorage — show again on next visit
-}
-
-// 30-second timer — starts on page load
-window.addEventListener('DOMContentLoaded', () => {
+  // Email capture 30-second timer
   setTimeout(() => {
     ecTimerFired = true;
     maybeShowEmailCapture();
-  }, 30000); // 30,000ms = 30 seconds
+  }, 30000);
 });
 
-// ── CONFIGURATION — fill in before deploying ──────────
-const BREVO_API_KEY   = 'xkeysib-Key'; // from Ali
-const BREVO_LIST_ID   = 4;          // replace with actual list ID from Brevo
+// ── CONFIGURATION ─────────────────────────────────────
+// ⚠️  SECURITY: These keys are exposed in client-side JS.
+//     Before production launch, move Brevo API calls to a
+//     server-side proxy (Netlify Function / Cloud Run / Cloudflare Worker)
+//     so the API key is never sent to the browser.
+const BREVO_API_KEY   = 'xkeysib-Key'; // REPLACE before deploying
+const BREVO_LIST_ID   = 4;             // Replace with actual list ID from Brevo
 const BREVO_SENDER    = { name: 'CompoundCalc', email: 'ali.mora@namka.cloud' };
 // ─────────────────────────────────────────────────────
 
