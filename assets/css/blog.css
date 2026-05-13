@@ -1011,9 +1011,9 @@
     </div>
 */
 .blog-listing-header {
-  padding: 4rem 0 2.5rem;
+  padding: 2rem 0;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .blog-listing-header h1 {
@@ -1032,8 +1032,8 @@
 }
 
 .blog-listing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 4rem;
 }
@@ -1045,7 +1045,8 @@
   transition: box-shadow 0.2s, transform 0.15s;
   text-decoration: none;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: stretch;
   background: var(--bg);
 }
 
@@ -1055,7 +1056,8 @@
 }
 
 .blog-card-img {
-  height: 160px;
+  width: 280px;
+  flex-shrink: 0;
   background: linear-gradient(135deg, #0f1f12 0%, #1a3a24 100%);
   display: flex;
   align-items: center;
@@ -1081,18 +1083,21 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: absolute;
+  inset: 0;
 }
 
 .blog-card-body {
-  padding: 1.25rem;
+  padding: 1.5rem 2rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: 0.625rem;
 }
 
 .blog-card-category {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -1101,7 +1106,7 @@
 
 .blog-card-title {
   font-family: var(--font-display);
-  font-size: 1.0625rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: var(--ink);
   line-height: 1.35;
@@ -1109,18 +1114,18 @@
 }
 
 .blog-card-excerpt {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   color: var(--text-muted);
   line-height: 1.6;
-  flex: 1;
 }
 
 .blog-card-meta {
-  font-size: 0.775rem;
+  font-size: 0.825rem;
   color: var(--text-faint);
   display: flex;
+  align-items: center;
   gap: 1rem;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
 }
 
 /* ── Responsive ──────────────────────────────────────────── */
@@ -1131,10 +1136,6 @@
   }
 
   .sidebar { position: static; }
-
-  .blog-listing-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @media (max-width: 680px) {
@@ -1167,7 +1168,12 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .blog-listing-grid {
-    grid-template-columns: 1fr;
+  .blog-card {
+    flex-direction: column;
+  }
+
+  .blog-card-img {
+    width: 100%;
+    height: 180px;
   }
 }
