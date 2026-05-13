@@ -5,6 +5,7 @@
 
 :root {
   --font-display: 'Lora', Georgia, serif;
+  --green-secondary: #15803d;
 }
 
 /* ── Blog page wrapper ───────────────────────────────────── */
@@ -29,9 +30,9 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--green);
-  background: var(--green-faint);
-  border: 1px solid var(--green-muted);
+  color: #fff;
+  background: var(--green-secondary);
+  border: 1px solid var(--green-secondary);
   padding: 4px 12px;
   border-radius: 999px;
   margin-bottom: 1.25rem;
@@ -336,7 +337,7 @@
     </div>
 */
 .formula-block {
-  background: var(--ink);
+  background: var(--green-secondary);
   color: #a7f3d0;
   font-family: var(--font-mono);
   font-size: 1.0625rem;
@@ -700,7 +701,7 @@
   flex-shrink: 0;
   width: 20px;
   height: 20px;
-  background: var(--green-faint);
+  background: var(--green-secondary);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -708,7 +709,7 @@
   transition: transform 0.2s, background 0.15s;
 }
 
-.faq-chevron svg { width: 10px; height: 10px; color: var(--green); }
+.faq-chevron svg { width: 10px; height: 10px; color: #fff; }
 
 .faq-item.open .faq-chevron {
   transform: rotate(180deg);
@@ -794,22 +795,22 @@
   align-items: center;
   gap: 8px;
   background: var(--green);
-  color: #fff;
+  color: #fff !important;
   font-family: var(--font-body);
   font-size: 0.9375rem;
   font-weight: 600;
   padding: 12px 24px;
   border-radius: var(--radius);
-  text-decoration: none;
+  text-decoration: none !important;
   transition: background 0.15s, transform 0.1s;
   margin: 1.25rem 0;
 }
 
 .btn-cta:hover {
-  background: var(--green-dark);
+  background: var(--green-secondary);
   transform: translateY(-1px);
-  text-decoration: none;
-  color: #fff;
+  color: #fff !important;
+  text-decoration: none !important;
 }
 
 /* ── Share bar ───────────────────────────────────────────── */
@@ -927,13 +928,13 @@
 
 /* Inline result display — used in Rule of 72 sidebar */
 .sidebar-result {
-  background: var(--green-faint);
-  border: 1px solid var(--green-muted);
+  background: var(--green-secondary);
+  border: 1px solid var(--green-secondary);
   border-radius: var(--radius);
   padding: 10px 12px;
   margin-top: 4px;
   font-size: 0.875rem;
-  color: var(--green-dark);
+  color: #fff;
   font-weight: 500;
   display: none; /* shown via JS when input has a value */
 }
@@ -942,7 +943,7 @@
   display: block;
   width: 100%;
   background: var(--green);
-  color: #fff;
+  color: #fff !important;
   font-family: var(--font-body);
   font-size: 0.875rem;
   font-weight: 600;
@@ -953,10 +954,13 @@
   margin-top: 10px;
   transition: background 0.15s;
   text-align: center;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
-.btn-sidebar:hover { background: var(--green-dark); }
+.btn-sidebar:hover {
+  background: var(--green-secondary);
+  color: #fff !important;
+}
 
 /* ── Table of contents (sidebar) ─────────────────────────── */
 .toc-card { padding: 1.25rem; }
@@ -1097,11 +1101,11 @@
 }
 
 .blog-card-category {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: var(--green);
+  color: var(--green-secondary);
 }
 
 .blog-card-title {
