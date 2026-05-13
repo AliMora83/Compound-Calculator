@@ -95,7 +95,7 @@ body {
 }
 
 /* --- Global Header & Nav --- */
-header {
+body > header {
   border-bottom: 1px solid var(--border);
   background: var(--bg);
   position: sticky;
