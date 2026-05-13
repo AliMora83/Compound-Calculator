@@ -1004,20 +1004,29 @@
 
 /* ── Blog listing page ───────────────────────────────────── */
 /*
-  Used on /blog/index.html — three article cards in a grid.
+  Used on /blog/index.html.
 
-  Usage:
-    <div class="blog-listing-grid">
-      <article class="blog-card">
-        <div class="blog-card-img"> ... </div>
-        <div class="blog-card-body"> ... </div>
-      </article>
-    </div>
+  Card structure:
+    <a href="..." class="blog-card">
+      <div class="blog-card-img">
+        <img ...>                          ← real image, OR omit for gradient fallback
+        <span class="blog-card-tag">Category</span>   ← overlaid on image
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-meta">
+          <span>X min read</span>
+          <span>Month YYYY</span>
+        </div>
+        <div class="blog-card-title">Title</div>
+        <div class="blog-card-excerpt">Excerpt…</div>
+        <span class="blog-card-readmore">Read more →</span>
+      </div>
+    </a>
 */
+
 .blog-listing-header {
-  padding: 2rem 0;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 2rem;
+  padding: 3.5rem 0 2.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .blog-listing-header h1 {
@@ -1035,102 +1044,149 @@
   max-width: 560px;
 }
 
+/* ── Grid ──────────────────────────────────────────────────── */
 .blog-listing-grid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 }
 
+/* ── Card shell ────────────────────────────────────────────── */
 .blog-card {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: box-shadow 0.2s, transform 0.15s;
+  background: var(--bg);
   text-decoration: none;
   display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  background: var(--bg);
+  flex-direction: column;
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
 }
 
 .blog-card:hover {
-  box-shadow: 0 8px 30px rgba(0,0,0,0.07);
-  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
 }
 
+/* ── Card image area ───────────────────────────────────────── */
 .blog-card-img {
-  width: 280px;
-  flex-shrink: 0;
-  background: linear-gradient(135deg, #0f1f12 0%, #1a3a24 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
   position: relative;
+  height: 200px;
   overflow: hidden;
+  background: linear-gradient(135deg, #0b1f14 0%, #163d22 60%, #1a4a28 100%);
+  flex-shrink: 0;
 }
 
+/* Green grid overlay — shown when no real image */
 .blog-card-img::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(22,163,74,0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(22,163,74,0.07) 1px, transparent 1px);
-  background-size: 24px 24px;
+    linear-gradient(rgba(22, 163, 74, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 163, 74, 0.08) 1px, transparent 1px);
+  background-size: 26px 26px;
+  z-index: 0;
 }
 
-.blog-card-img span { position: relative; z-index: 1; }
-
+/* Real photo — fills slot, hides grid overlay */
 .blog-card-img img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  position: absolute;
-  inset: 0;
+  z-index: 1;
 }
 
+/* Gradient scrim — ensures tag is readable over any photo */
+.blog-card-img::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+  z-index: 2;
+}
+
+/* Category tag — overlaid bottom-left on image */
+.blog-card-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  z-index: 3;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--green-secondary, #15803d);
+  padding: 3px 10px;
+  border-radius: 999px;
+  line-height: 1.6;
+}
+
+/* ── Card body ─────────────────────────────────────────────── */
 .blog-card-body {
-  padding: 1.5rem 2rem;
+  padding: 1.25rem 1.375rem 1.375rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 0.625rem;
+  gap: 0.5rem;
 }
 
-.blog-card-category {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--green-secondary);
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  font-size: 0.775rem;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+
+.blog-card-meta span + span::before {
+  content: '·';
+  margin-right: 0.875rem;
+  color: var(--border);
 }
 
 .blog-card-title {
   font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.0625rem;
+  font-weight: 700;
   color: var(--ink);
   line-height: 1.35;
   letter-spacing: -0.01em;
 }
 
 .blog-card-excerpt {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.65;
+  flex: 1;
+
+  /* Clamp to 3 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.blog-card-meta {
-  font-size: 0.825rem;
-  color: var(--text-faint);
-  display: flex;
+.blog-card-readmore {
+  display: inline-flex;
   align-items: center;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--green);
+  margin-top: 0.25rem;
+  transition: gap 0.15s;
 }
+
+.blog-card:hover .blog-card-readmore { gap: 8px; }
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 960px) {
@@ -1140,6 +1196,10 @@
   }
 
   .sidebar { position: static; }
+
+  .blog-listing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 680px) {
@@ -1172,12 +1232,7 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .blog-card {
-    flex-direction: column;
-  }
-
-  .blog-card-img {
-    width: 100%;
-    height: 180px;
+  .blog-listing-grid {
+    grid-template-columns: 1fr;
   }
 }
