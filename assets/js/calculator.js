@@ -79,10 +79,11 @@ function setCurrency(code) {
   currentCurrency = code;
   localStorage.setItem('cc_currency', code);
   
-  // Update currency button active states
-  document.querySelectorAll('.currency-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-cur') === code);
-  });
+  // Sync the currency dropdown if present
+  const selectEl = document.getElementById('currency-select');
+  if (selectEl && selectEl.value !== code) {
+    selectEl.value = code;
+  }
   
   // Update prefixes in UI
   const symbol = currencies[code].symbol;

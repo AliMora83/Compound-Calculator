@@ -75,10 +75,13 @@
 
       <div class="action-bar">
         <div class="currency-selector">
-          <button class="currency-btn active" data-cur="ZAR" onclick="setCurrency('ZAR')">ZAR</button>
-          <button class="currency-btn" data-cur="USD" onclick="setCurrency('USD')">USD</button>
-          <button class="currency-btn" data-cur="GBP" onclick="setCurrency('GBP')">GBP</button>
-          <button class="currency-btn" data-cur="EUR" onclick="setCurrency('EUR')">EUR</button>
+          <label for="currency-select" class="currency-label">Currency</label>
+          <select id="currency-select" onchange="setCurrency(this.value)">
+            <option value="ZAR" selected>ZAR — South African Rand</option>
+            <option value="USD">USD — US Dollar</option>
+            <option value="GBP">GBP — British Pound</option>
+            <option value="EUR">EUR — Euro</option>
+          </select>
         </div>
         <button class="btn-calculate" onclick="calculateNow()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 15h2m-2 4h2M11 11h2M7 11h2m-2 4h2m-2 4h2M15 11h2m-2 4h2m-2 4h2M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z"></path></svg>
