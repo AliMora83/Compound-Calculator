@@ -1,102 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-ZA">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ① Update for every article -->
   <title>Financial Insights Blog | CompoundCalc</title>
   <meta name="description" content="Master your money with our financial insights blog. Expert guides on compound interest, the rule of 72, and savings strategies for South Africans.">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="canonical" href="https://compoundcalc.co.za/blog/">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="/assets/css/styles.css">
-  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  
+  <!-- <script type="application/ld+json"> ... </script> -->
 </head>
 <body>
-  <header>
-    <div class="nav-container">
-      <a href="/" class="logo"><img src="/assets/logo.png" alt="CompoundCalc" height="32"> <span>CompoundCalc</span></a>
-      <nav class="nav-links">
-        <a href="/savings-calculator.html">Savings Calculator</a>
-        <a href="/investment-goal-calculator.html">Goal Calculator</a>
-        <a href="/compare-investments.html">Compare</a>
-        <a href="/blog/" class="active">Blog</a>
-      </nav>
-    </div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M2 12 L5 8 L8 9.5 L11 5 L14 2" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      CompoundCalc
+    </a>
+    <ul class="nav-links">
+      <li><a href="/savings-calculator">Savings Calculator</a></li>
+      <li><a href="/investment-goal-calculator">Goal Calculator</a></li>
+      <li><a href="/compare-investments">Compare</a></li>
+      <li><a href="/blog" class="active">Blog</a></li>
+    </ul>
+  </nav>
+
+  <!-- Article -->
+  <div class="blog-wrapper">
+    <header class="blog-listing-header">
+    <h1>Financial Blog</h1>
+    <p>Guides, tools, and worked examples for South African investors.</p>
   </header>
-
-  <main class="content-page calc-wrap">
-    <div class="container">
-      <div class="blog-header">
-        <h1>Financial Insights</h1>
-        <p>Expert guides to help you grow your wealth and master your finances.</p>
+  <div class="blog-listing-grid">
+    <article class="blog-card">
+      <a href="/blog/compound-interest-south-africa.html" class="blog-card-img">
+        <img src="/assets/images/blog_investing.png" alt="Compound interest concept">
+      </a>
+      <div class="blog-card-body">
+        <span class="blog-card-category">Investing Basics</span>
+        <a href="/blog/compound-interest-south-africa.html" style="text-decoration:none">
+          <h2 class="blog-card-title">Compound Interest Calculator South Africa (2026 Guide)</h2>
+        </a>
+        <p class="blog-card-excerpt">See exactly how your savings grow with our free tool and local examples.</p>
+        <div class="blog-card-meta">
+          <span>5 min read</span>
+          <span class="meta-dot"></span>
+          <span>May 2026</span>
+        </div>
       </div>
+    </article>
 
-      <div class="blog-grid">
-        <article class="blog-card">
-          <div class="blog-card-img">
-            <a href="/blog/compound-interest-south-africa.html">
-              <img src="/assets/images/blog_investing.png" alt="Compound Interest South Africa">
-            </a>
-          </div>
-          <div class="blog-card-content">
-            <h2><a href="/blog/compound-interest-south-africa.html">Compound Interest</a></h2>
-            <p>Everything you need to know about the South African market</p>
-          </div>
-        </article>
-
-        <article class="blog-card">
-          <div class="blog-card-img">
-            <a href="/blog/rule-of-72.html">
-              <img src="/assets/images/blog_strategy.png" alt="Rule of 72 Strategy">
-            </a>
-          </div>
-          <div class="blog-card-content">
-            <h2><a href="/blog/rule-of-72.html">Rule of 72</a></h2>
-            <p>How to quickly calculate when your money doubles</p>
-          </div>
-        </article>
-
-        <article class="blog-card">
-          <div class="blog-card-img">
-            <a href="/blog/how-long-to-save-1-million-rand.html">
-              <img src="/assets/images/blog_goals.png" alt="Saving 1 Million Rand Goal">
-            </a>
-          </div>
-          <div class="blog-card-content">
-            <h2><a href="/blog/how-long-to-save-1-million-rand.html">R1 Million Goal</a></h2>
-            <p>Exactly how long it takes to hit the milestone</p>
-          </div>
-        </article>
+    <article class="blog-card">
+      <a href="/blog/rule-of-72.html" class="blog-card-img">
+        <img src="/assets/images/blog_strategy.png" alt="Rule of 72 strategy">
+      </a>
+      <div class="blog-card-body">
+        <span class="blog-card-category">Strategies</span>
+        <a href="/blog/rule-of-72.html" style="text-decoration:none">
+          <h2 class="blog-card-title">The Rule of 72: How Fast Can You Double Your Money?</h2>
+        </a>
+        <p class="blog-card-excerpt">A simple mental shortcut to estimate investment growth without a calculator.</p>
+        <div class="blog-card-meta">
+          <span>4 min read</span>
+          <span class="meta-dot"></span>
+          <span>May 2026</span>
+        </div>
       </div>
-    </div>
-  </main>
+    </article>
 
-  <footer>
-    <div class="footer-container">
+    <article class="blog-card">
+      <a href="/blog/how-long-to-save-1-million-rand.html" class="blog-card-img">
+        <img src="/assets/images/blog_goals.png" alt="1 Million Rand Goal">
+      </a>
+      <div class="blog-card-body">
+        <span class="blog-card-category">Milestones</span>
+        <a href="/blog/how-long-to-save-1-million-rand.html" style="text-decoration:none">
+          <h2 class="blog-card-title">How Long Will It Take to Save R1 Million?</h2>
+        </a>
+        <p class="blog-card-excerpt">A realistic look at timelines, interest rates, and exactly what it takes to hit seven figures.</p>
+        <div class="blog-card-meta">
+          <span>5 min read</span>
+          <span class="meta-dot"></span>
+          <span>May 2026</span>
+        </div>
+      </div>
+    </article>
+  </div>
+  </div>
+
+  <!-- Footer — identical across all pages -->
+  <footer class="site-footer">
+    <div class="footer-inner">
       <div class="footer-brand">
-        <h2>CompoundCalc.co.za</h2>
+        <div class="logo-text">CompoundCalc.co.za</div>
         <p>Free compound interest calculator for South African investors.</p>
       </div>
-      <div class="footer-links">
-        <h4>Calculators</h4>
+      <div class="footer-col">
+        <h5>Calculators</h5>
         <ul>
-          <li><a href="/savings-calculator.html">Grow Savings</a></li>
-          <li><a href="/investment-goal-calculator.html">Goal Calculator</a></li>
-          <li><a href="/compare-investments.html">Compare Scenarios</a></li>
-          <li><a href="/blog/">Financial Blog</a></li>
+          <li><a href="/savings-calculator">Grow Savings</a></li>
+          <li><a href="/investment-goal-calculator">Goal Calculator</a></li>
+          <li><a href="/compare-investments">Compare Scenarios</a></li>
+          <li><a href="/blog">Financial Blog</a></li>
         </ul>
       </div>
-      <div class="footer-links">
-        <h4>Company</h4>
+      <div class="footer-col">
+        <h5>Company</h5>
         <ul>
-          <li><a href="/about.html">About Us</a></li>
-          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
-          <li><a href="/terms-of-service.html">Terms of Service</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/terms-of-service">Terms of Service</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-disclaimer">Disclaimer: This tool is for informational purposes only and does not constitute financial advice.</p>
-      <p class="footer-copy">&copy; 2026 CompoundCalc. Built in South Africa. 🇿🇦</p>
+      <p>Disclaimer: This tool is for informational purposes only and does not constitute financial advice.</p>
+      <p>© 2026 CompoundCalc. Built in South Africa 🇿🇦</p>
     </div>
   </footer>
+
+  <!-- TOC heading ID map — update per article -->
+  <script id="toc-map" type="application/json">
+  {
+    "Section Heading One": "section-one",
+    "Section Heading Two": "section-two"
+  }
+  </script>
+
+  <!-- Blog JS -->
+  <script src="/assets/js/blog.js" defer></script>
+
 </body>
 </html>

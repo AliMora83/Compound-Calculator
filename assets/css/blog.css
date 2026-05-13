@@ -1,0 +1,1173 @@
+/* ─────────────────────────────────────────────────────────
+   blog.css — CompoundCalc blog styles
+   Load after styles.css. Requires CSS variables from styles.css.
+   ───────────────────────────────────────────────────────── */
+
+:root {
+  --font-display: 'Lora', Georgia, serif;
+}
+
+/* ── Blog page wrapper ───────────────────────────────────── */
+.blog-wrapper {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ── Article hero ────────────────────────────────────────── */
+.article-hero {
+  padding: 4rem 0 3rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3.5rem;
+}
+
+.article-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: var(--green-faint);
+  border: 1px solid var(--green-muted);
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 1.25rem;
+}
+
+.article-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.875rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  max-width: 780px;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.article-hero-lead {
+  font-size: 1.125rem;
+  color: var(--text-mid);
+  max-width: 680px;
+  line-height: 1.7;
+  margin-bottom: 1.75rem;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.article-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.article-meta-item svg {
+  width: 14px;
+  height: 14px;
+  color: var(--text-faint);
+}
+
+.meta-dot {
+  width: 3px;
+  height: 3px;
+  background: var(--border);
+  border-radius: 50%;
+}
+
+/* ── Two-column layout ───────────────────────────────────── */
+.article-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* ── Article body typography ─────────────────────────────── */
+.article-body p {
+  font-size: 1.0625rem;
+  color: var(--text-mid);
+  line-height: 1.8;
+  margin-bottom: 1.25rem;
+}
+
+.article-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.625rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2.75rem 0 0.875rem;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.article-body h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 1.75rem 0 0.5rem;
+}
+
+.article-body a {
+  color: var(--green);
+  text-decoration: underline;
+  text-decoration-color: var(--green-muted);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
+}
+
+.article-body a:hover {
+  text-decoration-color: var(--green);
+}
+
+.article-body strong {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.article-body em { font-style: italic; }
+
+.article-body ol,
+.article-body ul {
+  padding-left: 1.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.article-body li {
+  font-size: 1.0625rem;
+  color: var(--text-mid);
+  line-height: 1.75;
+  margin-bottom: 0.4rem;
+}
+
+/* ── Image + text flex blocks ────────────────────────────── */
+/*
+  Usage:
+    <div class="img-text-block">          ← image left, text right
+    <div class="img-text-block reverse">  ← image right, text left
+
+  Inside .img-slot, use ONE of:
+    <span class="img-slot-icon">📈</span>            ← emoji fallback
+    <div class="img-slot-stat">72<span>label</span>  ← large stat
+    <img src="..." alt="...">                         ← real photo (production)
+
+  .img-slot variant modifiers:
+    (none)          dark background with subtle green grid
+    .light          light green gradient background
+*/
+.img-text-block {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+  margin: 2.5rem 0;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.img-text-block.reverse { flex-direction: row-reverse; }
+
+.img-text-block .img-slot {
+  flex: 0 0 320px;
+  min-height: 220px;
+  background: linear-gradient(135deg, #0f1f12 0%, #1a3a24 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dark slot: green grid overlay */
+.img-text-block .img-slot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(22,163,74,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22,163,74,0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Light variant */
+.img-text-block .img-slot.light {
+  background: linear-gradient(135deg, var(--green-faint) 0%, var(--green-light) 60%, #bbf7d0 100%);
+}
+
+.img-text-block .img-slot.light::before {
+  background-image:
+    linear-gradient(rgba(22,163,74,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22,163,74,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* When a real <img> is used, it fills the slot */
+.img-text-block .img-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
+.img-slot-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(134,239,172,0.7);
+  background: rgba(255,255,255,0.06);
+  padding: 4px 10px;
+  border-radius: 999px;
+  position: relative;
+  z-index: 1;
+}
+
+.img-slot.light .img-slot-label {
+  color: var(--green-mid);
+  background: rgba(255,255,255,0.55);
+}
+
+.img-slot-icon {
+  font-size: 2.75rem;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+
+.img-slot.light .img-slot-icon { filter: none; }
+
+.img-slot-stat {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 1.875rem;
+  font-weight: 500;
+  color: var(--green-muted);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-align: center;
+}
+
+.img-slot-stat span {
+  display: block;
+  font-size: 0.72rem;
+  color: rgba(134,239,172,0.6);
+  font-family: var(--font-body);
+  text-align: center;
+  margin-top: 4px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.img-slot.light .img-slot-stat { color: var(--green-dark); }
+.img-slot.light .img-slot-stat span { color: var(--green-mid); }
+
+.img-text-content {
+  flex: 1;
+  padding: 1.875rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.img-text-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.img-text-content p {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.inline-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--green);
+  text-decoration: none;
+  transition: gap 0.15s;
+  margin-top: 4px;
+}
+
+.inline-cta:hover { gap: 10px; }
+
+/* ── Formula block ───────────────────────────────────────── */
+/*
+  Two variants: default (dark, for multi-line formulas with variable list)
+  and .simple (dark with large watermark number — used for Rule of 72)
+
+  Usage (default):
+    <div class="formula-block">
+      <div class="formula-main">A = P(1 + r/n)<sup>nt</sup></div>
+      <ul>
+        <li><strong>A</strong> = ...</li>
+      </ul>
+    </div>
+
+  Usage (simple):
+    <div class="formula-block simple" data-watermark="72">
+      <div class="formula-main">Years to double = 72 ÷ rate (%)</div>
+      <div class="formula-sub">Example: 72 ÷ 9% = 8 years</div>
+    </div>
+*/
+.formula-block {
+  background: var(--ink);
+  color: #a7f3d0;
+  font-family: var(--font-mono);
+  font-size: 1.0625rem;
+  padding: 1.75rem 2rem;
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Watermark — set via data-watermark attribute and CSS attr() */
+.formula-block::before {
+  content: attr(data-watermark);
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 6rem;
+  font-weight: 500;
+  color: rgba(22,163,74,0.07);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.formula-main {
+  font-size: 1.375rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.formula-sub {
+  font-size: 0.9rem;
+  color: #6ee7b7;
+  position: relative;
+  z-index: 1;
+}
+
+.formula-block ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.formula-block ul li {
+  font-size: 0.82rem;
+  color: #6ee7b7;
+  line-height: 1.6;
+}
+
+.formula-block ul li strong { color: #a7f3d0; }
+
+/* ── Tables ──────────────────────────────────────────────── */
+/*
+  Always wrap in .table-wrap for overflow handling on mobile.
+
+  Row modifier classes (add to <tr>):
+    .highlight  — green tint, bold text (use for totals / key rows)
+    .danger     — red tint (use for debt / negative rows)
+    .exact      — amber tint (use for "exact" / notable accuracy rows)
+*/
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.blog-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.blog-table thead th {
+  background: var(--bg-soft);
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  border-bottom: 1px solid var(--border);
+}
+
+.blog-table tbody td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-mid);
+  font-size: 0.9rem;
+}
+
+.blog-table tbody tr:last-child td { border-bottom: none; }
+.blog-table tbody tr:nth-child(even) td { background: var(--bg-soft); }
+
+.blog-table .highlight td {
+  background: var(--green-faint) !important;
+  font-weight: 600;
+  color: var(--green-dark);
+}
+
+.blog-table .danger td {
+  background: #fef2f2 !important;
+  color: #991b1b;
+  font-weight: 500;
+}
+
+.blog-table .exact td {
+  background: #fffbeb !important;
+  color: #92400e;
+  font-weight: 500;
+}
+
+/* ── Callout block ───────────────────────────────────────── */
+/*
+  Variants:
+    (default)   green — for key insights, positive callouts
+    .warning    amber — for cautions and "watch out" moments
+
+  Usage:
+    <div class="callout">
+      <p>Key insight text here.</p>
+    </div>
+
+    <div class="callout warning">
+      <p>Warning or caution text here.</p>
+    </div>
+*/
+.callout {
+  background: var(--bg-tint);
+  border-left: 3px solid var(--green);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.25rem 1.5rem;
+  margin: 1.75rem 0;
+}
+
+.callout p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--green-dark);
+  line-height: 1.65;
+}
+
+.callout strong { color: var(--green-dark); }
+
+.callout.warning {
+  background: #fef9ec;
+  border-left-color: #f59e0b;
+}
+
+.callout.warning p { color: #78350f; }
+.callout.warning strong { color: #78350f; }
+
+/* ── Scenario cards ──────────────────────────────────────── */
+/*
+  Used in Article 3 only. Three colour variants applied via
+  modifier classes on .scenario-header:
+    .s1  neutral / grey  (Cautious Saver)
+    .s2  green           (Consistent Investor)
+    .s3  dark/ink        (Serious Builder)
+
+  Usage:
+    <div class="scenario-card">
+      <div class="scenario-header s2">
+        <span class="scenario-tag">Scenario 2</span>
+        <span class="scenario-result">~17.5 years</span>
+      </div>
+      <div class="scenario-body">
+        <div class="scenario-inputs"> ... </div>
+        <div class="scenario-outputs"> ... </div>
+      </div>
+      <div class="scenario-narrative"> ... </div>
+    </div>
+*/
+.scenario-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin: 2rem 0;
+}
+
+.scenario-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.125rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.scenario-header.s1 { background: var(--bg-soft); }
+.scenario-header.s2 { background: var(--green-faint); }
+.scenario-header.s3 { background: var(--ink); }
+
+.scenario-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.s1 .scenario-tag { background: var(--border); color: var(--text-muted); }
+.s2 .scenario-tag { background: var(--green-muted); color: var(--green-dark); }
+.s3 .scenario-tag { background: rgba(22,163,74,0.2); color: var(--green-muted); }
+
+.scenario-result {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.s1 .scenario-result { font-size: 1.25rem; color: var(--text-mid); }
+.s2 .scenario-result { font-size: 1.25rem; color: var(--green-dark); }
+.s3 .scenario-result { font-size: 1.25rem; color: var(--green-muted); }
+
+.scenario-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.scenario-inputs {
+  padding: 1.25rem 1.5rem;
+  border-right: 1px solid var(--border);
+}
+
+.scenario-inputs h4,
+.scenario-outputs h4 {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.75rem;
+}
+
+.scenario-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+
+.scenario-row:last-child { border-bottom: none; }
+.scenario-row .label { color: var(--text-muted); }
+.scenario-row .value {
+  font-weight: 600;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.scenario-outputs {
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-soft);
+}
+
+/* Per-scenario output backgrounds */
+.scenario-card:nth-of-type(2) .scenario-outputs { background: var(--green-faint); }
+.scenario-card:nth-of-type(3) .scenario-outputs { background: #f0fdf4; }
+
+.output-big {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--green-dark);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.output-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.output-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.output-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.825rem;
+  color: var(--text-muted);
+}
+
+.output-breakdown-row strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.scenario-narrative {
+  padding: 1rem 1.5rem;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.scenario-card:nth-of-type(2) .scenario-narrative { background: #fafffe; }
+
+/* ── FAQ accordion ───────────────────────────────────────── */
+/*
+  Toggle open/closed by adding/removing the .open class on .faq-item.
+  The inline onclick in the reference HTML handles this — copy it as-is
+  or replace with the shared faq.js event listener below.
+
+  Usage:
+    <div class="faq-item open">   ← .open = expanded by default
+    <div class="faq-item">        ← collapsed by default
+*/
+.faq-section { margin: 2.5rem 0; }
+
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.125rem 1.25rem;
+  cursor: pointer;
+  background: var(--bg);
+  transition: background 0.12s;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+
+.faq-question:hover { background: var(--bg-soft); }
+
+.faq-question h3 {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.faq-chevron {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  background: var(--green-faint);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.15s;
+}
+
+.faq-chevron svg { width: 10px; height: 10px; color: var(--green); }
+
+.faq-item.open .faq-chevron {
+  transform: rotate(180deg);
+  background: var(--green);
+}
+
+.faq-item.open .faq-chevron svg { color: #fff; }
+
+.faq-answer {
+  display: none;
+  padding: 0 1.25rem 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.faq-answer p {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin: 1rem 0 0;
+}
+
+.faq-item.open .faq-answer { display: block; }
+
+/* ── Affiliate block ─────────────────────────────────────── */
+/*
+  Used at the bottom of Article 3. Reusable for any article
+  that warrants an affiliate CTA.
+
+  Usage:
+    <div class="affiliate-block">
+      <h3>Ready to start investing?</h3>
+      <p>Description text.</p>
+      <a href="AFFILIATE_LINK" ... class="affiliate-link">Link text →</a>
+      <span class="affiliate-note">Disclosure text.</span>
+    </div>
+*/
+.affiliate-block {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  background: var(--bg-soft);
+  margin: 2rem 0;
+}
+
+.affiliate-block h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.375rem;
+}
+
+.affiliate-block p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.affiliate-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--green);
+  text-decoration: none;
+  transition: gap 0.15s;
+}
+
+.affiliate-link:hover { gap: 10px; }
+
+.affiliate-note {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  margin-top: 0.625rem;
+  line-height: 1.5;
+}
+
+/* ── CTA button ──────────────────────────────────────────── */
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background 0.15s, transform 0.1s;
+  margin: 1.25rem 0;
+}
+
+.btn-cta:hover {
+  background: var(--green-dark);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: #fff;
+}
+
+/* ── Share bar ───────────────────────────────────────────── */
+.share-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+.share-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.15s;
+  text-decoration: none;
+}
+
+.share-btn:hover {
+  border-color: var(--green-muted);
+  color: var(--green);
+  background: var(--green-faint);
+}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+.sidebar { position: sticky; top: 80px; }
+
+.sidebar-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-card-header {
+  background: var(--green);
+  padding: 1.125rem 1.25rem;
+}
+
+.sidebar-card-header p {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  margin: 0 0 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sidebar-card-header h3 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.sidebar-card-body {
+  padding: 1.25rem;
+  background: var(--bg);
+}
+
+.sidebar-card-body p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.sidebar-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-input-group label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sidebar-input-group input {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 12px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+
+.sidebar-input-group input:focus { border-color: var(--green); }
+
+/* Inline result display — used in Rule of 72 sidebar */
+.sidebar-result {
+  background: var(--green-faint);
+  border: 1px solid var(--green-muted);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin-top: 4px;
+  font-size: 0.875rem;
+  color: var(--green-dark);
+  font-weight: 500;
+  display: none; /* shown via JS when input has a value */
+}
+
+.btn-sidebar {
+  display: block;
+  width: 100%;
+  background: var(--green);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.15s;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-sidebar:hover { background: var(--green-dark); }
+
+/* ── Table of contents (sidebar) ─────────────────────────── */
+.toc-card { padding: 1.25rem; }
+
+.toc-card h4 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.75rem;
+}
+
+.toc-list { list-style: none; }
+.toc-list li { margin-bottom: 2px; }
+
+.toc-list a {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  transition: background 0.12s, color 0.12s;
+}
+
+.toc-list a::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.12s;
+}
+
+.toc-list a:hover { background: var(--bg-soft); color: var(--green); }
+.toc-list a:hover::before { background: var(--green); }
+
+/* ── Blog listing page ───────────────────────────────────── */
+/*
+  Used on /blog/index.html — three article cards in a grid.
+
+  Usage:
+    <div class="blog-listing-grid">
+      <article class="blog-card">
+        <div class="blog-card-img"> ... </div>
+        <div class="blog-card-body"> ... </div>
+      </article>
+    </div>
+*/
+.blog-listing-header {
+  padding: 4rem 0 2.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3rem;
+}
+
+.blog-listing-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.blog-listing-header p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 560px;
+}
+
+.blog-listing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+.blog-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.15s;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.blog-card:hover {
+  box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+  transform: translateY(-2px);
+}
+
+.blog-card-img {
+  height: 160px;
+  background: linear-gradient(135deg, #0f1f12 0%, #1a3a24 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.blog-card-img::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(22,163,74,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22,163,74,0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.blog-card-img span { position: relative; z-index: 1; }
+
+.blog-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blog-card-body {
+  padding: 1.25rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.blog-card-category {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.blog-card-title {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.blog-card-excerpt {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.blog-card-meta {
+  font-size: 0.775rem;
+  color: var(--text-faint);
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .article-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .sidebar { position: static; }
+
+  .blog-listing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .blog-wrapper { padding: 0 1.125rem; }
+
+  .article-hero { padding: 2.5rem 0 2rem; }
+
+  .img-text-block,
+  .img-text-block.reverse {
+    flex-direction: column;
+  }
+
+  .img-text-block .img-slot {
+    flex: none;
+    width: 100%;
+    min-height: 160px;
+  }
+
+  .img-text-content,
+  .img-text-block.reverse .img-text-content {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  .scenario-body {
+    grid-template-columns: 1fr;
+  }
+
+  .scenario-inputs {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .blog-listing-grid {
+    grid-template-columns: 1fr;
+  }
+}
