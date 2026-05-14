@@ -3,7 +3,9 @@
   Extracted from compound-interest.html + Global UI Additions
 */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono&display=swap');
+@import url('footer.css');
+
 
 
 
@@ -115,8 +117,13 @@ body > header {
   transition: color 0.2s;
 }
 
-.nav-links a:hover, .nav-links a.active {
+.nav-links a:hover {
   color: var(--green);
+}
+
+.nav-links a.active {
+  color: var(--green);
+  font-weight: 700;
 }
 
 .mobile-menu-btn {
@@ -953,84 +960,7 @@ tbody tr:hover { background: var(--bg-surface); }
   margin: 1.5rem 0;
 }
 
-/* --- Footer --- */
-footer {
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border);
-  padding: 4rem 1.5rem 2rem;
-  margin-top: 2rem;
-}
 
-.footer-container {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 3rem;
-}
-
-@media (max-width: 768px) {
-  .footer-container { grid-template-columns: 1fr; gap: 2rem; }
-}
-
-.footer-brand h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-}
-
-.footer-brand p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  max-width: 300px;
-}
-
-.footer-links h4 {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-faint);
-  margin-bottom: 1.25rem;
-}
-
-.footer-links ul {
-  list-style: none;
-}
-
-.footer-links li {
-  margin-bottom: 0.75rem;
-}
-
-.footer-links a {
-  text-decoration: none;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  transition: color 0.2s;
-}
-
-.footer-links a:hover {
-  color: var(--green);
-}
-
-.footer-bottom {
-  max-width: 1100px;
-  margin: 3rem auto 0;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border);
-  text-align: center;
-}
-
-.footer-disclaimer {
-  font-size: 0.75rem;
-  color: var(--text-faint);
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-}
-
-.footer-copy {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
 
 /* Cookie Banner */
 #cookie-banner {
@@ -1186,5 +1116,4 @@ footer {
   visibility: visible;
   transform: translateX(-50%) translateY(0);
 }
-
 

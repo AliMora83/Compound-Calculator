@@ -3,10 +3,14 @@
    Load after styles.css. Requires CSS variables from styles.css.
    ───────────────────────────────────────────────────────── */
 
+@import url('footer.css');
+
 :root {
   --font-display: 'Lora', Georgia, serif;
   --green-secondary: #15803d;
 }
+
+.site-footer { margin-top: 5rem; }
 
 /* ── Blog page wrapper ───────────────────────────────────── */
 .blog-wrapper {

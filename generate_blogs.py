@@ -24,7 +24,7 @@ __SCHEMA__
     <div class="nav-container">
       <a href="/" class="logo"><img src="/assets/logo.png" alt="CompoundCalc" height="32"> <span>CompoundCalc</span></a>
       <nav class="nav-links">
-        <a href="/savings-calculator.html">Savings Calculator</a>
+        <a href="/">Home</a>
         <a href="/investment-goal-calculator.html">Goal Calculator</a>
         <a href="/compare-investments.html">Compare</a>
         <a href="/blog/" class="active">Blog</a>
@@ -54,39 +54,64 @@ __ARTICLE_CONTENT__
           <button onclick="copyShareLink()">🔗 Copy Link</button>
         </div>
       </footer>
+    <!-- ── Scroll to top ──────────────────────────────────────
+         Visibility controlled by JS — hidden until 800px scroll
+         ──────────────────────────────────────────────────────── -->
+    <div class="scroll-top-wrap" id="scrollTopWrap" aria-hidden="true">
+      <button
+        class="scroll-top-btn"
+        id="scrollTopBtn"
+        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        aria-label="Scroll to top of page"
+        type="button"
+      >
+        <span class="scroll-top-label">Scroll to top</span>
+        <span class="scroll-top-circle" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 13V5M9 5L5 9M9 5L13 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
     </div>
+
   </main>
 
-  <footer>
-    <div class="footer-container">
+  <footer class="site-footer">
+    <div class="footer-inner">
+  
       <div class="footer-brand">
-        <h2>CompoundCalc.co.za</h2>
-        <p>Free compound interest calculator for South African investors.</p>
+        <span class="logo-text">CompoundCalc.co.za</span>
+        <p>Free compound interest calculator for South African investors. See how your savings grow over time.</p>
       </div>
-      <div class="footer-links">
-        <h4>Calculators</h4>
+  
+      <div class="footer-col">
+        <h5>Quick Menu</h5>
         <ul>
-          <li><a href="/savings-calculator.html">Grow Savings</a></li>
-          <li><a href="/investment-goal-calculator.html">Goal Calculator</a></li>
-          <li><a href="/compare-investments.html">Compare Scenarios</a></li>
-          <li><a href="/blog/">Financial Blog</a></li>
+          <li><a href="/">Compound Calculator</a></li>
+          <li><a href="/investment-goal-calculator">Goal Calculator</a></li>
+          <li><a href="/compare-investments">Compare Scenarios</a></li>
+          <li><a href="/blog">Financial Blog</a></li>
         </ul>
       </div>
-      <div class="footer-links">
-        <h4>Company</h4>
+  
+      <div class="footer-col">
+        <h5>Company</h5>
         <ul>
-          <li><a href="/about.html">About Us</a></li>
-          <li><a href="/privacy-policy.html">Privacy Policy</a></li>
-          <li><a href="/terms-of-service.html">Terms of Service</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/terms-of-service">Terms of Service</a></li>
         </ul>
       </div>
+  
     </div>
+  
     <div class="footer-bottom">
-      <p class="footer-disclaimer">Disclaimer: This tool is for informational purposes only and does not constitute financial advice.</p>
-      <p class="footer-copy">&copy; 2026 CompoundCalc. Built in South Africa. 🇿🇦</p>
+      <p>Disclaimer: This tool is for informational purposes only and does not constitute financial advice. CompoundCalc is not a registered financial services provider.</p>
+      <p>© 2026 CompoundCalc. Built in South Africa 🇿🇦</p>
     </div>
   </footer>
 
+  <script src="/assets/js/ui.js" defer></script>
   <script src="/assets/js/share.js"></script>
   <script>
     document.getElementById('mini-monthly').addEventListener('input', (e) => {
