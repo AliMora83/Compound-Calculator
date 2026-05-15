@@ -138,7 +138,7 @@ for art in articles:
     article_html = re.search(r'```html\n(.*?)\n```', art, re.DOTALL).group(1)
     
     # Replace EasyEquities link placeholder if present
-    article_html = article_html.replace('EASYEQUITIES_AFFILIATE_LINK', 'https://www.easyequities.co.za/')
+    article_html = article_html.replace('EASYEQUITIES_AFFILIATE_LINK', 'https://bit.ly/4wsBTNT')
     
     schema_json = ""
     if "```json" in art:

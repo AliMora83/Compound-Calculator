@@ -35,7 +35,7 @@ CompoundCalc is a free, production-ready compound interest calculator built for 
 | Charting | Chart.js via CDN |
 | PDF | jsPDF + html2canvas via CDN |
 | Email / CRM | Brevo API (contacts sync + transactional SMTP) |
-| Analytics | Google Analytics 4 — `G-XXXXXXXXXX` (placeholder, replace with live ID) |
+| Analytics | Google Analytics 4 — `G-NJMYWPLFSH` ✅ |
 | Ads | Google AdSense — `ca-pub-6017523378494978` (pending review) |
 | Fonts | DM Sans + DM Mono (Google Fonts) |
 

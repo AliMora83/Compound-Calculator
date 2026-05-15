@@ -1041,7 +1041,7 @@ function buildWelcomeEmailHTML(finalBalance, shareURL) {
                       EasyEquities lets you start with R50, no minimum balance,
                       TFSA included. It's where many South Africans start.
                     </p>
-                    <a href="https://www.easyequities.co.za/"
+                    <a href="https://bit.ly/4wsBTNT"
                        style="font-size:13px;color:#16a34a;font-weight:500;">
                       Open a free EasyEquities account →
                     </a>
