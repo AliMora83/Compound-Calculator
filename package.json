@@ -1,0 +1,24 @@
+{
+  "name": "compcalc",
+  "version": "1.0.0",
+  "description": "CompoundCalc is a production-ready, single-page application (SPA) featuring an interactive, multi-tab compound interest calculator designed specifically for South African investors. It combines high-performance financial logic with a premium 2026-standard UI/UX.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliMora83/Compound-Calculator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AliMora83/Compound-Calculator/issues"
+  },
+  "homepage": "https://github.com/AliMora83/Compound-Calculator#readme",
+  "devDependencies": {
+    "netlify-cli": "^26.0.2"
+  }
+}

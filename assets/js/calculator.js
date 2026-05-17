@@ -618,13 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── CONFIGURATION ─────────────────────────────────────
-// ⚠️  SECURITY: These keys are exposed in client-side JS.
-//     Before production launch, move Brevo API calls to a
-//     server-side proxy (Netlify Function / Cloud Run / Cloudflare Worker)
-//     so the API key is never sent to the browser.
-const BREVO_API_KEY   = 'xkeysib-Key'; // REPLACE before deploying
-const BREVO_LIST_ID   = 4;             // Replace with actual list ID from Brevo
-const BREVO_SENDER    = { name: 'CompoundCalc', email: 'ali.mora@namka.cloud' };
+// Brevo API calls are proxied securely via Netlify Serverless Function
 // ─────────────────────────────────────────────────────
 
 async function submitEmailCapture() {
@@ -649,11 +643,27 @@ async function submitEmailCapture() {
     // ── Step 1: Generate the PDF ──
     const pdfBase64 = await generateProjectionPDFForEmail();
 
-    // ── Step 2: Add contact to Brevo list ──
-    await addBrevoContact(email);
+    // ── Step 2: Send to serverless proxy (handles both contact + email) ──
+    const last       = growData ? growData[growData.length - 1] : null;
+    const currency   = getCurrentCurrencySymbol();
+    const finalBal   = last ? currency + Math.round(last.balance).toLocaleString('en-ZA') : '';
+    const shareURL   = window.location.href;
 
-    // ── Step 3: Send the PDF via Brevo transactional email ──
-    await sendBrevoEmail(email, pdfBase64);
+    const proxyRes = await fetch('/api/send-pdf', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email:        email,
+        pdfBase64:    pdfBase64,
+        finalBalance: finalBal,
+        shareURL:     shareURL,
+      }),
+    });
+
+    if (!proxyRes.ok) {
+      const err = await proxyRes.json();
+      throw new Error(err.error || 'Failed to send email.');
+    }
 
     // ── Step 4: Success state ──
     showECSuccess();
@@ -860,224 +870,3 @@ async function generateProjectionPDFForEmail() {
   return doc.output('datauristring').split(',')[1];
 }
 
-// ── Brevo API Calls ───────────────────────────────────
-async function addBrevoContact(email) {
-  const shareableURL = window.location.href; // includes current calc params
-
-  const response = await fetch('https://api.brevo.com/v3/contacts', {
-    method: 'POST',
-    headers: {
-      'api-key':      BREVO_API_KEY,
-      'Content-Type': 'application/json',
-      'Accept':       'application/json',
-    },
-    body: JSON.stringify({
-      email:          email,
-      listIds:        [BREVO_LIST_ID],
-      updateEnabled:  true, // silently updates if contact already exists
-      attributes: {
-        PROJECTION_URL: shareableURL,
-        SOURCE:         'CompoundCalc Calculator',
-      }
-    })
-  });
-
-  if (response.status !== 201 && response.status !== 204) {
-    const err = await response.json();
-    throw new Error(err.message || 'Failed to save your email.');
-  }
-}
-
-async function sendBrevoEmail(email, pdfBase64) {
-  const last        = growData ? growData[growData.length - 1] : null;
-  const currency    = getCurrentCurrencySymbol();
-  const finalBal    = last ? currency + Math.round(last.balance).toLocaleString('en-ZA') : 'your projection';
-  const shareURL    = window.location.href;
-
-  const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-    method: 'POST',
-    headers: {
-      'api-key':      BREVO_API_KEY,
-      'Content-Type': 'application/json',
-      'Accept':       'application/json',
-    },
-    body: JSON.stringify({
-      sender:  BREVO_SENDER,
-      to: [{ email: email }],
-      subject: `Your projection: ${finalBal} — CompoundCalc`,
-      htmlContent: buildWelcomeEmailHTML(finalBal, shareURL),
-      attachment: [{
-        content: pdfBase64,
-        name:    'compoundcalc-projection.pdf',
-      }]
-    })
-  });
-
-  if (!response.ok) {
-    const err = await response.json();
-    throw new Error(err.message || 'Failed to send the email.');
-  }
-}
-
-function buildWelcomeEmailHTML(finalBalance, shareURL) {
-  return `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your CompoundCalc Projection</title>
-</head>
-<body style="margin:0;padding:0;background:#f9fafb;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;padding:32px 16px;">
-    <tr>
-      <td align="center">
-        <table width="100%" cellpadding="0" cellspacing="0"
-               style="max-width:560px;background:#ffffff;border-radius:12px;
-                      border:1px solid #e5e7eb;overflow:hidden;">
-
-          <!-- Header -->
-          <tr>
-            <td style="background:#16a34a;padding:24px 32px;">
-              <p style="margin:0;font-size:20px;font-weight:700;color:#ffffff;
-                        letter-spacing:-0.02em;">CompoundCalc</p>
-              <p style="margin:4px 0 0;font-size:13px;color:#bbf7d0;">
-                compoundcalc.co.za
-              </p>
-            </td>
-          </tr>
-
-          <!-- Body -->
-          <tr>
-            <td style="padding:32px;">
-
-              <p style="margin:0 0 8px;font-size:22px;font-weight:700;
-                        color:#111827;letter-spacing:-0.02em;">
-                Your projection is attached 📎
-              </p>
-
-              <p style="margin:0 0 24px;font-size:15px;color:#6b7280;line-height:1.6;">
-                Based on your inputs, your investment could grow to
-                <strong style="color:#16a34a;">${finalBalance}</strong>.
-                We've attached a full PDF with your chart, year-by-year breakdown,
-                and milestone markers.
-              </p>
-
-              <!-- CTA Box -->
-              <table width="100%" cellpadding="0" cellspacing="0"
-                     style="background:#f0fdf4;border:1px solid #86efac;
-                            border-radius:8px;margin-bottom:28px;">
-                <tr>
-                  <td style="padding:20px 24px;">
-                    <p style="margin:0 0 12px;font-size:14px;font-weight:600;
-                              color:#14532d;">
-                      Your saved projection
-                    </p>
-                    <p style="margin:0 0 16px;font-size:13px;color:#166534;
-                              line-height:1.5;">
-                      Your exact inputs are saved in the link below.
-                      Open it anytime to continue adjusting your numbers.
-                    </p>
-                    <a href="${shareURL}"
-                       style="display:inline-block;background:#16a34a;color:#ffffff;
-                              padding:10px 20px;border-radius:6px;font-size:14px;
-                              font-weight:500;text-decoration:none;">
-                      Open my projection →
-                    </a>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- 3 tips -->
-              <p style="margin:0 0 16px;font-size:15px;font-weight:600;
-                        color:#111827;">
-                3 things that move the needle most
-              </p>
-
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
-                <tr>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;
-                             vertical-align:top;">
-                    <span style="font-size:18px;">⏰</span>
-                    <span style="font-size:14px;color:#374151;margin-left:10px;">
-                      <strong>Start earlier.</strong> Every year you wait costs more
-                      than a year's worth of contributions.
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;
-                             vertical-align:top;">
-                    <span style="font-size:18px;">📈</span>
-                    <span style="font-size:14px;color:#374151;margin-left:10px;">
-                      <strong>Rate matters.</strong> A 3% difference in return
-                      can double your final balance over 20 years.
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding:10px 0;vertical-align:top;">
-                    <span style="font-size:18px;">🔁</span>
-                    <span style="font-size:14px;color:#374151;margin-left:10px;">
-                      <strong>Automate it.</strong> Set a monthly debit order
-                      and remove the decision from your hands entirely.
-                    </span>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- Secondary CTA -->
-              <table width="100%" cellpadding="0" cellspacing="0"
-                     style="background:#f9fafb;border:1px solid #e5e7eb;
-                            border-radius:8px;margin-bottom:28px;">
-                <tr>
-                  <td style="padding:18px 24px;">
-                    <p style="margin:0 0 4px;font-size:14px;font-weight:600;
-                              color:#111827;">
-                      Ready to start investing?
-                    </p>
-                    <p style="margin:0 0 12px;font-size:13px;color:#6b7280;">
-                      EasyEquities lets you start with R50, no minimum balance,
-                      TFSA included. It's where many South Africans start.
-                    </p>
-                    <a href="https://bit.ly/4wsBTNT"
-                       style="font-size:13px;color:#16a34a;font-weight:500;">
-                      Open a free EasyEquities account →
-                    </a>
-                    <p style="margin:8px 0 0;font-size:11px;color:#9ca3af;">
-                      Affiliate disclosure: we may earn a small commission if
-                      you open an account. This doesn't affect our projections.
-                    </p>
-                  </td>
-                </tr>
-              </table>
-
-            </td>
-          </tr>
-
-          <!-- Footer -->
-          <tr>
-            <td style="padding:20px 32px;background:#f9fafb;
-                       border-top:1px solid #e5e7eb;">
-              <p style="margin:0 0 6px;font-size:12px;color:#9ca3af;line-height:1.5;">
-                You're receiving this because you requested a PDF projection at
-                compoundcalc.co.za.<br>
-                <a href="https://compoundcalc.co.za/privacy-policy.html"
-                   style="color:#9ca3af;">Privacy Policy</a>
-              </p>
-              <p style="margin:0;font-size:11px;color:#d1d5db;">
-                CompoundCalc is for informational purposes only and does not
-                constitute financial advice.
-              </p>
-            </td>
-          </tr>
-
-        </table>
-      </td>
-    </tr>
-  </table>
-
-</body>
-</html>`;
-}

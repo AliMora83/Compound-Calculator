@@ -5,3 +5,12 @@ node_modules/
 dist/
 build/
 *.log
+.env
+
+# Local Netlify folder
+.netlify
+.config/
+.npm/
+Library/
+deno.lock
+

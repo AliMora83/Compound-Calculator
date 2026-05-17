@@ -952,12 +952,132 @@ tbody tr:hover { background: var(--bg-surface); }
   }
 }
 
-/* Ad Slots */
+/* ── AdSense ad slots ───────────────────────────────── */
 .ad-slot {
-  min-height: 0;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin: 2rem 0;
+  padding: 1.75rem 1.25rem 1.25rem 1.25rem;
+  background: var(--bg-surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  /* Prevent layout reflow jumps during load */
+  min-height: 120px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+}
+
+.ad-slot::before {
+  content: "ADVERTISEMENT";
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-faint);
+  letter-spacing: 0.12em;
+  margin-bottom: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+.ad-leaderboard {
+  max-width: 728px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 140px;
+}
+
+.ad-rectangle {
+  max-width: 336px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 330px;
+}
+
+.ad-in-article {
+  max-width: 100%;
+  margin: 2.5rem auto;
+  min-height: 140px;
+}
+
+/* Sidebar sticky ad slot position */
+.ad-sidebar-sticky {
+  position: sticky;
+  top: 24px;
+  min-height: 330px;
   margin: 1.5rem 0;
+}
+
+/* Multiplex ad slot styled to blend natively in grid */
+.ad-multiplex {
+  grid-column: span 1;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem 1.25rem 1.25rem 1.25rem;
+  min-height: 350px;
+}
+
+/* Anchor ad slot (sticky footer) */
+.ad-anchor-sticky {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 728px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+  box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
+  z-index: 9999;
+  margin: 0;
+  padding: 1.5rem 1.25rem 1.25rem 1.25rem;
+  min-height: 120px;
+  display: none; /* Controlled via JS to prevent flash of dismissed ad */
+}
+
+/* Close/dismiss action button for sticky footer */
+.ad-anchor-dismiss {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--bg-active);
+  border: none;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  z-index: 10000;
+}
+
+.ad-anchor-dismiss:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Hide ad slots on very small screens if they cause layout issues */
+@media (max-width: 360px) {
+  .ad-leaderboard,
+  .ad-rectangle,
+  .ad-anchor-sticky {
+    display: none !important;
+  }
 }
 
 

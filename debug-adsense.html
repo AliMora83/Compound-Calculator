@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdSense Debugger & Verification | CompoundCalc</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+
+  <!-- Core Google AdSense Baseline Script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6017523378494978"
+       crossorigin="anonymous"></script>
+
+  <style>
+    /* Premium visual overrides for debugger page */
+    .debug-container {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 2rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+    
+    .debug-header {
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2rem;
+    }
+
+    .debug-header h1 {
+      font-size: 2.25rem;
+      color: var(--text);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .debug-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .debug-grid {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .debug-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .console-panel {
+      background: #111827;
+      color: #34d399;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+      border: 1px solid #1f2937;
+    }
+
+    .console-panel h3 {
+      color: #f3f4f6;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #374151;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .console-status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #065f46;
+      color: #34d399;
+    }
+
+    .console-log {
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+
+    .console-log .info { color: #9ca3af; }
+    .console-log .success { color: #34d399; }
+    .console-log .warn { color: #f59e0b; }
+    .console-log .error { color: #ef4444; }
+
+    .ad-preview-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .ad-preview-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ad-preview-card h3 span {
+      font-size: 0.8rem;
+      background: var(--bg-active);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+
+    .btn-reset {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-reset:hover {
+      background: #b91c1c;
+    }
+
+    .btn-refresh {
+      background: #0284c7;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 1rem;
+      width: 100%;
+    }
+
+    .btn-refresh:hover {
+      background: #0369a1;
+    }
+
+    /* Simulate ad loading visualization in developer mode */
+    .ad-slot::after {
+      content: "OFFLINE MOCK FILL — ca-pub-6017523378494978 / Slot " attr(data-mock-slot);
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      border: 1px dashed var(--border);
+      background: rgba(22, 163, 74, 0.05);
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin-top: 0.5rem;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <img src="/assets/logo.png" alt="CompoundCalc" height="32">
+        <span>CompoundCalc</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/investment-goal-calculator">Goal Calculator</a>
+        <a href="/compare-investments">Compare</a>
+        <a href="/blog">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="debug-container">
+    <div class="debug-header">
+      <h1>AdSense Debugger & Verification</h1>
+      <p>Technical verification page for Google AdSense compliance, responsiveness, and layout stability.</p>
+    </div>
+
+    <div class="debug-grid">
+      <!-- Mocks & Ad Slots column -->
+      <div>
+        <!-- 1. Leaderboard Top -->
+        <div class="ad-preview-card">
+          <h3>1. Leaderboard Top <span>Unit: cc-leader-top</span></h3>
+          <div class="ad-slot ad-leaderboard" data-mock-slot="1000000001" aria-hidden="true">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6017523378494978"
+                 data-ad-slot="1000000001"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </div>
+
+        <!-- 2. Leaderboard Bottom -->
+        <div class="ad-preview-card">
+          <h3>2. Leaderboard Bottom <span>Unit: cc-leader-bottom</span></h3>
+          <div class="ad-slot ad-leaderboard" data-mock-slot="1000000002" aria-hidden="true">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6017523378494978"
+                 data-ad-slot="1000000002"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </div>
+
+        <!-- 3. In-Article Fluid -->
+        <div class="ad-preview-card">
+          <h3>3. In-Article Fluid <span>Unit: cc-blog-in-article</span></h3>
+          <div class="ad-slot ad-in-article" data-mock-slot="1000000003" aria-hidden="true">
+            <ins class="adsbygoogle"
+                 style="display:block; text-align:center;"
+                 data-ad-layout="in-article"
+                 data-ad-format="fluid"
+                 data-ad-client="ca-pub-6017523378494978"
+                 data-ad-slot="1000000003"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </div>
+
+        <!-- 4. Sidebar Sticky -->
+        <div class="ad-preview-card">
+          <h3>4. Sidebar Sticky <span>Unit: cc-blog-sidebar</span></h3>
+          <div class="ad-slot ad-sidebar-sticky" data-mock-slot="1000000004" aria-hidden="true" style="position: static; min-height: 120px;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6017523378494978"
+                 data-ad-slot="1000000004"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </div>
+
+        <!-- 5. Multiplex Grid -->
+        <div class="ad-preview-card">
+          <h3>5. Multiplex Grid ad <span>Unit: cc-blog-grid-multiplex</span></h3>
+          <div class="ad-slot ad-multiplex" data-mock-slot="1000000005" aria-hidden="true">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-format="autorelaxed"
+                 data-ad-client="ca-pub-6017523378494978"
+                 data-ad-slot="1000000005"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+          </div>
+        </div>
+
+        <!-- 6. Sticky Anchor Footer -->
+        <div class="ad-preview-card">
+          <h3>6. Sticky Anchor Footer (Auto Ad Simulation) <span>Unit: cc-anchor-sticky</span></h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">This is a simulation of the bottom sticky anchor footer ad. It will display fixed at the screen bottom if not dismissed via JavaScript within the last 24 hours.</p>
+          <button class="btn-reset" id="btn-reset-dismissal">Reset 24h Dismissal Lock</button>
+        </div>
+      </div>
+
+      <!-- Console Panel -->
+      <div>
+        <div class="console-panel">
+          <h3>
+            <span>Debugger Console</span>
+            <span class="console-status-badge">Active</span>
+          </h3>
+          <div class="console-log" id="console-log">Initializing...</div>
+          <button class="btn-refresh" onclick="runDiagnostics()">Re-Run Diagnostics</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Sticky Anchor Footer Simulated Unit -->
+  <div class="ad-slot ad-anchor-sticky" aria-hidden="true">
+    <button class="ad-anchor-dismiss" aria-label="Dismiss Advertisement">✕</button>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6017523378494978"
+         data-ad-slot="1000000006"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-bottom">
+      <p>© 2026 CompoundCalc. AdSense Verification Suite.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/ui.js"></script>
+  
+  <script>
+    function logMessage(text, type = 'info') {
+      const log = document.getElementById('console-log');
+      const time = new Date().toLocaleTimeString();
+      const line = `<div class="${type}">[${time}] ${text}</div>`;
+      log.innerHTML += line;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function runDiagnostics() {
+      const log = document.getElementById('console-log');
+      log.innerHTML = '';
+      
+      logMessage('Starting Google AdSense Diagnostics...', 'info');
+
+      // 1. Verify Core Baseline Script
+      const script = document.querySelector('script[src*="adsbygoogle.js"]');
+      if (script) {
+        logMessage(`Found AdSense baseline script: ${script.src}`, 'success');
+        if (script.async) {
+          logMessage('Baseline script has async attribute configured correctly.', 'success');
+        } else {
+          logMessage('WARNING: Baseline script is missing async attribute.', 'warn');
+        }
+      } else {
+        logMessage('ERROR: Baseline script tag is missing!', 'error');
+      }
+
+      // 2. Client ID verification
+      const clientMatches = document.querySelectorAll('ins.adsbygoogle[data-ad-client="ca-pub-6017523378494978"]');
+      logMessage(`Detected client ID "ca-pub-6017523378494978" in ${clientMatches.length} ad tags.`, clientMatches.length > 0 ? 'success' : 'error');
+
+      // 3. Inspect Ad Slots
+      const slots = document.querySelectorAll('.ad-slot');
+      logMessage(`Found ${slots.length} elements with class ".ad-slot".`, 'info');
+
+      slots.forEach((slot, index) => {
+        const ins = slot.querySelector('ins.adsbygoogle');
+        if (!ins) {
+          logMessage(`Slot ${index + 1} (.${slot.className.split(' ').join('.')}) is missing internal <ins> tag!`, 'error');
+          return;
+        }
+
+        const slotId = ins.getAttribute('data-ad-slot');
+        const ariaHidden = slot.getAttribute('aria-hidden');
+        
+        logMessage(`Slot ${index + 1}: ID=${slotId || 'None'} | aria-hidden=${ariaHidden} | class=${slot.className}`, 'success');
+        
+        // Check reflow styling
+        const minHeight = window.getComputedStyle(slot).minHeight;
+        if (parseInt(minHeight) > 0) {
+          logMessage(`Slot ${index + 1} has min-height fallback of ${minHeight} to prevent reflow.`, 'success');
+        } else {
+          logMessage(`Slot ${index + 1} is missing min-height fallback.`, 'warn');
+        }
+      });
+
+      // 4. Anchor ad dismissal status
+      const ANCHOR_DISMISS_KEY = 'cc-anchor-dismissed-until';
+      const dismissedUntil = localStorage.getItem(ANCHOR_DISMISS_KEY);
+      if (dismissedUntil) {
+        const remaining = parseInt(dismissedUntil, 10) - Date.now();
+        if (remaining > 0) {
+          const hours = (remaining / (1000 * 60 * 60)).toFixed(2);
+          logMessage(`Sticky Anchor Dismissal: ACTIVE (expires in ${hours} hours)`, 'warn');
+        } else {
+          logMessage('Sticky Anchor Dismissal: EXPIRED (will show on next load)', 'info');
+        }
+      } else {
+        logMessage('Sticky Anchor Dismissal: NOT DISMISSED (will show now)', 'info');
+      }
+    }
+
+    document.getElementById('btn-reset-dismissal').addEventListener('click', () => {
+      localStorage.removeItem('cc-anchor-dismissed-until');
+      logMessage('Dismissal lock reset! Please reload the page to see the anchor ad.', 'success');
+      // Trigger reload simulation or reload directly
+      setTimeout(() => {
+        window.location.reload();
+      }, 800);
+    });
+
+    // Run diagnostics on load
+    window.addEventListener('DOMContentLoaded', () => {
+      runDiagnostics();
+    });
+  </script>
+</body>
+</html>
