@@ -812,16 +812,18 @@ tbody tr:hover { background: var(--bg-surface); }
 
 .email-capture-form-wrap {
   flex: 1;
-  min-width: 260px;
+  min-width: 100%;
 }
 
 .ec-input-row {
   display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
 .ec-input {
-  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 9px 12px;
@@ -843,6 +845,8 @@ tbody tr:hover { background: var(--bg-surface); }
 }
 
 .ec-btn {
+  width: 100%;
+  box-sizing: border-box;
   padding: 9px 16px;
   background: var(--green);
   color: white;
