@@ -121,6 +121,13 @@ CompoundCalc is a free, production-ready compound interest calculator built for 
 - **Stacked Area Chart**: Replaced standard bar charts with a smooth line stacked area chart using Chart.js with bezier curves (`tension: 0.4`), zero-point markers, and translucent color gradients.
 - **Interactive Legends**: Implemented a responsive custom HTML legend row supporting instant toggling of the inflation-adjusted "Real value" overlay layer.
 
+### Sprint 11 — CRO & Conversion Improvements
+**Status:** ✅ Complete
+- Removed Calculate button from all three calculator pages; confirmed live auto-calculation on all input events
+- Hardened email form suppression: permanent suppression after 2 dismissals via `cc_dismiss_count` localStorage key
+- Added persistent floating CTA pill on mobile: appears 4s after load, hides on form trigger or successful subscribe
+- Added EasyEquities affiliate CTA block to all 6 blog articles with GA4 event tracking
+
 ---
 
 ## 4. Current File Structure

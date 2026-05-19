@@ -117,15 +117,7 @@
             <option value="EUR">EUR — Euro</option>
           </select>
         </div>
-        <button id="calculate-btn" class="btn-calculate" onclick="handleCalculate()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path
-              d="M11 15h2m-2 4h2M11 11h2M7 11h2m-2 4h2m-2 4h2M15 11h2m-2 4h2m-2 4h2M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z">
-            </path>
-          </svg>
-          <span>Calculate</span>
-        </button>
+
         <button class="btn-clear" onclick="clearInputs()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
@@ -593,6 +585,24 @@
   <script src="/assets/js/share.js"></script>
   <script src="/assets/js/calculator.js"></script>
   <script src="/assets/js/ui.js" defer></script>
+  <!-- ══════════════════════════════════════════════════
+       MOBILE FLOATING CTA PILL
+       Visible on mobile only, hidden after email captured
+       or after email form becomes visible in the page
+       ══════════════════════════════════════════════════ -->
+  <div id="mobile-cta-pill" class="mobile-cta-pill hidden" role="complementary">
+    <span class="pill-icon">📩</span>
+    <span class="pill-text">Get your free PDF projection</span>
+    <button
+      class="pill-btn"
+      onclick="scrollToEmailCapture()"
+      type="button"
+      aria-label="Get your free PDF projection"
+    >
+      Get it free
+    </button>
+  </div>
+
 </body>
 
 </html>

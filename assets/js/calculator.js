@@ -652,6 +652,8 @@ function triggerEmailCaptureNow() {
   if (ecShown) return;
   if (ecDismissed) return;
   if (localStorage.getItem(EC_STORAGE_KEY)) return;
+  const dismissCount = parseInt(localStorage.getItem('cc_dismiss_count') || '0', 10);
+  if (dismissCount >= 2) return;
 
   setTimeout(() => {
     showEmailCapture();
@@ -662,6 +664,8 @@ function maybeShowEmailCapture() {
   // Don't show if already shown, dismissed, or previously submitted
   if (ecShown || ecDismissed) return;
   if (localStorage.getItem(EC_STORAGE_KEY)) return;
+  const dismissCount = parseInt(localStorage.getItem('cc_dismiss_count') || '0', 10);
+  if (dismissCount >= 2) return;
 
   // Both conditions must be true
   if (ecCalculationRan && ecTimerFired) {
@@ -675,12 +679,68 @@ function showEmailCapture() {
   el.classList.remove('hidden');
   ecShown = true;
   el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  
+  // Hide mobile floating pill if the capture form is shown
+  hideMobilePill();
 }
 
 function dismissEmailCapture() {
   const el = document.getElementById('email-capture');
   if (el) el.classList.add('hidden');
   ecDismissed = true;
+  
+  // Increment dismissal count for pop-up suppression
+  let dismissCount = parseInt(localStorage.getItem('cc_dismiss_count') || '0', 10);
+  dismissCount++;
+  localStorage.setItem('cc_dismiss_count', dismissCount.toString());
+  
+  // Hide mobile floating pill on dismissal
+  hideMobilePill();
+}
+
+function scrollToEmailCapture() {
+  const form = document.getElementById('email-capture');
+  const pill = document.getElementById('mobile-cta-pill');
+
+  if (form && !form.classList.contains('hidden')) {
+    // Form already visible — just scroll to it
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    // Force-show the email form, then scroll to it
+    showEmailCapture();
+    setTimeout(() => {
+      if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 450); // wait for slide-in animation
+  }
+
+  // Hide the pill once tapped
+  if (pill) pill.classList.add('hidden');
+}
+
+function hideMobilePill() {
+  const pill = document.getElementById('mobile-cta-pill');
+  if (pill) pill.classList.add('hidden');
+}
+
+function initMobilePill() {
+  // Mobile only check (<= 640px)
+  if (window.innerWidth > 640) return;
+
+  setTimeout(() => {
+    // Don't show if email already captured or dismissed >= 2 times
+    if (localStorage.getItem(EC_STORAGE_KEY)) return;
+    const dismissCount = parseInt(localStorage.getItem('cc_dismiss_count') || '0', 10);
+    if (dismissCount >= 2) return;
+    
+    // Also don't show if the email capture container is already visible
+    const ecContainer = document.getElementById('email-capture');
+    if (ecContainer && !ecContainer.classList.contains('hidden')) return;
+
+    const pill = document.getElementById('mobile-cta-pill');
+    if (pill) {
+      pill.classList.remove('hidden');
+    }
+  }, 4000);
 }
 
 function acceptCookies() {
@@ -735,6 +795,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ecTimerFired = true;
     maybeShowEmailCapture();
   }, 30000);
+
+  // Initialize Mobile CTA Floating Pill
+  initMobilePill();
 });
 
 // ── CONFIGURATION ─────────────────────────────────────
@@ -818,6 +881,7 @@ function showECSuccess() {
   document.getElementById('ec-form-state').classList.add('hidden');
   document.getElementById('ec-success-state').classList.remove('hidden');
   document.getElementById('ec-error-state').classList.add('hidden');
+  hideMobilePill();
 }
 
 function showECError(msg) {
