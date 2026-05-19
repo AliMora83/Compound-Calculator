@@ -264,51 +264,68 @@
           </div>
 
           <div class="results-panel">
-            <div class="metric-grid animated" id="g-cards">
-              <div class="metric-card accent">
-                <div class="metric-label">Final balance</div>
-                <div class="metric-value" id="g-final">—</div>
-                <div class="metric-sub" id="g-real-row" style="display:none">Real value: <span id="g-real">—</span>
+            <!-- ══════════════════════════════════════════════════
+                 PORTFOLIO HEADER — unified metrics container
+                 Replaces: 4 separate metric cards + ad-leaderboard slot
+                 ══════════════════════════════════════════════════ -->
+            <div class="portfolio-header" id="results-container">
+              <!-- Top row: primary value + ROI badge -->
+              <div class="portfolio-header-top">
+                <div class="portfolio-primary">
+                  <span class="portfolio-label">FINAL BALANCE</span>
+                  <span class="portfolio-value" id="result-balance">—</span>
+                  <div class="portfolio-real-value" id="g-real-row" style="display:none">
+                    Real value: <span id="g-real">—</span>
+                  </div>
+                </div>
+                <div class="portfolio-roi-badge" id="result-roi-badge">
+                  <span id="result-roi">0%</span>
+                  <span class="roi-sublabel">ROI</span>
                 </div>
               </div>
-              <div class="metric-card">
-                <div class="metric-label">You contribute</div>
-                <div class="metric-value" id="g-contributed">—</div>
+
+              <!-- Divider -->
+              <div class="portfolio-divider"></div>
+
+              <!-- Bottom row: secondary metrics -->
+              <div class="portfolio-secondary-row">
+                <div class="portfolio-secondary-metric">
+                  <span class="portfolio-secondary-label">YOU CONTRIBUTE</span>
+                  <span class="portfolio-secondary-value" id="result-contributions">—</span>
+                </div>
+                <div class="portfolio-secondary-metric">
+                  <span class="portfolio-secondary-label">INTEREST EARNED</span>
+                  <span class="portfolio-secondary-value" id="result-interest">—</span>
+                </div>
               </div>
-              <div class="metric-card">
-                <div class="metric-label">Interest earned</div>
-                <div class="metric-value" id="g-interest">—</div>
+            </div>
+            <!-- END PORTFOLIO HEADER -->
+
+            <div class="chart-wrapper">
+              <!-- Custom legend -->
+              <div class="chart-legend-row">
+                <div class="chart-legend-item">
+                  <span class="chart-legend-dot" style="background:#16a34a;"></span>
+                  Interest
+                </div>
+                <div class="chart-legend-item">
+                  <span class="chart-legend-dot" style="background:#4ade80;"></span>
+                  Contributions
+                </div>
+                <div class="chart-legend-item">
+                  <span class="chart-legend-dot" style="background:#bbf7d0; border: 1px solid #86efac;"></span>
+                  Principal
+                </div>
+                <div class="chart-legend-item" id="legend-real" style="display:none">
+                  <span class="chart-legend-dot" style="background:#f97316;"></span>
+                  Real value
+                </div>
               </div>
-              <div class="metric-card" id="roi-card">
-                <div class="metric-label">Return on investment</div>
-                <div class="metric-value" id="g-roi">—</div>
-              </div>
+
+              <canvas id="growChart"></canvas>
             </div>
 
             <div class="milestones" id="g-milestones"></div>
-
-            <!-- Ad Leaderboard Slot -->
-            <div class="ad-slot ad-leaderboard" id="ad-leaderboard" aria-hidden="true">
-              <ins class="adsbygoogle"
-                   style="display:block"
-                   data-ad-client="ca-pub-6017523378494978"
-                   data-ad-slot="1000000001"
-                   data-ad-format="auto"
-                   data-full-width-responsive="true"></ins>
-              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
-
-            <div class="chart-box">
-              <div class="chart-legend">
-                <div class="legend-item"><span class="legend-swatch" style="background:#16a34a"></span>Interest</div>
-                <div class="legend-item"><span class="legend-swatch" style="background:#86efac"></span>Contributions
-                </div>
-                <div class="legend-item"><span class="legend-swatch" style="background:#d1d5db"></span>Principal</div>
-                <div class="legend-item legend-item-real" id="legend-real" style="display:none"><span
-                    class="legend-swatch" style="background:#f97316;opacity:0.7"></span>Real value</div>
-              </div>
-              <div class="chart-container"><canvas id="growChart"></canvas></div>
-            </div>
 
             <!-- Cost of Delay Panel -->
             <div class="delay-cost-panel animated">

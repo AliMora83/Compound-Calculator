@@ -5,7 +5,7 @@
 **Stack:** Vanilla HTML · CSS · JavaScript (no framework)  
 **Hosting:** Netlify  
 **Owner:** Ali Mora · ali@openmindi.co.za  
-**Last updated:** 2026-05-15
+**Last updated:** 2026-05-19
 
 > **Purpose of this file**  
 > This is the single source of truth for what has been built, what decisions were made, and what still needs to be done. It is written so that an AI assistant (Claude, Antigravity, or similar) can read it cold and immediately guide the next sprint without needing prior context.
@@ -21,7 +21,7 @@ CompoundCalc is a free, production-ready compound interest calculator built for 
 - **Compare Investments** — side-by-side two-scenario comparison
 - **Milestone badges** — auto-calculates the year your balance hits 2×, 5×, and 10× your initial investment
 - **Lead capture + PDF delivery** — slide-in email form (triggered after 30 s engagement + 1 calculation) generates a custom PDF via `jsPDF` + `html2canvas` and delivers it via Brevo transactional email
-- **Blog** — 3 live SEO articles covering compound interest, the Rule of 72, and saving R1 million
+- **Blog** — 6 live SEO-optimized articles covering compound interest, the Rule of 72, TFSA, ETFs, and monthly saving tips
 
 ---
 
@@ -31,10 +31,10 @@ CompoundCalc is a free, production-ready compound interest calculator built for 
 |---|---|
 | Markup | Vanilla HTML5 (multi-page, no framework) |
 | Styling | Vanilla CSS3 — `styles.css` (global), `footer.css` (footer/scroll-to-top), `blog.css` (blog layout) |
-| Logic | Vanilla JS ES6+ — `calculator.js` (core logic), `ui.js` (scroll-to-top + mobile menu), `blog.js` (TOC + share) |
+| Logic | Vanilla JS ES6+ — `calculator.js` (core financial logic, charts, custom legends, and email capture), `ui.js` (scroll-to-top + mobile menu), `blog.js` (TOC + share) |
 | Charting | Chart.js via CDN |
 | PDF | jsPDF + html2canvas via CDN |
-| Email / CRM | Brevo API (contacts sync + transactional SMTP) |
+| Email / CRM | Brevo API (contacts sync + transactional SMTP via Netlify Serverless Function proxy) |
 | Analytics | Google Analytics 4 — `G-NJMYWPLFSH` ✅ |
 | Ads | Google AdSense — `ca-pub-6017523378494978` (pending review) |
 | Fonts | DM Sans + DM Mono (Google Fonts) |
@@ -58,18 +58,16 @@ CompoundCalc is a free, production-ready compound interest calculator built for 
 - PDF projection report generated client-side (jsPDF + html2canvas): includes scenario metrics, chart snapshot, milestone badges, and year-by-year table
 - Brevo integration: auto-sync new contacts and send PDF via transactional email
 - GA4 custom event tracking wired to calculation and PDF download actions
-- ⚠️ **Known issue**: Brevo API key is currently hardcoded in `calculator.js` — must be moved to a server-side proxy before high-traffic launch
 
 ### Sprint 3 — Blog & SEO
 **Status:** ✅ Complete  
 - Created `/blog/` section with listing page and 3 SEO-optimised articles:
-  - `compound-interest-south-africa.html` — 5 min read, targets "compound interest calculator South Africa"
-  - `rule-of-72.html` — 4 min read, targets "rule of 72"
-  - `how-long-to-save-1-million-rand.html` — 5 min read, targets "how long to save 1 million rand"
-- Each article has: article hero, two-column layout (article body + sidebar), inline Rule-of-72 mini-calculator (sidebar), TOC with smooth-scroll via `blog.js`, WhatsApp share + copy-link buttons
+  - `compound-interest-south-africa.html` — targets "compound interest calculator South Africa"
+  - `rule-of-72.html` — targets "rule of 72"
+  - `how-long-to-save-1-million-rand.html` — targets "how long to save 1 million rand"
+- Each article has: article hero, two-column layout (article body + sidebar), inline Rule-of-72 mini-calculator (sidebar), TOC with smooth-scroll, share options
 - Blog listing redesigned to 3-column card grid with generated images
-- `sitemap.xml` updated to include all blog URLs
-- `robots.txt` in place
+- `sitemap.xml` updated to include all blog URLs; `robots.txt` in place
 
 ### Sprint 4 — UI Polish & Global Refactor
 **Status:** ✅ Complete  
@@ -82,18 +80,46 @@ CompoundCalc is a free, production-ready compound interest calculator built for 
 ### Sprint 5 — Footer & Scroll-to-Top Standardisation
 **Status:** ✅ Complete  
 - Extracted footer styles into dedicated `assets/css/footer.css`
-- Created `assets/js/ui.js` — handles scroll-to-top visibility (800 px threshold) and mobile menu toggle
-- Standardised footer design across **all 11 pages**: dark green `#14532d` background, white text, two-column link layout (Quick Menu + Company), copyright + disclaimer bar
-- Standardised scroll-to-top button markup across all pages (`scroll-top-wrap` / `scroll-top-btn` / `scroll-top-circle`)
-- Fixed `rule-of-72.html` legacy issues: old footer classes, `.html` nav extensions (404 risk), broken JSON in `#toc-map`, missing `ui.js` script
-- Fixed `about.html`: duplicate inline mobile-menu `<script>` block removed (was causing double-toggle bug)
-- Fixed sidebar ID mismatch in `how-long-to-save-1-million-rand.html` (`goal-monthly` → `sidebar-goal-monthly`)
-- Added SEO meta tags to `about.html`: `robots`, `canonical`, Open Graph, Twitter Card
+- Created `assets/js/ui.js` — handles scroll-to-top visibility and mobile menu toggle
+- Standardised footer design across **all 11 pages**
+- Standardised scroll-to-top button markup across all pages
+- Fixed legacy issues in `rule-of-72.html` and duplication in `about.html`
+- Added SEO meta tags to `about.html`
 
 ### Sprint 6 — Monetisation Setup
 **Status:** ✅ Complete  
 - Google AdSense snippet (`ca-pub-6017523378494978`) added to `<head>` of all 11 HTML pages
-- Site submitted for AdSense review ("Your site needs review" status — awaiting Google approval)
+- Site submitted for AdSense review
+
+### Sprint 7 — SEO & Content Expansion
+**Status:** ✅ Complete  
+- Created 3 new SEO-optimized blog articles targeting ZA-specific personal finance keywords:
+  - `tax-free-savings-account-calculator-south-africa.html` (TFSA)
+  - `etfs-vs-traditional-savings-accounts.html` (ETFs vs Savings)
+  - `maximize-compound-interest-monthly-savings.html` (Monthly savings optimization)
+- Added custom AI-generated graphics for new blog cards (`blog_tfsa.png`, `blog_etf_vs_savings.png`, `blog_monthly_savings.png`).
+- Set up linking keywords back to the main compound interest calculator.
+
+### Sprint 8 — Quick Fixes & Affiliate Integrations
+**Status:** ✅ Complete  
+- Replaced Google Analytics 4 placeholders with the live Measurement ID (`G-NJMYWPLFSH`) across all 11 HTML pages.
+- Swapped temporary affiliate links for the active EasyEquities URL (`https://bit.ly/4wsBTNT`) in `index.html`, `calculator.js`, and `generate_blogs.py`.
+- Solved layout & overflow issues with the email capture form inside the fixed `300px` sidebar by restructuring it into a vertical column stack with proper `box-sizing: border-box`.
+
+### Sprint 9 — Brevo API Security (Serverless Proxy)
+**Status:** ✅ Complete  
+- Created a Netlify serverless function (`netlify/functions/send-pdf.mts`) to proxy Brevo API calls safely.
+- Moved the sensitive Brevo API Key into Netlify environment configuration (`BREVO_API_KEY`), removing all client-side security leaks.
+- Refactored `calculator.js` to trigger proxy endpoint (`/api/send-pdf`) seamlessly.
+
+### Sprint 10 — Results Panel Redesign
+**Status:** ✅ Complete  
+- **Unified Portfolio Header**: Replaced 4 isolated metric cards with a cohesive dark-green-to-emerald gradient dashboard (`#14532d` to `#059669`).
+- **Glassmorphism ROI Badge**: Positioned ROI as an interactive floating badge in the top-right corner.
+- **Fluid Typography**: Engineered the Final Balance as the primary focal metric using `clamp()` for elegant cross-device scaling.
+- **Balanced Layout**: Split "You Contribute" and "Interest Earned" as balanced, secondary metrics below a clean white separator line.
+- **Stacked Area Chart**: Replaced standard bar charts with a smooth line stacked area chart using Chart.js with bezier curves (`tension: 0.4`), zero-point markers, and translucent color gradients.
+- **Interactive Legends**: Implemented a responsive custom HTML legend row supporting instant toggling of the inflation-adjusted "Real value" overlay layer.
 
 ---
 
@@ -123,14 +149,21 @@ CompCalc/
 │   ├── logo.png
 │   └── favicon.png
 ├── blog/
-│   ├── index.html                    # Blog listing (3-column card grid)
+│   ├── index.html                    # Blog listing (6-column card grid)
 │   ├── compound-interest-south-africa.html
 │   ├── rule-of-72.html
 │   ├── how-long-to-save-1-million-rand.html
+│   ├── tax-free-savings-account-calculator-south-africa.html
+│   ├── etfs-vs-traditional-savings-accounts.html
+│   ├── maximize-compound-interest-monthly-savings.html
 │   └── blog-template.html            # Blank template for new articles
+├── netlify/
+│   └── functions/
+│       └── send-pdf.mts              # Serverless Brevo Proxy function
 └── md/
     ├── Master.md                     # THIS FILE
-    └── CompCalc-Footer-AG.md         # Footer design specification (archived)
+    ├── CompCalc-Footer-AG.md         # Footer design specification (archived)
+    └── CompCalc-ResultsRedesign-AG.md # Results layout specification (archived)
 ```
 
 ---
@@ -139,67 +172,40 @@ CompCalc/
 
 | Priority | Issue | Location | Notes |
 |---|---|---|---|
-| 🔴 High | Brevo API key hardcoded in client-side JS | `assets/js/calculator.js` | Must move to Netlify serverless function before scaling traffic |
-| 🟡 Medium | GA4 Measurement ID is placeholder `G-XXXXXXXXXX` | All HTML pages | Replace with live GA4 ID once property is fully configured |
 | 🟡 Medium | `switchTab()` detects active tab by reading `onclick` string | `calculator.js` | Fragile — refactor to use `data-tab` attribute |
 | 🟡 Medium | `clearInputs()` resets Compare tab rates incorrectly | `calculator.js` | Should restore original defaults (5% / 8%) not `8` / `8` |
 | 🟢 Low | `<br />` used for vertical spacing in prose pages | `about.html`, `terms-of-service.html`, `privacy-policy.html` | Replace with CSS `margin-top` on headings |
 | 🟢 Low | Missing OG/Twitter Card meta on `privacy-policy.html`, `terms-of-service.html`, blog pages | Multiple | Add for social sharing previews |
 | 🟢 Low | AdSense status pending — no ad units placed yet | All pages | Place `<ins class="adsbygoogle">` units once account approved |
+| 🟢 Low | Brevo API key hardcoded in client-side JS | `assets/js/calculator.js` | ✅ Resolved in Sprint 9 via Netlify serverless function proxy |
+| 🟢 Low | GA4 Measurement ID is placeholder `G-XXXXXXXXXX` | All HTML pages | ✅ Resolved in Sprint 8 with live measurement ID |
 
 ---
 
 ## 6. Next Sprint — Recommendations
 
-### Sprint 7: SEO & Content Expansion (Highest Impact)
+### Sprint 11: Conversion Rate Optimisation (CRO) & Personalisation
 
-The site has strong technical SEO foundations (sitemap, robots.txt, canonical tags, OG tags on key pages). The next lever for organic growth is content and backlinks.
+1. **A/B test email capture trigger**: try displaying the slide-in form based on scroll depth or after a user updates input values multiple times.
+2. **Persistent CTA**: add a persistent "Get your free projection" floating pill CTA on mobile screens.
+3. **Suppress Form for Returning Users**: implement `localStorage` to remember returning visitors who have already subscribed, avoiding intrusive form popups.
+4. **Integrate EasyEquities Referral Callouts**: place clean, native referral banners inside relevant blog articles and directly below the main calculator results card.
 
-**Recommended tasks:**
+### Sprint 12: Refactoring & Technical Debt Resolution
 
-1. **Add 2–3 new blog articles** targeting high-volume ZA personal finance keywords:
-   - "Tax-free savings account calculator South Africa" (TFSA)
-   - "ETF vs savings account South Africa"
-   - "How much should I save per month South Africa"
-
-2. **Internal linking** — weave more `<a href="/">` CTA links within blog article body copy pointing back to the calculator
-
-3. **Schema markup** — add `FAQPage` and `HowTo` JSON-LD structured data to blog articles to improve Google rich-result eligibility
-
-4. **Google Search Console** — submit `sitemap.xml`, monitor index coverage and Core Web Vitals
-
-### Sprint 8: AdSense & Revenue Setup
-
-1. Check AdSense approval status
-2. Once approved, design and place ad units:
-   - Leaderboard (`728×90`) below the main nav on calculator pages
-   - In-article rectangle (`336×280`) after the second `<h2>` in blog articles
-   - Sidebar sticky unit (`300×250`) in blog sidebar
-3. Implement Auto Ads as fallback
-
-### Sprint 9: Brevo API Security
-
-1. Create a Netlify serverless function (`/netlify/functions/send-pdf.js`) to proxy Brevo API calls
-2. Move API key to Netlify environment variable (`BREVO_API_KEY`)
-3. Update `calculator.js` to call `/api/send-pdf` instead of Brevo directly
-4. Test end-to-end email delivery in staging
-
-### Sprint 10: Conversion Rate Optimisation (CRO)
-
-1. A/B test email capture trigger: currently 30 s + 1 calculation — try "after chart renders" as alternative
-2. Add a persistent "Get your free projection" floating CTA (mobile-friendly pill button)
-3. Add affiliate CTA cards (EasyEquities, Trading 212) inline within blog articles and below the calculator results panel
-4. Implement `localStorage` to remember returning visitors and suppress email form on repeat visits
+1. **Robust Tab Switcher**: Refactor `switchTab()` to read `data-tab` attributes on trigger buttons rather than parsing raw string contents from the `onclick` handler.
+2. **Fix Default Reset Logic**: Fix `clearInputs()` to properly restore Compare tab defaults to their correct original state (`5%` / `8%`).
+3. **Clean Spacing**: Remove legacy `<br />` breaks on legal and about pages, standardizing visual layout with semantic CSS margins.
 
 ---
 
-## 7. Affiliate Integrations (Planned)
+## 7. Affiliate Integrations
 
-| Partner | Link Type | Placement |
-|---|---|---|
-| EasyEquities | CPA referral | Calculator results panel + blog articles |
-| Trading 212 | CPA referral | Calculator results panel + blog articles |
-| 10X Investments | Display/referral | Blog sidebar |
+| Partner | Link Type | Placement | Status |
+|---|---|---|---|
+| EasyEquities | CPA referral | Calculator results panel + blog articles | ✅ Live (`https://bit.ly/4wsBTNT`) |
+| Trading 212 | CPA referral | Calculator results panel + blog articles | 🔲 Not yet applied |
+| 10X Investments | Display/referral | Blog sidebar | 🔲 Not yet applied |
 
 ---
 
@@ -208,7 +214,7 @@ The site has strong technical SEO foundations (sitemap, robots.txt, canonical ta
 | Channel | Status |
 |---|---|
 | Google AdSense | ⏳ Pending review |
-| EasyEquities affiliate | 🔲 Not yet applied |
+| EasyEquities affiliate | ✅ Live (Sprint 8) |
 | Trading 212 affiliate | 🔲 Not yet applied |
 | Direct sponsorship | 🔲 Not explored |
 
@@ -218,7 +224,10 @@ The site has strong technical SEO foundations (sitemap, robots.txt, canonical ta
 
 | Commit | Summary |
 |---|---|
-| `a2ee60a` | feat: add Google AdSense script to all pages |
+| `5be8071` | Fix email capture form layout and overflow issues (Sprint 8) |
+| `3a3d2e2` | feat: move Brevo API calls to Netlify serverless proxy (Sprint 9) |
+| `9a6e591` | fix: replace GA4 placeholder and EasyEquities affiliate link (Sprint 8) |
+| `a2ee60a` | feat: add Google AdSense script to all pages (Sprint 6) |
 | `4313eda` | feat: standardise footer, scroll-to-top, and nav across all pages |
 | `6b9cf54` | refactor: delete savings-calculator.html and remove tab nav buttons |
 | `44def78` | fix: standardise currency selector to dropdown across all calculator pages |

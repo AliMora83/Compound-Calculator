@@ -148,11 +148,11 @@ function computeGrow() {
   growData = simulate(P, monthly, rate, years, n);
   const last = growData[growData.length - 1];
 
-  animateValue('g-final', last.balance, true);
-  animateValue('g-interest', last.interest, true);
-  animateValue('g-contributed', last.contributions, true);
+  animateValue('result-balance', last.balance, true);
+  animateValue('result-interest', last.interest, true);
+  animateValue('result-contributions', last.contributions, true);
   const roi = last.contributions > 0 ? ((last.balance - last.contributions) / last.contributions * 100) : 0;
-  $('g-roi').textContent = pct(roi);
+  $('result-roi').textContent = pct(roi);
 
   if (useInflation) {
     const real = realValue(last.balance, inflationRate, years);
@@ -201,23 +201,143 @@ function renderGrowChart(data, P, useInflation, inflationRate) {
   const interestArr = data.map(r => Math.round(r.interest));
   const realArr = useInflation ? data.map(r => Math.round(realValue(r.balance, inflationRate, r.year))) : null;
 
-  const datasets = [
-    { label: 'Interest', data: interestArr, backgroundColor: '#16a34a', stack: 's' },
-    { label: 'Contributions', data: contribArr, backgroundColor: '#86efac', stack: 's' },
-    { label: 'Principal', data: principalArr, backgroundColor: '#d1d5db', stack: 's' }
-  ];
-  if (realArr) datasets.push({ label: 'Real value', data: realArr, backgroundColor: 'rgba(249,115,22,0.15)', borderColor: '#f97316', borderWidth: 2, type: 'line', stack: undefined, tension: 0.4, pointRadius: 0 });
-
   if (growChart) {
-    growChart.data.labels = labels;
-    growChart.data.datasets = datasets;
-    growChart.update('active');
-  } else {
-    const ctx = $('growChart');
-    if (ctx) {
-      growChart = new Chart(ctx, { type: 'bar', data: { labels, datasets }, options: chartOpts() });
-    }
+    growChart.destroy();
   }
+
+  const canvas = $('growChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function makeGradient(colorTop, colorBottom) {
+    const grad = ctx.createLinearGradient(0, 0, 0, 340);
+    grad.addColorStop(0, colorTop);
+    grad.addColorStop(1, colorBottom);
+    return grad;
+  }
+
+  const datasets = [
+    {
+      label: 'Interest',
+      data: interestArr,
+      backgroundColor: makeGradient('rgba(22, 163, 74, 0.55)', 'rgba(22, 163, 74, 0.05)'),
+      borderColor: '#16a34a',
+      borderWidth: 2,
+      fill: 'stack',
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: '#16a34a',
+    },
+    {
+      label: 'Contributions',
+      data: contribArr,
+      backgroundColor: makeGradient('rgba(134, 239, 172, 0.6)', 'rgba(134, 239, 172, 0.08)'),
+      borderColor: '#4ade80',
+      borderWidth: 1.5,
+      fill: 'stack',
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointHoverBackgroundColor: '#4ade80',
+    },
+    {
+      label: 'Principal',
+      data: principalArr,
+      backgroundColor: makeGradient('rgba(209, 250, 229, 0.7)', 'rgba(209, 250, 229, 0.15)'),
+      borderColor: '#bbf7d0',
+      borderWidth: 1,
+      fill: 'origin',
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointHoverBackgroundColor: '#86efac',
+    }
+  ];
+
+  if (realArr) {
+    datasets.push({
+      label: 'Real value',
+      data: realArr,
+      borderColor: '#f97316',
+      borderWidth: 2.5,
+      type: 'line',
+      fill: false,
+      stack: 'real',
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: '#f97316',
+    });
+  }
+
+  growChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: datasets
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2.4,
+      interaction: {
+        mode: 'index',
+        intersect: false,
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          backgroundColor: '#111827',
+          titleColor: '#f9fafb',
+          bodyColor: '#d1d5db',
+          padding: 12,
+          cornerRadius: 8,
+          displayColors: true,
+          callbacks: {
+            title: (items) => `Year ${items[0].label.replace('Yr ', '')}`,
+            label: (item) => {
+              const sym = getCurrentCurrencySymbol();
+              return ` ${item.dataset.label}: ${sym}${Math.round(item.raw).toLocaleString()}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          grid: { display: false },
+          border: { display: false },
+          ticks: {
+            color: '#9ca3af',
+            font: { size: 11 },
+            maxTicksLimit: 8,
+            maxRotation: 0,
+          }
+        },
+        y: {
+          stacked: true,
+          grid: {
+            color: '#f3f4f6',
+            drawBorder: false,
+          },
+          border: { display: false, dash: [4, 4] },
+          ticks: {
+            color: '#9ca3af',
+            font: { size: 11 },
+            callback: (val) => {
+              const sym = getCurrentCurrencySymbol();
+              if (val >= 1_000_000) return sym + (val / 1_000_000).toFixed(1) + 'M';
+              if (val >= 1_000)     return sym + (val / 1_000).toFixed(0) + 'k';
+              return sym + val;
+            }
+          }
+        }
+      }
+    }
+  });
 }
 
 function buildGrowTable(data, P, useInflation, inflationRate) {
