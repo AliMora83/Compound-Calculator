@@ -3,36 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- Primary SEO -->
-  <title>Investment Goal Calculator | Reach Your Savings Target | CompoundCalc</title>
-  <meta name="description" content="Calculate exactly how long it will take to reach your financial goals. Set a target, starting balance, and monthly contribution to see your timeline.">
+  <title>Retirement Calculator South Africa | Will You Have Enough? | CompoundCalc</title>
+  <meta name="description" content="Find out if you're on track to retire. Enter your age, savings, and monthly contribution to see your projected balance versus the fund you'll need.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://compoundcalc.co.za/investment-goal-calculator">
+  <link rel="canonical" href="https://compoundcalc.co.za/retirement-calculator">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Investment Goal Calculator — CompoundCalc.co.za">
-  <meta property="og:description" content="How long will it take to save R1 Million? Find out with our interactive goal calculator.">
+  <meta property="og:title" content="Retirement Calculator — CompoundCalc.co.za">
+  <meta property="og:description" content="Will you have enough to retire? See your projected balance against the lump sum you'll need, free and instant.">
   <meta property="og:image" content="https://compoundcalc.co.za/assets/og-image.png">
-  <meta property="og:url" content="https://compoundcalc.co.za/investment-goal-calculator">
+  <meta property="og:url" content="https://compoundcalc.co.za/retirement-calculator">
   <meta property="og:type" content="website">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Investment Goal Calculator — CompoundCalc.co.za">
-  <meta name="twitter:description" content="Reverse-calculate your savings goals. See how many years you need to reach your target.">
+  <meta name="twitter:title" content="Retirement Calculator — CompoundCalc.co.za">
+  <meta name="twitter:description" content="Free South African retirement calculator. See your funding gap and what it takes to close it.">
   <meta name="twitter:image" content="https://compoundcalc.co.za/assets/og-image.png">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
+
   <!-- Styles -->
   <link rel="stylesheet" href="/assets/css/styles.css">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
 
   <!-- Chart.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-  
+
   <!-- PDF Export Libs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -59,9 +59,9 @@
       </a>
       <nav class="nav-links">
         <a href="/">Home</a>
-        <a href="/investment-goal-calculator" class="active">Goal Calculator</a>
+        <a href="/investment-goal-calculator">Goal Calculator</a>
         <a href="/compare-investments">Compare</a>
-        <a href="/retirement-calculator">Retirement</a>
+        <a href="/retirement-calculator" class="active">Retirement</a>
         <a href="/blog/">Blog</a>
       </nav>
       <button class="mobile-menu-btn">
@@ -73,8 +73,8 @@
   <main>
     <div class="calc-wrap">
       <div class="calc-header">
-        <h1>Investment Goal Calculator</h1>
-        <p>Reverse-calculate your target. How many years until you reach your goal?</p>
+        <h1>Retirement Calculator</h1>
+        <p>Will you have enough to retire? Enter your details to find your number.</p>
       </div>
 
       <div class="action-bar">
@@ -98,57 +98,92 @@
         </button>
       </div>
 
-      <div id="tab-goal" class="tab-panel active">
+      <div id="tab-retire" class="tab-panel active">
         <div class="layout">
           <div class="input-panel">
+
+            <p class="input-section-label">YOUR SITUATION</p>
+
             <div class="field">
-              <label>Savings target</label>
-              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="goal-target" value="500000" min="0"></div>
+              <label>Current age</label>
+              <div class="input-row"><input type="number" id="ret-current-age" value="30" min="18" max="80"><span class="input-prefix">yrs</span></div>
             </div>
             <div class="field">
-              <label>Starting principal</label>
-              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="goal-principal" value="10000" min="0"></div>
+              <label>Retirement age</label>
+              <div class="input-row"><input type="number" id="ret-retirement-age" value="65" min="40" max="85"><span class="input-prefix">yrs</span></div>
+            </div>
+            <div class="field">
+              <label>Current savings</label>
+              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="ret-current-savings" value="50000" min="0"></div>
             </div>
             <div class="field">
               <label>Monthly contribution</label>
-              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="goal-monthly" value="500" min="0"></div>
+              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="ret-monthly-contribution" value="3000" min="0"></div>
             </div>
             <div class="field">
-              <label>Annual interest rate</label>
-              <div class="input-row"><input type="number" id="goal-rate" value="7" min="0" max="100" step="0.1"><span class="input-prefix">%</span></div>
+              <label>Expected annual return</label>
+              <div class="input-row"><input type="number" id="ret-annual-return" value="10" min="1" max="30" step="0.1"><span class="input-prefix">%</span></div>
+            </div>
+
+            <div class="input-divider"></div>
+
+            <p class="input-section-label">RETIREMENT NEEDS</p>
+
+            <div class="field">
+              <label>Monthly expenses in retirement</label>
+              <div class="input-row"><span class="input-prefix">R</span><input type="number" id="ret-monthly-expenses" value="25000" min="1000"></div>
+              <p class="input-hint">How much you'll need per month, in today's money.</p>
             </div>
             <div class="field">
-              <label>Compounding</label>
-              <select id="goal-freq">
-                <option value="1">Annually</option>
-                <option value="4">Quarterly</option>
-                <option value="12" selected>Monthly</option>
-                <option value="365">Daily</option>
-              </select>
+              <label>Inflation rate</label>
+              <div class="input-row"><input type="number" id="ret-inflation-rate" value="5.5" min="0" max="20" step="0.1"><span class="input-prefix">%</span></div>
+              <p class="input-hint">SA average ~5.5%. Used to inflate your expense target.</p>
             </div>
+            <div class="field">
+              <label>Life expectancy</label>
+              <div class="input-row"><input type="number" id="ret-life-expectancy" value="85" min="70" max="110"><span class="input-prefix">yrs</span></div>
+              <p class="input-hint">How long your retirement fund needs to last.</p>
+            </div>
+            <div class="field">
+              <label>Post-retirement return</label>
+              <div class="input-row"><input type="number" id="ret-post-return" value="6" min="1" max="20" step="0.1"><span class="input-prefix">%</span></div>
+              <p class="input-hint">Conservative return on your fund after retirement.</p>
+            </div>
+
           </div>
 
           <div class="results-panel">
-            <div class="goal-result-big animated" id="goal-result-big">
-              <div class="years-num" id="goal-years-num">—</div>
-              <div class="years-label" id="goal-years-label">years to reach your goal</div>
-              <div class="goal-progress"><div class="goal-progress-fill" id="goal-prog-fill" style="width:0%"></div></div>
-              <div style="font-size:0.75rem; color:var(--text-faint); margin-top:6px;" id="goal-prog-label"></div>
+
+            <div id="ret-status-banner" class="ret-status-banner"></div>
+
+            <div class="portfolio-header" id="ret-portfolio-header">
+              <div class="portfolio-header-top">
+                <div class="portfolio-primary">
+                  <span class="portfolio-label">FUND NEEDED AT RETIREMENT</span>
+                  <span class="portfolio-value" id="ret-fund-needed">R0</span>
+                </div>
+                <div class="portfolio-roi-badge">
+                  <span class="roi-value" id="ret-years-to-retire">35</span>
+                  <span class="roi-sublabel">yrs away</span>
+                </div>
+              </div>
             </div>
 
-            <div class="goal-breakdown" id="goal-breakdown">
-              <div class="metric-card">
-                <div class="metric-label">You contribute</div>
-                <div class="metric-value" id="goal-contribute-total">—</div>
+            <div class="ret-stat-row">
+              <div class="ret-stat">
+                <span class="ret-stat-label">Projected balance</span>
+                <span class="ret-stat-value" id="ret-projected-balance">R0</span>
               </div>
-              <div class="metric-card accent">
-                <div class="metric-label">Interest covers</div>
-                <div class="metric-value" id="goal-interest-covers">—</div>
+              <div class="ret-stat">
+                <span class="ret-stat-label">Surplus / deficit</span>
+                <span class="ret-stat-value" id="ret-gap">R0</span>
               </div>
-              <div class="metric-card">
-                <div class="metric-label">Interest share</div>
-                <div class="metric-value" id="goal-interest-pct">—</div>
-              </div>
+            </div>
+
+            <div id="ret-saving-callout" class="ret-saving-callout" style="display:none;">
+              <p class="ret-callout-label">To close the gap, you need to save</p>
+              <p class="ret-callout-amount" id="ret-required-saving">R0/month</p>
+              <p class="ret-callout-sub">in addition to your current <span id="ret-current-contrib-display">R0</span>/month</p>
             </div>
 
             <!-- ══════════════════════════════════════════
@@ -166,8 +201,21 @@
             </div>
 
             <div class="chart-box">
-              <div class="chart-container"><canvas id="goalChart"></canvas></div>
+              <div class="chart-container"><canvas id="retireChart"></canvas></div>
             </div>
+
+            <div class="milestones" id="ret-milestones"></div>
+
+            <!-- Affiliate CTA — 10X Investments (retirement angle) -->
+            <div class="affiliate-cta" id="ret-affiliate-cta">
+              <p>Planning for retirement? 10X Investments offers low-cost retirement annuities built for South Africans.</p>
+              <a href="https://www.10x.co.za" target="_blank" rel="noopener sponsored"
+                 onclick="gtag('event','affiliate_click',{platform:'10x_investments',tab:'retire'})">
+                Explore 10X Retirement Annuities →
+              </a>
+              <small>Affiliate disclosure: we may earn a commission at no cost to you.</small>
+            </div>
+
           </div>
         </div>
       </div>
@@ -244,7 +292,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       if (!params.has('tab')) {
-        switchTab('goal');
+        switchTab('retire');
       }
     });
   </script>

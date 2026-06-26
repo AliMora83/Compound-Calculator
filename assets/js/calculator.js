@@ -94,14 +94,13 @@ function setCurrency(code) {
   });
   
   // Re-run current calculation
-  const activeBtn = document.querySelector('.tab-btn.active');
-  if (!activeBtn) return;
-  const match = activeBtn.getAttribute('onclick')?.match(/'([^']+)'/);
-  if (!match) return;
-  const activeTab = match[1];
+  const activePanel = document.querySelector('.tab-panel.active');
+  if (!activePanel) return;
+  const activeTab = activePanel.id.replace('tab-', '');
   if (activeTab === 'grow') computeGrow();
   if (activeTab === 'goal') computeGoal();
   if (activeTab === 'compare') computeCompare();
+  if (activeTab === 'retire') computeRetire();
 }
 
 // --- Debounced GA4 Events ---
@@ -554,6 +553,7 @@ function switchTab(name) {
   if (name === 'grow') computeGrow();
   if (name === 'goal') computeGoal();
   if (name === 'compare') computeCompare();
+  if (name === 'retire') computeRetire();
   
   // GA4 event
   if (typeof gtag === 'function') {
@@ -633,6 +633,17 @@ function clearInputs() {
     $('goal-monthly').value = 1000;
     $('goal-rate').value = 8;
     computeGoal();
+  } else if (activeTabId === 'tab-retire') {
+    $('ret-current-age').value = 30;
+    $('ret-retirement-age').value = 65;
+    $('ret-current-savings').value = 50000;
+    $('ret-monthly-contribution').value = 3000;
+    $('ret-annual-return').value = 10;
+    $('ret-monthly-expenses').value = 25000;
+    $('ret-inflation-rate').value = 5.5;
+    $('ret-life-expectancy').value = 85;
+    $('ret-post-return').value = 6;
+    computeRetire();
   } else {
     ['ca','cb'].forEach(p => {
       $(p+'-principal').value = 10000;
@@ -760,6 +771,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   ['ca-principal','ca-monthly','ca-rate','ca-years','cb-principal','cb-monthly','cb-rate','cb-years','c-freq'].forEach(id => {
     if ($(id)) $(id).addEventListener('input', () => { computeCompare(); triggerKineticFeedback(); });
+  });
+  ['ret-current-age','ret-retirement-age','ret-current-savings','ret-monthly-contribution','ret-annual-return',
+   'ret-monthly-expenses','ret-inflation-rate','ret-life-expectancy','ret-post-return'].forEach(id => {
+    if ($(id)) $(id).addEventListener('input', () => { computeRetire(); triggerKineticFeedback(); });
   });
 
   // Mobile Menu
@@ -1052,5 +1067,205 @@ async function generateProjectionPDFForEmail() {
 
   // ── Return as base64 (no download) ───────────────────
   return doc.output('datauristring').split(',')[1];
+}
+
+// --- Retirement tab ---
+let retireData  = null; // year-by-year projection
+let retireChart = null; // Chart.js instance
+
+function computeRetire() {
+  const currentAge      = Math.max(0, +$('ret-current-age').value || 30);
+  const retirementAge   = Math.max(0, +$('ret-retirement-age').value || 65);
+  const currentSavings  = Math.max(0, +$('ret-current-savings').value || 0);
+  const monthlyContrib  = Math.max(0, +$('ret-monthly-contribution').value || 0);
+  const annualReturn    = Math.max(0, +$('ret-annual-return').value || 10);
+  const monthlyExpenses = Math.max(0, +$('ret-monthly-expenses').value || 25000);
+  const inflationRate   = Math.max(0, +$('ret-inflation-rate').value || 5.5);
+  const lifeExpectancy  = Math.max(0, +$('ret-life-expectancy').value || 85);
+  const postReturn      = Math.max(0, +$('ret-post-return').value || 6);
+
+  if (retirementAge <= currentAge) {
+    showToast('Retirement age must be greater than current age');
+    return;
+  }
+
+  const yearsToRetire = retirementAge - currentAge;
+  const yearsInRetire = lifeExpectancy - retirementAge;
+
+  if (yearsInRetire <= 0) {
+    showToast('Life expectancy must be greater than retirement age');
+    return;
+  }
+
+  // Inflate today's monthly expenses to the retirement date
+  const inflatedMonthlyExpenses = monthlyExpenses * Math.pow(1 + inflationRate / 100, yearsToRetire);
+
+  // Lump sum needed at retirement — present value of an annuity
+  const monthlyPostReturn  = postReturn / 100 / 12;
+  const monthsInRetirement = yearsInRetire * 12;
+  const fundNeeded = monthlyPostReturn === 0
+    ? inflatedMonthlyExpenses * monthsInRetirement
+    : inflatedMonthlyExpenses * (1 - Math.pow(1 + monthlyPostReturn, -monthsInRetirement)) / monthlyPostReturn;
+
+  // Projected balance at retirement — future value of savings + contributions
+  const monthlyReturn = annualReturn / 100 / 12;
+  const totalMonths   = yearsToRetire * 12;
+  const projectedBalance = monthlyReturn === 0
+    ? currentSavings + monthlyContrib * totalMonths
+    : currentSavings * Math.pow(1 + monthlyReturn, totalMonths) +
+        monthlyContrib * (Math.pow(1 + monthlyReturn, totalMonths) - 1) / monthlyReturn;
+
+  const gap = projectedBalance - fundNeeded;
+
+  // Extra monthly saving needed to close a shortfall
+  let requiredExtra = 0;
+  if (gap < 0) {
+    const shortfall = Math.abs(gap);
+    requiredExtra = monthlyReturn === 0
+      ? shortfall / totalMonths
+      : shortfall * monthlyReturn / (Math.pow(1 + monthlyReturn, totalMonths) - 1);
+  }
+
+  // Year-by-year balance vs flat target line, for the chart
+  retireData = [];
+  let balance = currentSavings;
+  for (let yr = 0; yr <= yearsToRetire; yr++) {
+    retireData.push({ year: currentAge + yr, balance: Math.round(balance), target: Math.round(fundNeeded) });
+    balance = monthlyReturn === 0
+      ? balance + monthlyContrib * 12
+      : balance * Math.pow(1 + monthlyReturn, 12) + monthlyContrib * (Math.pow(1 + monthlyReturn, 12) - 1) / monthlyReturn;
+  }
+
+  renderRetireResults({ fundNeeded, projectedBalance, gap, requiredExtra, yearsToRetire, monthlyContrib });
+  drawRetireChart();
+
+  trackCalculation('retire', { p: currentSavings, y: yearsToRetire, r: annualReturn });
+}
+
+function renderRetireResults({ fundNeeded, projectedBalance, gap, requiredExtra, yearsToRetire, monthlyContrib }) {
+  $('ret-fund-needed').textContent       = fmt(fundNeeded);
+  $('ret-years-to-retire').textContent   = yearsToRetire;
+  $('ret-projected-balance').textContent = fmt(projectedBalance);
+
+  const gapEl = $('ret-gap');
+  gapEl.textContent = (gap >= 0 ? '+' : '−') + fmt(Math.abs(gap));
+  gapEl.style.color = gap >= 0 ? 'var(--green)' : '#ef4444';
+
+  const banner = $('ret-status-banner');
+  if (gap >= 0) {
+    banner.className   = 'ret-status-banner surplus';
+    banner.textContent = `✅ You're on track — your projected balance exceeds your retirement target by ${fmt(gap)}.`;
+  } else {
+    banner.className   = 'ret-status-banner deficit';
+    banner.textContent = `⚠️ You have a shortfall of ${fmt(Math.abs(gap))} — but there's time to close it.`;
+  }
+
+  const callout = $('ret-saving-callout');
+  if (gap < 0 && requiredExtra > 0) {
+    callout.style.display = 'block';
+    $('ret-required-saving').textContent = fmt(requiredExtra) + '/month extra';
+    $('ret-current-contrib-display').textContent = fmt(monthlyContrib);
+  } else {
+    callout.style.display = 'none';
+  }
+
+  // Milestone badges — first age at which the fund crosses 50% / 90% funded
+  const milestoneRow = $('ret-milestones');
+  milestoneRow.innerHTML = '';
+  const halfwayBalance = fundNeeded * 0.5;
+  const ninetyBalance  = fundNeeded * 0.9;
+  let hitHalf = false, hitNinety = false;
+  retireData.forEach(d => {
+    if (!hitHalf && d.balance >= halfwayBalance) {
+      hitHalf = true;
+      milestoneRow.insertAdjacentHTML('beforeend', `<span class="ret-milestone">🎯 50% funded — age ${d.year}</span>`);
+    }
+    if (!hitNinety && d.balance >= ninetyBalance) {
+      hitNinety = true;
+      milestoneRow.insertAdjacentHTML('beforeend', `<span class="ret-milestone">🎯 90% funded — age ${d.year}</span>`);
+    }
+  });
+}
+
+function drawRetireChart() {
+  const canvas = $('retireChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  if (retireChart) retireChart.destroy();
+
+  const labels   = retireData.map(d => 'Age ' + d.year);
+  const balances = retireData.map(d => d.balance);
+  const targets  = retireData.map(d => d.target);
+
+  const gradient = ctx.createLinearGradient(0, 0, 0, 220);
+  gradient.addColorStop(0, 'rgba(22, 163, 74, 0.35)');
+  gradient.addColorStop(1, 'rgba(22, 163, 74, 0.02)');
+
+  retireChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Your projected balance',
+          data: balances,
+          borderColor: '#16a34a',
+          backgroundColor: gradient,
+          borderWidth: 2.5,
+          tension: 0.4,
+          fill: true,
+          pointRadius: 0,
+          pointHoverRadius: 5
+        },
+        {
+          label: 'Fund needed',
+          data: targets,
+          borderColor: '#ef4444',
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          borderDash: [6, 4],
+          tension: 0,
+          fill: false,
+          pointRadius: 0,
+          pointHoverRadius: 5
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: true, position: 'top' },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const sym = getCurrentCurrencySymbol();
+              return ` ${ctx.dataset.label}: ${sym}${Math.round(ctx.raw).toLocaleString()}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid:  { display: false },
+          ticks: { maxTicksLimit: 8, font: { size: 11 } }
+        },
+        y: {
+          grid:  { color: 'rgba(0,0,0,0.05)' },
+          ticks: {
+            font: { size: 11 },
+            callback: (v) => {
+              const sym = getCurrentCurrencySymbol();
+              if (v >= 1_000_000) return sym + (v / 1_000_000).toFixed(1) + 'M';
+              if (v >= 1_000)     return sym + (v / 1_000).toFixed(0) + 'k';
+              return sym + v;
+            }
+          }
+        }
+      }
+    }
+  });
 }
 

@@ -707,7 +707,7 @@ tbody tr:hover { background: var(--bg-surface); }
 }
 
 /* Affiliate CTA */
-#affiliate-cta {
+#affiliate-cta, .affiliate-cta {
   border: 1.5px dashed #86efac;
   background: #f0fdf4;
   border-radius: 10px;
@@ -716,7 +716,7 @@ tbody tr:hover { background: var(--bg-surface); }
   text-align: center;
 }
 
-#affiliate-cta p {
+#affiliate-cta p, .affiliate-cta p {
   font-size: 0.85rem;
   font-weight: 600;
   color: #14532d;
@@ -724,7 +724,7 @@ tbody tr:hover { background: var(--bg-surface); }
   line-height: 1.4;
 }
 
-#affiliate-cta a {
+#affiliate-cta a, .affiliate-cta a {
   display: block;
   background: #16a34a;
   color: white;
@@ -737,11 +737,11 @@ tbody tr:hover { background: var(--bg-surface); }
   margin-bottom: 8px;
 }
 
-#affiliate-cta a:hover {
+#affiliate-cta a:hover, .affiliate-cta a:hover {
   background: #15803d;
 }
 
-#affiliate-cta small {
+#affiliate-cta small, .affiliate-cta small {
   display: block;
   font-size: 0.72rem;
   color: #6b7280;
@@ -1511,6 +1511,157 @@ tbody tr:hover { background: var(--bg-surface); }
 @media (min-width: 641px) {
   .mobile-cta-pill {
     display: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   RETIREMENT CALCULATOR
+   ══════════════════════════════════════════════════════ */
+
+.input-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  margin: 1.25rem 0 0.75rem;
+  text-transform: uppercase;
+}
+
+.input-section-label:first-child {
+  margin-top: 0;
+}
+
+.input-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1.25rem 0;
+}
+
+.input-hint {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* Years-to-retirement badge value, reuses the grow tab's ROI badge shell */
+.portfolio-roi-badge .roi-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* Projected balance / surplus-deficit stat strip */
+.ret-stat-row {
+  display: flex;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  gap: 1.5rem;
+}
+
+.ret-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ret-stat:not(:first-child) {
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--border);
+}
+
+.ret-stat-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+}
+
+.ret-stat-value {
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-family: 'DM Mono', monospace;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+/* Status banner — surplus or deficit */
+.ret-status-banner {
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.ret-status-banner.surplus {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #14532d;
+}
+
+.ret-status-banner.deficit {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #7f1d1d;
+}
+
+/* Required extra saving callout */
+.ret-saving-callout {
+  background: #fefce8;
+  border: 1.5px solid #fde047;
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  text-align: center;
+}
+
+.ret-callout-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.ret-callout-amount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 4px;
+}
+
+.ret-callout-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Retirement funding milestone pill */
+.ret-milestone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .ret-stat-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ret-stat:not(:first-child) {
+    padding-left: 0;
+    padding-top: 0.75rem;
+    border-left: none;
+    border-top: 1px solid var(--border);
   }
 }
 
