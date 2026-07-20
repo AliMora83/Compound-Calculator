@@ -8,21 +8,30 @@ Date: 2026-07-19
 
 ---
 
-## Scheduled for Phase B (nav / footer / hero / chrome)
+## ~~Scheduled for Phase B~~ — RESOLVED 2026-07-20 (Sprint 11B)
 
-- **Nav and logo still in old style.** Header/nav inherits the new paper/ink palette
-  through legacy aliases but keeps the old layout, logo PNG, and DM Sans wordmark.
-- **Hero/intro copy still DM Sans.** `.calc-header h1` now inherits Fraunces from the
-  base `h1` rule but keeps its old 1.6rem size override; the sub-line is unchanged.
-- **Cookie banner still dark `#111827` style** (`#cookie-banner` in styles.css, plus its
-  inline-styled "Got it" button in every page's HTML, still `#16a34a`). Left untouched —
-  the accept button has an `onclick` and the banner has localStorage-driven display logic.
-- **Mobile floating CTA pill** re-mapped to ink/paper/accent tokens but keeps its old
-  pill shape and shadow.
-- **Footer**: background and scroll-to-top now use `var(--accent)`, but the layout,
-  white-on-green text (rgba white values), and column structure are unchanged.
-- **`.ad-slot` chrome** (dashed borders, "ADVERTISEMENT" label) inherits tokens but keeps
-  the old card-like presentation.
+- ~~Nav and logo old style~~ → Fraunces text logo (`.nav-logo`), masthead nav with
+  1.5px ink rule, accent-underline active state, editorial mobile menu (Fraunces links,
+  hairline separators). `logo.png` file kept for OG/PDF use; only nav markup swapped.
+- ~~Hero/intro~~ → `.calc-header` is now the editorial hero (text-hero Fraunces H1,
+  eyebrow micro-label, ink-soft sub, hairline bottom rule). **SEO H1 text untouched.**
+- ~~Cookie banner dark style~~ → paper-raised + ink rule + accent button; inline styles
+  moved to styles.css; `display:none` inline + JS toggle mechanics preserved.
+- ~~Footer dark green~~ → paper background, rule-strong top border, ink-soft links with
+  accent hover, legal micro-text band.
+- ~~Scroll-to-top~~ → square (2px radius) ink-outline button, inverts on hover; SVG
+  arrow stroke changed `white` → `currentColor` (visual only, mechanics untouched).
+
+Phase B additions:
+- **Retirement nav link added** to `compare-investments.html` and `debug-adsense.html` —
+  they were the only pages missing it; spec requires identical nav on all 16 pages.
+- **Blog safety aliases added** (Task 0) in blog.css `:root`: `--text-mid`→ink-soft,
+  `--bg-soft`/`--green-faint`→paper-tint/accent-tint, `--bg-tint`→accent-tint,
+  `--radius-lg`→radius, `--green-dark`→accent, `--green-mid`→accent-hover. These vars
+  were previously undefined (resolved to initial values).
+- **Mobile floating CTA pill** still old pill shape + shadow (tokens applied in Phase A);
+  restyle with calculator layout in Phase C.
+- **`.ad-slot` chrome** (dashed borders, "ADVERTISEMENT" label) still card-like — Phase C.
 
 ## Scheduled for Phase C (calculator page layout)
 

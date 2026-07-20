@@ -54,10 +54,7 @@
 
   <header>
     <div class="nav-container">
-      <a href="/" class="logo">
-        <img src="/assets/logo.png" alt="CompoundCalc" height="32">
-        <span>CompoundCalc</span>
-      </a>
+      <a href="/" class="nav-logo" aria-label="CompoundCalc home">Compound<span class="nav-logo-accent">Calc</span></a>
       <nav class="nav-links">
         <a href="/">Home</a>
         <a href="/investment-goal-calculator" class="active">Goal Calculator</a>
@@ -65,7 +62,7 @@
         <a href="/retirement-calculator">Retirement</a>
         <a href="/blog/">Blog</a>
       </nav>
-      <button class="mobile-menu-btn">
+      <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
     </div>
@@ -74,6 +71,7 @@
   <main>
     <div class="calc-wrap">
       <div class="calc-header">
+        <p class="hero-eyebrow">Free · No sign-up · Built for South Africa</p>
         <h1>Investment Goal Calculator</h1>
         <p>Reverse-calculate your target. How many years until you reach your goal?</p>
       </div>
@@ -227,15 +225,15 @@
     <span class="scroll-top-label">Scroll to top</span>
     <span class="scroll-top-circle" aria-hidden="true">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 13V5M9 5L5 9M9 5L13 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 13V5M9 5L5 9M9 5L13 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </span>
   </button>
 </div>
 
   <div id="cookie-banner" style="display:none;">
-    <span>We use cookies to analyse site traffic and serve relevant ads. <a href="/privacy-policy" style="color:#86efac;">Privacy Policy</a></span>
-    <button onclick="acceptCookies()" style="background:#16a34a; color:white; border:none; padding:8px 18px; border-radius:6px; cursor:pointer; font-family:inherit; font-size:0.85rem; white-space:nowrap;">Got it</button>
+    <span>We use cookies to analyse site traffic and serve relevant ads. <a href="/privacy-policy">Privacy Policy</a></span>
+    <button onclick="acceptCookies()">Got it</button>
   </div>
 
   <script src="/assets/js/share.js"></script>

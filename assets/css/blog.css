@@ -8,6 +8,17 @@
 :root {
   --font-display: 'Lora', Georgia, serif;
   --green-secondary: var(--accent-hover);
+
+  /* ── Sprint 11B safety aliases — these vars were referenced but never
+     defined (silently resolved to initial values). Mapped to the nearest
+     editorial token; real blog restyle happens in Phase D. ── */
+  --text-mid:    var(--ink-soft);
+  --bg-soft:     var(--paper-tint);
+  --bg-tint:     var(--accent-tint);
+  --radius-lg:   var(--radius);
+  --green-faint: var(--accent-tint);
+  --green-dark:  var(--accent);
+  --green-mid:   var(--accent-hover);
 }
 
 .site-footer { margin-top: 5rem; }

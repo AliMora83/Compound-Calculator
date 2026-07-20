@@ -39,7 +39,11 @@
       "Bash(git diff *)",
       "Bash(git -C /Users/alikora/dev/AntiG/CompCalc status --short)",
       "Bash(git -C /Users/alikora/dev/AntiG/CompCalc log --oneline -3)",
-      "Bash(git commit -m 'feat: Sprint 11 Phase A — editorial design tokens, self-hosted Fraunces, editorial results block, chart palette *)"
+      "Bash(git commit -m 'feat: Sprint 11 Phase A — editorial design tokens, self-hosted Fraunces, editorial results block, chart palette *)",
+      "Bash(read f *)",
+      "Bash(grep -oE '#[0-9a-fA-F]{3,6}\\\\b')",
+      "Bash(awk '$1 % 2 == 1')",
+      "Bash(git commit -m 'feat: Sprint 11 Phase B — editorial chrome: text logo, masthead nav, hero, footer, cookie banner, scroll-to-top *)"
     ]
   }
 }
