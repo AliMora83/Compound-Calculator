@@ -21,6 +21,19 @@ let ecTimerFired      = false;               // true after 30s on page
 let ecShown           = false;               // true once form has been shown
 let ecDismissed       = false;               // true if user dismissed it
 
+// ── Editorial chart palette (Sprint 11) ──
+const CHART_COLORS = {
+  principal:     { line: '#8B887F', fill: 'rgba(139, 136, 127, 0.18)' }, // ink-faint
+  contributions: { line: '#5C5A54', fill: 'rgba(92, 90, 84, 0.18)' },   // ink-soft
+  interest:      { line: '#1E5B3E', fill: 'rgba(30, 91, 62, 0.22)' },   // accent
+  realValue:     { line: '#A33B2E', fill: 'transparent' },              // danger — dashed overlay
+  scenarioA:     { line: '#1E5B3E', fill: 'rgba(30, 91, 62, 0.15)' },
+  scenarioB:     { line: '#1A1A17', fill: 'rgba(26, 26, 23, 0.10)' },
+  grid:          '#DAD4C8',
+  ticks:         '#8B887F'
+};
+const CHART_TICK_FONT = { size: 11, family: "'DM Mono', monospace" };
+
 // --- Helpers ---
 const fmt = n => {
   const c = currencies[currentCurrency];
@@ -219,38 +232,38 @@ function renderGrowChart(data, P, useInflation, inflationRate) {
     {
       label: 'Interest',
       data: interestArr,
-      backgroundColor: makeGradient('rgba(22, 163, 74, 0.55)', 'rgba(22, 163, 74, 0.05)'),
-      borderColor: '#16a34a',
+      backgroundColor: CHART_COLORS.interest.fill,
+      borderColor: CHART_COLORS.interest.line,
       borderWidth: 2,
       fill: 'stack',
       tension: 0.4,
       pointRadius: 0,
       pointHoverRadius: 5,
-      pointHoverBackgroundColor: '#16a34a',
+      pointHoverBackgroundColor: CHART_COLORS.interest.line,
     },
     {
       label: 'Contributions',
       data: contribArr,
-      backgroundColor: makeGradient('rgba(134, 239, 172, 0.6)', 'rgba(134, 239, 172, 0.08)'),
-      borderColor: '#4ade80',
+      backgroundColor: CHART_COLORS.contributions.fill,
+      borderColor: CHART_COLORS.contributions.line,
       borderWidth: 1.5,
       fill: 'stack',
       tension: 0.4,
       pointRadius: 0,
       pointHoverRadius: 4,
-      pointHoverBackgroundColor: '#4ade80',
+      pointHoverBackgroundColor: CHART_COLORS.contributions.line,
     },
     {
       label: 'Principal',
       data: principalArr,
-      backgroundColor: makeGradient('rgba(209, 250, 229, 0.7)', 'rgba(209, 250, 229, 0.15)'),
-      borderColor: '#bbf7d0',
+      backgroundColor: CHART_COLORS.principal.fill,
+      borderColor: CHART_COLORS.principal.line,
       borderWidth: 1,
       fill: 'origin',
       tension: 0.4,
       pointRadius: 0,
       pointHoverRadius: 4,
-      pointHoverBackgroundColor: '#86efac',
+      pointHoverBackgroundColor: CHART_COLORS.principal.line,
     }
   ];
 
@@ -258,7 +271,8 @@ function renderGrowChart(data, P, useInflation, inflationRate) {
     datasets.push({
       label: 'Real value',
       data: realArr,
-      borderColor: '#f97316',
+      borderColor: CHART_COLORS.realValue.line,
+      borderDash: [4, 4],
       borderWidth: 2.5,
       type: 'line',
       fill: false,
@@ -266,7 +280,7 @@ function renderGrowChart(data, P, useInflation, inflationRate) {
       tension: 0.4,
       pointRadius: 0,
       pointHoverRadius: 5,
-      pointHoverBackgroundColor: '#f97316',
+      pointHoverBackgroundColor: CHART_COLORS.realValue.line,
     });
   }
 
@@ -310,8 +324,8 @@ function renderGrowChart(data, P, useInflation, inflationRate) {
           grid: { display: false },
           border: { display: false },
           ticks: {
-            color: '#9ca3af',
-            font: { size: 11 },
+            color: CHART_COLORS.ticks,
+            font: CHART_TICK_FONT,
             maxTicksLimit: 8,
             maxRotation: 0,
           }
@@ -319,13 +333,13 @@ function renderGrowChart(data, P, useInflation, inflationRate) {
         y: {
           stacked: true,
           grid: {
-            color: '#f3f4f6',
+            color: CHART_COLORS.grid,
             drawBorder: false,
           },
           border: { display: false, dash: [4, 4] },
           ticks: {
-            color: '#9ca3af',
-            font: { size: 11 },
+            color: CHART_COLORS.ticks,
+            font: CHART_TICK_FONT,
             callback: (val) => {
               const sym = getCurrentCurrencySymbol();
               if (val >= 1_000_000) return sym + (val / 1_000_000).toFixed(1) + 'M';
@@ -422,10 +436,10 @@ function computeGoal() {
   const slice = data.slice(0, showYears + 1);
   const labels = slice.map(r => r.year === 0 ? 'Start' : `Yr ${r.year}`);
   const datasets = [
-    { label: 'Interest', data: slice.map(r => Math.round(r.interest)), backgroundColor: '#16a34a', stack: 's' },
-    { label: 'Contributions', data: slice.map(r => Math.round(r.contributions - P)), backgroundColor: '#86efac', stack: 's' },
-    { label: 'Principal', data: slice.map(() => Math.round(P)), backgroundColor: '#d1d5db', stack: 's' },
-    { label: 'Target', data: slice.map(() => Math.round(target)), borderColor: '#ef4444', borderWidth: 1.5, borderDash: [4,4], type: 'line', stack: undefined, pointRadius: 0, fill: false }
+    { label: 'Interest', data: slice.map(r => Math.round(r.interest)), backgroundColor: CHART_COLORS.interest.line, stack: 's' },
+    { label: 'Contributions', data: slice.map(r => Math.round(r.contributions - P)), backgroundColor: CHART_COLORS.contributions.line, stack: 's' },
+    { label: 'Principal', data: slice.map(() => Math.round(P)), backgroundColor: CHART_COLORS.principal.line, stack: 's' },
+    { label: 'Target', data: slice.map(() => Math.round(target)), borderColor: CHART_COLORS.realValue.line, borderWidth: 1.5, borderDash: [4,4], type: 'line', stack: undefined, pointRadius: 0, fill: false }
   ];
 
   if (goalChart) {
@@ -472,8 +486,8 @@ function computeCompare() {
   // Chart
   const labels = Array.from({ length: maxYears + 1 }, (_, i) => i === 0 ? 'Start' : `Yr ${i}`);
   const datasets = [
-    { label: 'Scenario A', data: labels.map((_, i) => dataA[i] ? Math.round(dataA[i].balance) : null), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.08)', fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2 },
-    { label: 'Scenario B', data: labels.map((_, i) => dataB[i] ? Math.round(dataB[i].balance) : null), borderColor: '#d97706', backgroundColor: 'rgba(217,119,6,0.08)', fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2 }
+    { label: 'Scenario A', data: labels.map((_, i) => dataA[i] ? Math.round(dataA[i].balance) : null), borderColor: CHART_COLORS.scenarioA.line, backgroundColor: CHART_COLORS.scenarioA.fill, fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2 },
+    { label: 'Scenario B', data: labels.map((_, i) => dataB[i] ? Math.round(dataB[i].balance) : null), borderColor: CHART_COLORS.scenarioB.line, backgroundColor: CHART_COLORS.scenarioB.fill, fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2 }
   ];
 
   if (compareChart) {
@@ -482,7 +496,7 @@ function computeCompare() {
     compareChart.update('active');
   } else {
     const ctx = $('compareChart');
-    if (ctx) compareChart = new Chart(ctx, { type: 'line', data: { labels, datasets }, options: { ...chartOpts(), scales: { x: { stacked: false, ticks: { autoSkip: true, maxTicksLimit: 10, font: { size: 11 }, color: '#9ca3af' }, grid: { display: false } }, y: { stacked: false, ticks: { callback: v => currencies[currentCurrency].symbol + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'k' : v), font: { size: 11 }, color: '#9ca3af' }, grid: { color: '#f3f4f6' } } } } });
+    if (ctx) compareChart = new Chart(ctx, { type: 'line', data: { labels, datasets }, options: { ...chartOpts(), scales: { x: { stacked: false, ticks: { autoSkip: true, maxTicksLimit: 10, font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { display: false } }, y: { stacked: false, ticks: { callback: v => currencies[currentCurrency].symbol + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'k' : v), font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { color: CHART_COLORS.grid } } } } });
   }
 
   trackCalculation('compare', { p: Math.max(+$('ca-principal').value, +$('cb-principal').value), y: maxYears, r: Math.max(+$('ca-rate').value, +$('cb-rate').value) });
@@ -503,8 +517,8 @@ function chartOpts() {
       }
     },
     scales: {
-      x: { stacked: true, ticks: { autoSkip: true, maxTicksLimit: 10, font: { size: 11 }, color: '#9ca3af' }, grid: { display: false } },
-      y: { stacked: true, ticks: { callback: v => currencies[currentCurrency].symbol + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'k' : v), font: { size: 11 }, color: '#9ca3af' }, grid: { color: '#f3f4f6' } }
+      x: { stacked: true, ticks: { autoSkip: true, maxTicksLimit: 10, font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { display: false } },
+      y: { stacked: true, ticks: { callback: v => currencies[currentCurrency].symbol + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'k' : v), font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { color: CHART_COLORS.grid } }
     }
   };
 }
@@ -1199,8 +1213,8 @@ function drawRetireChart() {
   const targets  = retireData.map(d => d.target);
 
   const gradient = ctx.createLinearGradient(0, 0, 0, 220);
-  gradient.addColorStop(0, 'rgba(22, 163, 74, 0.35)');
-  gradient.addColorStop(1, 'rgba(22, 163, 74, 0.02)');
+  gradient.addColorStop(0, 'rgba(30, 91, 62, 0.22)');
+  gradient.addColorStop(1, 'rgba(30, 91, 62, 0.02)');
 
   retireChart = new Chart(ctx, {
     type: 'line',
@@ -1210,7 +1224,7 @@ function drawRetireChart() {
         {
           label: 'Your projected balance',
           data: balances,
-          borderColor: '#16a34a',
+          borderColor: CHART_COLORS.interest.line,
           backgroundColor: gradient,
           borderWidth: 2.5,
           tension: 0.4,
@@ -1221,7 +1235,7 @@ function drawRetireChart() {
         {
           label: 'Fund needed',
           data: targets,
-          borderColor: '#ef4444',
+          borderColor: CHART_COLORS.realValue.line,
           backgroundColor: 'transparent',
           borderWidth: 2,
           borderDash: [6, 4],
@@ -1250,12 +1264,13 @@ function drawRetireChart() {
       scales: {
         x: {
           grid:  { display: false },
-          ticks: { maxTicksLimit: 8, font: { size: 11 } }
+          ticks: { maxTicksLimit: 8, font: CHART_TICK_FONT, color: CHART_COLORS.ticks }
         },
         y: {
-          grid:  { color: 'rgba(0,0,0,0.05)' },
+          grid:  { color: CHART_COLORS.grid },
           ticks: {
-            font: { size: 11 },
+            font: CHART_TICK_FONT,
+            color: CHART_COLORS.ticks,
             callback: (v) => {
               const sym = getCurrentCurrencySymbol();
               if (v >= 1_000_000) return sym + (v / 1_000_000).toFixed(1) + 'M';

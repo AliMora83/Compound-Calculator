@@ -7,7 +7,7 @@
 
 :root {
   --font-display: 'Lora', Georgia, serif;
-  --green-secondary: #15803d;
+  --green-secondary: var(--accent-hover);
 }
 
 .site-footer { margin-top: 5rem; }
@@ -453,8 +453,8 @@
 }
 
 .blog-table .danger td {
-  background: #fef2f2 !important;
-  color: #991b1b;
+  background: var(--danger-tint) !important;
+  color: var(--danger);
   font-weight: 500;
 }
 
@@ -611,7 +611,7 @@
 
 /* Per-scenario output backgrounds */
 .scenario-card:nth-of-type(2) .scenario-outputs { background: var(--green-faint); }
-.scenario-card:nth-of-type(3) .scenario-outputs { background: #f0fdf4; }
+.scenario-card:nth-of-type(3) .scenario-outputs { background: var(--accent-tint); }
 
 .output-big {
   font-family: var(--font-mono);
@@ -1163,14 +1163,14 @@
   font-family: var(--font-display);
   font-size: 1.0625rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--ink);
   line-height: 1.35;
   letter-spacing: -0.01em;
   transition: color 0.15s ease;
 }
 
 .blog-card:hover .blog-card-title {
-  color: #16a34a;
+  color: var(--accent);
 }
 
 .blog-card-excerpt {
@@ -1264,8 +1264,8 @@
 
 /* ── Blog Editorial Affiliate CTA Card ──────────────── */
 .blog-affiliate-cta {
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-  border: 1.5px solid #86efac;
+  background: var(--accent-tint);
+  border: 1.5px solid var(--accent);
   border-radius: 16px;
   padding: 2rem;
   margin: 3rem 0;
@@ -1283,7 +1283,7 @@
   position: absolute;
   top: 14px;
   right: -32px;
-  background: #15803d;
+  background: var(--accent-hover);
   color: white;
   font-size: 8px;
   font-weight: 700;
@@ -1297,7 +1297,7 @@
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 700;
-  color: #14532d;
+  color: var(--accent);
   margin: 0;
   line-height: 1.25;
 }
@@ -1305,7 +1305,7 @@
 .blog-affiliate-cta-desc {
   font-size: 0.975rem;
   line-height: 1.6;
-  color: #166534;
+  color: var(--accent);
   margin: 0;
 }
 
@@ -1320,7 +1320,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #16a34a;
+  background: var(--accent);
   color: white !important;
   text-decoration: none !important;
   padding: 12px 28px;
@@ -1332,7 +1332,7 @@
 }
 
 .blog-affiliate-cta-btn:hover {
-  background: #15803d;
+  background: var(--accent-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(22, 163, 74, 0.35);
 }
