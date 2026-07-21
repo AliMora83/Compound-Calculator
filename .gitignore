@@ -7,6 +7,10 @@ build/
 *.log
 .env
 
+# Local Claude Code tooling (machine-specific: Node 20 / netlify-cli paths, permission allowlists)
+.claude/launch.json
+.claude/settings.local.json
+
 # Local Netlify folder
 .netlify
 .config/
