@@ -29,26 +29,46 @@ Phase B additions:
   `--bg-soft`/`--green-faint`→paper-tint/accent-tint, `--bg-tint`→accent-tint,
   `--radius-lg`→radius, `--green-dark`→accent, `--green-mid`→accent-hover. These vars
   were previously undefined (resolved to initial values).
-- **Mobile floating CTA pill** still old pill shape + shadow (tokens applied in Phase A);
-  restyle with calculator layout in Phase C.
-- **`.ad-slot` chrome** (dashed borders, "ADVERTISEMENT" label) still card-like — Phase C.
+- **Mobile floating CTA pill** still old pill shape + shadow (still open after Phase C).
+- ~~`.ad-slot` chrome~~ → resolved in Phase C (see below).
 
-## Scheduled for Phase C (calculator page layout)
+## ~~Scheduled for Phase C~~ — RESOLVED 2026-07-21 (Sprint 11C)
 
-- **Input panel / chart boxes / tables** still card-based (`.input-panel`, `.chart-box`,
-  `.table-toggle`) — they inherit paper-tint/rule tokens through aliases but keep borders
-  + rounded-card structure rather than hairline editorial rules.
-- **Compare tab scenario panels** keep their blue/amber identity:
-  `.scenario-a` (`#eff6ff`/`#bfdbfe`), `.scenario-b` (`#fffbeb`/`#fde68a`),
-  `.compare-panel.b h3` (`#fbbf24`). Note: the compare **chart** now uses the editorial
-  palette (Scenario A = accent green, Scenario B = ink), so the chart lines no longer
-  colour-match the blue/amber input panels. Resolve in Phase C.
+- ~~Input panel / tables card-based~~ → underline-only inputs, hairline-separated `.field`
+  groups, DM Mono figures; year table restyled (mono body, rule-strong header, paper-tint
+  even rows, plain-accent collapse link). Applied to the **existing** classes (`.field`,
+  `.input-row`, `.input-prefix`, `select`, `table`) — the spec's `.input-group`/`.input-money`
+  names were not introduced (would duplicate the live markup).
+- ~~Compare blue/amber~~ → panels are paper-raised, distinguished by a left rule only
+  (`[data-scenario="a"]`=accent, `="b"`=ink). The five blue/amber literals
+  (`#eff6ff`/`#bfdbfe`/`#fffbeb`/`#fde68a`/`#fbbf24`) are deleted. Chart lines now match.
+- ~~Milestone row~~ → `.milestones` container gets padding + hairline (only when non-empty);
+  every rendered badge is a reached-milestone so carries `.milestone-badge-hit` (accent
+  outline). `.milestone-badge` class name preserved (PDF capture).
+- ~~Cost-of-waiting~~ → hairline-bounded, display-font title, dotted row separators, mono
+  accent values (restyled the existing `.delay-*` classes).
+- ~~Ad-slot chrome~~ → unfilled/empty slots collapse via
+  `:has(ins[data-ad-status="unfilled"])` / `:empty`. **Deviation:** kept `min-height` for
+  filled/loading slots (CLS protection, a Phase A perf goal) rather than the spec's literal
+  `min-height:0`; the `:has(unfilled)` collapse achieves the "no gap" intent without CLS risk.
+  On localhost (no AdSense) the placeholder box still shows — expected.
+- ~~Tab-tracker fragility + `calculator.js:850` TypeError~~ → `switchTab()` no longer parses
+  `onclick` strings; a module-level `activeTab` is the single source of truth, and the
+  email-capture success path reads it (null-deref gone — verified zero console errors on the
+  success branch under stubbed fetch). Note: **no tab-bar/`.tab-btn` exists** in the current
+  site (the Phase B top nav navigates between separate pages), so Task 1's tab-bar restyle
+  and Task 6's `data-tab` HTML additions had no trigger elements to target — the refactor was
+  done at the JS level (switchTab + a generic `[data-tab]` sync loop for future-proofing).
+- ~~`clearInputs()` Compare defaults~~ → restored to Scenario A 5% / Scenario B 8%.
+
+Still open after Phase C (unchanged scope):
 - **Retirement "required extra saving" callout** keeps amber warning colours
-  (`#fefce8`, `#fde047`, `#92400e`) — no editorial token for "warning" yet.
-- **`renderRetireResults()` in calculator.js** sets an inline `#ef4444` deficit colour on
-  `#ret-gap`. Left as-is: JS changes were restricted to chart colours this phase.
-- **Kinetic `.metric-value.updating`** flash uses `var(--green)` (now accent) — fine, but
-  the scale-pop animation style is pre-editorial.
+  (`#fefce8`, `#fde047`, `#92400e`) — no editorial "warning" token yet.
+- **`renderRetireResults()` inline `#ef4444`** deficit colour on `#ret-gap` — JS was
+  restricted to Task 6 this phase; convert to `--danger` in a later JS pass.
+- **`.chart-box`** (goal/compare/retire chart wrappers) still a bordered card — not in
+  Phase C's task list; tokenised but not converted to hairline. Minor.
+- **Mobile floating CTA pill** still old pill shape + shadow.
 
 ## Scheduled for Phase D (blog)
 

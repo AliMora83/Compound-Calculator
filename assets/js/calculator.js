@@ -8,6 +8,10 @@ const $ = id => document.getElementById(id);
 // --- State ---
 // ZAR-only (Sprint 11 interim): multi-currency removed, en-ZA formatting throughout.
 
+// Active tab — single source of truth, set by switchTab(name). Defaults to the
+// grow panel (the home page's default-active tab; switchTab() isn't called there).
+let activeTab = 'grow';
+
 // ── Email capture state ────────────────────────────────
 const EC_STORAGE_KEY  = 'cc_email_captured'; // localStorage key
 let ecCalculationRan  = false;               // true after first calc runs
@@ -149,7 +153,7 @@ function computeGrow() {
   const mBox = $('g-milestones');
   if (mBox) {
     mBox.innerHTML = milestones.map((m, i) =>
-      `<span class="milestone-badge ${m.cls}" style="animation-delay:${i * 0.08}s">
+      `<span class="milestone-badge milestone-badge-hit ${m.cls}" style="animation-delay:${i * 0.08}s">
         <span class="milestone-dot"></span>
         ${m.label} — year ${m.year}
       </span>`
@@ -517,20 +521,24 @@ function toggleTable(tab) {
 }
 
 function switchTab(name) {
+  // `name` is the single source of truth — no onclick-string parsing.
+  activeTab = name;
+
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  
   const panel = $(`tab-${name}`);
-  const btn = document.querySelector(`.tab-btn[onclick*="${name}"]`);
-  
   if (panel) panel.classList.add('active');
-  if (btn) btn.classList.add('active');
-  
+
+  // Sync any tab triggers by their data-tab attribute (none exist today — the
+  // top nav navigates between pages — but this keeps the pattern correct if added).
+  document.querySelectorAll('[data-tab]').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === name);
+  });
+
   if (name === 'grow') computeGrow();
   if (name === 'goal') computeGoal();
   if (name === 'compare') computeCompare();
   if (name === 'retire') computeRetire();
-  
+
   // GA4 event
   if (typeof gtag === 'function') {
     gtag('event', 'tab_switch', { tab_name: name });
@@ -621,12 +629,10 @@ function clearInputs() {
     $('ret-post-return').value = 6;
     computeRetire();
   } else {
-    ['ca','cb'].forEach(p => {
-      $(p+'-principal').value = 10000;
-      $(p+'-monthly').value = 500;
-      $(p+'-rate').value = 8;
-      $(p+'-years').value = 10;
-    });
+    // Restore the page's original Compare defaults — the A/B rate delta (5% vs 8%)
+    // is the whole point of the tab, so the two scenarios must differ.
+    $('ca-principal').value = 10000; $('ca-monthly').value = 300; $('ca-rate').value = 5; $('ca-years').value = 20;
+    $('cb-principal').value = 10000; $('cb-monthly').value = 300; $('cb-rate').value = 8; $('cb-years').value = 20;
     computeCompare();
   }
   triggerKineticFeedback();
@@ -847,7 +853,7 @@ async function submitEmailCapture() {
 
     // ── Step 6: Fire GA4 event ──
     if (typeof gtag !== 'undefined') {
-      const activeTab = document.querySelector('.tab-btn.active').getAttribute('onclick').match(/'([^']+)'/)[1];
+      // Read the module-level activeTab (no DOM/onclick parsing — was the null-deref).
       gtag('event', 'email_capture', {
         method:      'pdf_projection',
         tab_active:  activeTab || 'grow'
