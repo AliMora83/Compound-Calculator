@@ -44,9 +44,6 @@ function getShareableURL() {
     params.set('pr', document.getElementById('ret-post-return').value);
   }
 
-  const cur = localStorage.getItem('cc_currency') || 'ZAR';
-  params.set('c', cur);
-
   return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
 }
 
@@ -104,10 +101,7 @@ function loadFromURL() {
     if (params.has('pr')) document.getElementById('ret-post-return').value = params.get('pr');
   }
 
-  if (params.has('c')) {
-    const cur = params.get('c');
-    if (typeof setCurrency === 'function') setCurrency(cur);
-  }
+  // Legacy 'c' currency param in old shared URLs is deliberately ignored (ZAR-only).
 
   // Switch tab after loading values
   if (typeof switchTab === 'function') switchTab(tab);

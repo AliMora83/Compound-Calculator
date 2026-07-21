@@ -793,50 +793,13 @@ tbody tr:hover { background: var(--bg-surface); }
 
 .action-bar {
   display: flex;
-  justify-content: space-between;
+  /* was space-between when the currency selector sat on the left;
+     flex-end keeps Clear/Share grouped right now that it's gone */
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
   gap: 12px;
-}
-
-.currency-selector {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-right: auto;
-}
-
-.currency-label {
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--text-muted, #6b7280);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
-#currency-select {
-  padding: 7px 28px 7px 10px;
-  border: 1px solid var(--border, #e5e7eb);
-  border-radius: 6px;
-  background: var(--bg, #fff);
-  color: var(--text, #111827);
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  outline: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235C5A54' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  transition: border-color 0.15s;
-  min-width: 180px;
-}
-
-#currency-select:focus {
-  border-color: var(--accent);
 }
 
 /* Affiliate CTA */

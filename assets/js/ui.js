@@ -12,9 +12,11 @@
     if (scrolled > THRESHOLD) {
       wrap.classList.add('is-visible');
       wrap.setAttribute('aria-hidden', 'false');
+      wrap.removeAttribute('inert');
     } else {
       wrap.classList.remove('is-visible');
       wrap.setAttribute('aria-hidden', 'true');
+      wrap.setAttribute('inert', '');
     }
   }
 

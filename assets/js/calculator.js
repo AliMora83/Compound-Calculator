@@ -6,13 +6,7 @@
 const $ = id => document.getElementById(id);
 
 // --- State ---
-let currentCurrency = localStorage.getItem('cc_currency') || 'ZAR';
-const currencies = {
-  ZAR: { symbol: 'R', locale: 'en-ZA' },
-  USD: { symbol: '$', locale: 'en-US' },
-  GBP: { symbol: '£', locale: 'en-GB' },
-  EUR: { symbol: '€', locale: 'de-DE' }
-};
+// ZAR-only (Sprint 11 interim): multi-currency removed, en-ZA formatting throughout.
 
 // ── Email capture state ────────────────────────────────
 const EC_STORAGE_KEY  = 'cc_email_captured'; // localStorage key
@@ -35,10 +29,7 @@ const CHART_COLORS = {
 const CHART_TICK_FONT = { size: 11, family: "'DM Mono', monospace" };
 
 // --- Helpers ---
-const fmt = n => {
-  const c = currencies[currentCurrency];
-  return c.symbol + Math.round(n).toLocaleString(c.locale);
-};
+const fmt = n => 'R' + Math.round(n).toLocaleString('en-ZA');
 const pct = n => (Math.round(n * 10) / 10).toFixed(1) + '%';
 
 // Toast System
@@ -85,35 +76,6 @@ function simulate(P, monthly, annualRate, years, n) {
 
 function realValue(nominal, inflationRate, years) {
   return nominal / Math.pow(1 + inflationRate / 100, years);
-}
-
-// --- Currency Selector ---
-function setCurrency(code) {
-  currentCurrency = code;
-  localStorage.setItem('cc_currency', code);
-  
-  // Sync the currency dropdown if present
-  const selectEl = document.getElementById('currency-select');
-  if (selectEl && selectEl.value !== code) {
-    selectEl.value = code;
-  }
-  
-  // Update prefixes in UI
-  const symbol = currencies[code].symbol;
-  document.querySelectorAll('.input-prefix').forEach(el => {
-    if (el.textContent === '$' || el.textContent === 'R' || el.textContent === '£' || el.textContent === '€') {
-      el.textContent = symbol;
-    }
-  });
-  
-  // Re-run current calculation
-  const activePanel = document.querySelector('.tab-panel.active');
-  if (!activePanel) return;
-  const activeTab = activePanel.id.replace('tab-', '');
-  if (activeTab === 'grow') computeGrow();
-  if (activeTab === 'goal') computeGoal();
-  if (activeTab === 'compare') computeCompare();
-  if (activeTab === 'retire') computeRetire();
 }
 
 // --- Debounced GA4 Events ---
@@ -313,7 +275,7 @@ function renderGrowChart(data, P, useInflation, inflationRate) {
             title: (items) => `Year ${items[0].label.replace('Yr ', '')}`,
             label: (item) => {
               const sym = getCurrentCurrencySymbol();
-              return ` ${item.dataset.label}: ${sym}${Math.round(item.raw).toLocaleString()}`;
+              return ` ${item.dataset.label}: ${sym}${Math.round(item.raw).toLocaleString('en-ZA')}`;
             }
           }
         }
@@ -496,7 +458,7 @@ function computeCompare() {
     compareChart.update('active');
   } else {
     const ctx = $('compareChart');
-    if (ctx) compareChart = new Chart(ctx, { type: 'line', data: { labels, datasets }, options: { ...chartOpts(), scales: { x: { stacked: false, ticks: { autoSkip: true, maxTicksLimit: 10, font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { display: false } }, y: { stacked: false, ticks: { callback: v => currencies[currentCurrency].symbol + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'k' : v), font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { color: CHART_COLORS.grid } } } } });
+    if (ctx) compareChart = new Chart(ctx, { type: 'line', data: { labels, datasets }, options: { ...chartOpts(), scales: { x: { stacked: false, ticks: { autoSkip: true, maxTicksLimit: 10, font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { display: false } }, y: { stacked: false, ticks: { callback: v => getCurrentCurrencySymbol() + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'k' : v), font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { color: CHART_COLORS.grid } } } } });
   }
 
   trackCalculation('compare', { p: Math.max(+$('ca-principal').value, +$('cb-principal').value), y: maxYears, r: Math.max(+$('ca-rate').value, +$('cb-rate').value) });
@@ -518,7 +480,7 @@ function chartOpts() {
     },
     scales: {
       x: { stacked: true, ticks: { autoSkip: true, maxTicksLimit: 10, font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { display: false } },
-      y: { stacked: true, ticks: { callback: v => currencies[currentCurrency].symbol + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'k' : v), font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { color: CHART_COLORS.grid } }
+      y: { stacked: true, ticks: { callback: v => getCurrentCurrencySymbol() + (v >= 1000000 ? (v/1000000).toFixed(1)+'M' : v >= 1000 ? (v/1000).toFixed(0)+'k' : v), font: CHART_TICK_FONT, color: CHART_COLORS.ticks }, grid: { color: CHART_COLORS.grid } }
     }
   };
 }
@@ -807,8 +769,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load from URL if present
   if (typeof loadFromURL === 'function') loadFromURL();
   
-  // Set initial currency UI
-  setCurrency(currentCurrency);
+  // ZAR-only: clear any stale saved currency from earlier multi-currency builds
+  localStorage.removeItem('cc_currency');
   
   // Default run
   computeGrow();
@@ -919,10 +881,8 @@ function showECError(msg) {
   document.getElementById('ec-error-state').classList.remove('hidden');
 }
 
-// Helper to get currency symbol for current context
-function getCurrentCurrencySymbol() {
-  return currencies[currentCurrency].symbol;
-}
+// Helper kept as a function — PDF generation and the email flow call it.
+function getCurrentCurrencySymbol() { return 'R'; }
 
 // ── PDF Generation for Email ──────────────────────────
 async function generateProjectionPDFForEmail() {
@@ -1256,7 +1216,7 @@ function drawRetireChart() {
           callbacks: {
             label: (ctx) => {
               const sym = getCurrentCurrencySymbol();
-              return ` ${ctx.dataset.label}: ${sym}${Math.round(ctx.raw).toLocaleString()}`;
+              return ` ${ctx.dataset.label}: ${sym}${Math.round(ctx.raw).toLocaleString('en-ZA')}`;
             }
           }
         }
