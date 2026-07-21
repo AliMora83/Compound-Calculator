@@ -623,7 +623,7 @@ function clearInputs() {
     $('ret-current-savings').value = 50000;
     $('ret-monthly-contribution').value = 3000;
     $('ret-annual-return').value = 10;
-    $('ret-monthly-expenses').value = 25000;
+    $('ret-monthly-expenses').value = 5000;
     $('ret-inflation-rate').value = 5.5;
     $('ret-life-expectancy').value = 85;
     $('ret-post-return').value = 6;

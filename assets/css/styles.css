@@ -1723,9 +1723,21 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
 }
 
 /* Years-to-retirement badge value, reuses the grow tab's ROI badge shell */
+/* Retirement "yrs away" pill — centered contents, Fraunces figure (Sprint 11 C.0).
+   Scoped with :has(.roi-value) so the grow page's ROI badge (#result-roi) is untouched. */
+.portfolio-roi-badge:has(.roi-value) {
+  align-items: center;
+  text-align: center;
+}
+/* Label stays a font-body uppercase micro-label (badge parent is DM Mono) */
+.portfolio-roi-badge:has(.roi-value) .roi-sublabel {
+  font-family: var(--font-body);
+}
+
 .portfolio-roi-badge .roi-value {
+  font-family: var(--font-display);
   font-size: 1.05rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--ink);
   letter-spacing: -0.02em;
   line-height: 1;
