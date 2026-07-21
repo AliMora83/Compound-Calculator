@@ -117,6 +117,8 @@
   bottom: 2.5rem;
   right: 2rem;
   z-index: 200;
+  /* Keep clear of the iOS home indicator when near the bottom (Sprint 11 C.5) */
+  margin-bottom: env(safe-area-inset-bottom);
 
   /* Hidden by default — JS adds .is-visible */
   opacity: 0;

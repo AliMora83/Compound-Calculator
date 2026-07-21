@@ -258,7 +258,10 @@ function renderGrowChart(data, P, useInflation, inflationRate) {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: true,
+      // Sprint 11 C.5: false so the chart fills its responsive container height
+      // (.chart-wrapper) instead of a fixed aspectRatio that renders very short
+      // on narrow viewports. aspectRatio is ignored when this is false.
+      maintainAspectRatio: false,
       aspectRatio: 2.4,
       interaction: {
         mode: 'index',
@@ -1214,7 +1217,8 @@ function drawRetireChart() {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: true,
+      // Sprint 11 C.5: false so the chart fills its .chart-container height
+      maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: true, position: 'top' },

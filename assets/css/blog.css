@@ -104,9 +104,21 @@
 /* ── Two-column layout ───────────────────────────────────── */
 .article-layout {
   display: grid;
-  grid-template-columns: 1fr 280px;
+  /* minmax(0, 1fr) lets the article column shrink below its content's
+     min-content, so a wide/unwrapped table can't stretch the whole column
+     (and every paragraph with it) past the viewport (Sprint 11 C.5). */
+  grid-template-columns: minmax(0, 1fr) 280px;
   gap: 4rem;
   align-items: start;
+}
+
+/* Bare tables in article prose (not wrapped in .table-wrap) must scroll
+   within their own box rather than force the grid column wider than the
+   viewport (Sprint 11 C.5). */
+.article-body table:not(.blog-table) {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 /* ── Article body typography ─────────────────────────────── */
@@ -1213,7 +1225,7 @@
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 960px) {
   .article-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
   }
 
