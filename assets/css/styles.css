@@ -107,6 +107,38 @@
   --blue-light:   #dbeafe;   /* no editorial mapping — see transition log */
 }
 
+/* ══ GLOBAL OVERFLOW GUARDS (Sprint 11 C.5) ═══════════════════
+   Safety nets only — every overflow is still fixed at source in the
+   per-surface rules below. These stop a single missed edge case from
+   scrolling the whole page. */
+
+/* Prevent unintended horizontal scroll globally.
+   If something overflows, it should be a bug we fix,
+   not a bug that scrolls the whole page.
+   NOTE: `clip` (not `hidden`) — `overflow-x: hidden` computes overflow-y to
+   `auto`, turning html/body into a scroll container and BREAKING the sticky
+   masthead (verified: header scrolled off at -600px). `clip` hides the same
+   overflow without establishing a scroll container, so position:sticky keeps
+   working. Same safety-net intent, no sticky regression. */
+html, body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+/* Media inside prose and layout blocks should never
+   push their parent wider than the viewport. */
+img, svg, canvas, video, iframe, table {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Long strings (URLs in blog posts, uninterrupted numbers)
+   should wrap rather than overflow. */
+main, article, .prose {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
 /* ── Base elements — Sprint 11 editorial restyle ── */
 body {
   background: var(--paper);
