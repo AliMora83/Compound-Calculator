@@ -1160,6 +1160,18 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
   line-height: 1.05;
 }
 
+/* Editorial explainer under the fund-needed hero figure */
+.ret-fund-explainer {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: normal;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  margin-top: 8px;
+}
+
 /* Inflation adjusted real value styling */
 .portfolio-real-value {
   font-size: 0.85rem;
@@ -1788,6 +1800,15 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
 
 .input-section-label:first-child {
   margin-top: 0;
+}
+
+.input-section-dek {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  margin: -0.4rem 0 1rem;
 }
 
 .input-divider {

@@ -1119,28 +1119,33 @@ function computeRetire() {
       : balance * Math.pow(1 + monthlyReturn, 12) + monthlyContrib * (Math.pow(1 + monthlyReturn, 12) - 1) / monthlyReturn;
   }
 
-  renderRetireResults({ fundNeeded, projectedBalance, gap, requiredExtra, yearsToRetire, monthlyContrib });
+  renderRetireResults({ fundNeeded, projectedBalance, gap, requiredExtra, yearsToRetire, monthlyContrib,
+    retirementAge, inflatedMonthlyExpenses, monthlyExpenses, inflationRate });
   drawRetireChart();
 
   trackCalculation('retire', { p: currentSavings, y: yearsToRetire, r: annualReturn });
 }
 
-function renderRetireResults({ fundNeeded, projectedBalance, gap, requiredExtra, yearsToRetire, monthlyContrib }) {
+function renderRetireResults({ fundNeeded, projectedBalance, gap, requiredExtra, yearsToRetire, monthlyContrib,
+  retirementAge, inflatedMonthlyExpenses, monthlyExpenses, inflationRate }) {
   $('ret-fund-needed').textContent       = fmt(fundNeeded);
   $('ret-years-to-retire').textContent   = yearsToRetire;
   $('ret-projected-balance').textContent = fmt(projectedBalance);
 
+  $('ret-fund-explainer').textContent =
+    `To fund ${fmt(inflatedMonthlyExpenses)}/mo at ${retirementAge} — that's ${fmt(monthlyExpenses)}/mo in today's rand, inflated at ${inflationRate}% for ${yearsToRetire} years.`;
+
   const gapEl = $('ret-gap');
   gapEl.textContent = (gap >= 0 ? '+' : '−') + fmt(Math.abs(gap));
-  gapEl.style.color = gap >= 0 ? 'var(--green)' : '#ef4444';
+  gapEl.style.color = gap >= 0 ? 'var(--green)' : 'var(--danger)';
 
   const banner = $('ret-status-banner');
   if (gap >= 0) {
     banner.className   = 'ret-status-banner surplus';
-    banner.textContent = `✅ You're on track — your projected balance exceeds your retirement target by ${fmt(gap)}.`;
+    banner.textContent = `✅ On track — your projected ${fmt(projectedBalance)} at ${retirementAge} covers a ${fmt(inflatedMonthlyExpenses)}/mo lifestyle with ${fmt(gap)} to spare.`;
   } else {
     banner.className   = 'ret-status-banner deficit';
-    banner.textContent = `⚠️ You have a shortfall of ${fmt(Math.abs(gap))} — but there's time to close it.`;
+    banner.textContent = `⚠️ Short by ${fmt(Math.abs(gap))} — your projected ${fmt(projectedBalance)} at ${retirementAge} falls short of the ${fmt(fundNeeded)} needed to fund ${fmt(inflatedMonthlyExpenses)}/mo.`;
   }
 
   const callout = $('ret-saving-callout');
