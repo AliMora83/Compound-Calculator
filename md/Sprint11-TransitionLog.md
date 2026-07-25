@@ -61,11 +61,33 @@ Phase B additions:
   done at the JS level (switchTab + a generic `[data-tab]` sync loop for future-proofing).
 - ~~`clearInputs()` Compare defaults~~ → restored to Scenario A 5% / Scenario B 8%.
 
+## Sprint 11.1 — Phase 1 completion delta — DONE 2026-07-25
+
+- **Icon sprite live**: inline `<svg><defs>` sprite (10 line icons) at the top of `<body>`
+  on all four calculator pages; `.ic` / `.ic--lg` classes in styles.css. All UI emoji in
+  calculator pages + JS swapped to `<use>` refs (📩 ✅ ⚠️ ✕ ⏳ 📄 🎯). Deviation: 🎯
+  retirement milestones map to `#ic-check` (no target icon in the specced 10-icon set).
+  `→` / `↓` text arrows kept per spec. Brevo email HTML + blog untouched per spec.
+- **Buttons consolidated to two classes**: `.btn-primary` now **ink-filled, paper text**
+  (per DesignReview; was accent-filled) with accent hover; `.btn-secondary` hairline ink
+  outline. Migrated: `#ec-submit` (was `.ec-btn`), cookie accept buttons (was
+  `#cookie-banner button` element selector), mobile pill (was `.pill-btn`; `.btn-pill`
+  shape-only modifier), Clear (was `.btn-clear`), PDF/CSV downloads (was `.btn-download`),
+  year-table toggle (`.table-toggle` now carries `.btn-secondary`; its plain-accent-link
+  Phase C styling replaced per 11.1 spec). `.btn-share` kept in markup as the JS hook
+  (share.js `querySelectorAll('.btn-share')`) but no longer styled. Orphaned rules deleted:
+  `.ec-btn`, `.btn-calculate`, `.pill-btn`, `.btn-clear`/`.btn-download` aliases,
+  `#cookie-banner button` visuals.
+- **Focus + contrast**: `:focus-visible` 2px ink outline on both button classes; token
+  pair re-verified — accent on paper 7.5:1, ink on paper 16.3:1 (no token change needed).
+- **Retirement banner** `textContent` → `innerHTML` (interpolates `fmt()` numbers only)
+  to carry the status icon.
+
 Still open after Phase C (unchanged scope):
 - **Retirement "required extra saving" callout** keeps amber warning colours
   (`#fefce8`, `#fde047`, `#92400e`) — no editorial "warning" token yet.
-- **`renderRetireResults()` inline `#ef4444`** deficit colour on `#ret-gap` — JS was
-  restricted to Task 6 this phase; convert to `--danger` in a later JS pass.
+- ~~**`renderRetireResults()` inline `#ef4444`** deficit colour on `#ret-gap`~~ —
+  RESOLVED (verified 2026-07-25): code uses `var(--green)` / `var(--danger)`.
 - **`.chart-box`** (goal/compare/retire chart wrappers) still a bordered card — not in
   Phase C's task list; tokenised but not converted to hairline. Minor.
 - **Mobile floating CTA pill** still old pill shape + shadow.

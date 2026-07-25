@@ -591,7 +591,7 @@ function handleCalculate() {
   if (!btn) { calculateNow(); return; }
   const originalText = btn.innerHTML;
   btn.disabled = true;
-  btn.innerHTML = '⏳ Calculating…';
+  btn.innerHTML = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-hourglass"/></svg> Calculating…';
 
   setTimeout(() => {
     calculateNow();
@@ -1142,10 +1142,10 @@ function renderRetireResults({ fundNeeded, projectedBalance, gap, requiredExtra,
   const banner = $('ret-status-banner');
   if (gap >= 0) {
     banner.className   = 'ret-status-banner surplus';
-    banner.textContent = `✅ On track — your projected ${fmt(projectedBalance)} at ${retirementAge} covers a ${fmt(inflatedMonthlyExpenses)}/mo lifestyle with ${fmt(gap)} to spare.`;
+    banner.innerHTML   = `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> On track — your projected ${fmt(projectedBalance)} at ${retirementAge} covers a ${fmt(inflatedMonthlyExpenses)}/mo lifestyle with ${fmt(gap)} to spare.`;
   } else {
     banner.className   = 'ret-status-banner deficit';
-    banner.textContent = `⚠️ Short by ${fmt(Math.abs(gap))} — your projected ${fmt(projectedBalance)} at ${retirementAge} falls short of the ${fmt(fundNeeded)} needed to fund ${fmt(inflatedMonthlyExpenses)}/mo.`;
+    banner.innerHTML   = `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-warning"/></svg> Short by ${fmt(Math.abs(gap))} — your projected ${fmt(projectedBalance)} at ${retirementAge} falls short of the ${fmt(fundNeeded)} needed to fund ${fmt(inflatedMonthlyExpenses)}/mo.`;
   }
 
   const callout = $('ret-saving-callout');
@@ -1166,11 +1166,11 @@ function renderRetireResults({ fundNeeded, projectedBalance, gap, requiredExtra,
   retireData.forEach(d => {
     if (!hitHalf && d.balance >= halfwayBalance) {
       hitHalf = true;
-      milestoneRow.insertAdjacentHTML('beforeend', `<span class="ret-milestone">🎯 50% funded — age ${d.year}</span>`);
+      milestoneRow.insertAdjacentHTML('beforeend', `<span class="ret-milestone"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 50% funded — age ${d.year}</span>`);
     }
     if (!hitNinety && d.balance >= ninetyBalance) {
       hitNinety = true;
-      milestoneRow.insertAdjacentHTML('beforeend', `<span class="ret-milestone">🎯 90% funded — age ${d.year}</span>`);
+      milestoneRow.insertAdjacentHTML('beforeend', `<span class="ret-milestone"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 90% funded — age ${d.year}</span>`);
     }
   });
 }

@@ -128,6 +128,13 @@ CompoundCalc is a free, production-ready compound interest calculator built for 
 - Added persistent floating CTA pill on mobile: appears 4s after load, hides on form trigger or successful subscribe
 - Added EasyEquities affiliate CTA block to all 6 blog articles with GA4 event tracking
 
+### Sprint 11 (Design) — Editorial Design System, Phases A–C + 11.1
+**Status:** ✅ Complete (Phase 1 of the design roadmap)
+- **Phase A** (`18279eb`): editorial token system (warm paper / ink / deep-green accent) with legacy aliases, self-hosted Fraunces (`font-display: swap` + preload), editorial results block replacing the Sprint 10 gradient panel, Chart.js palette moved to editorial colors
+- **Phase B** (`f430ac1`): masthead nav + Fraunces text logo, editorial hero, cookie banner, footer, scroll-to-top
+- **Phase C** (`5641c4f`): underline inputs, editorial tables, compare panels, cost-of-waiting, ad-slot collapse, `switchTab()` data-tab refactor, `clearInputs()` compare defaults restored
+- **Sprint 11.1**: inline SVG icon sprite (10 line icons, 1.5px stroke, `currentColor`) replacing all UI emoji in calculator pages + JS; button consolidation to exactly two classes — `.btn-primary` (ink-filled, per design review) and `.btn-secondary` (hairline ink outline) with `.btn-pill` shape modifier; `:focus-visible` outlines; contrast verified (accent on paper 7.5:1). Brevo email HTML and blog pages intentionally untouched (Sprints 15+).
+
 ---
 
 ## 4. Current File Structure

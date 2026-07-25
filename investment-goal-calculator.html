@@ -52,6 +52,22 @@
 </head>
 <body>
 
+  <!-- ═══ CompoundCalc Icon Sprite — editorial line icons, 1.5px stroke ═══ -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <defs>
+      <g id="ic-envelope"><rect x="2" y="4" width="20" height="16" rx="1.5"/><path d="M2 6l10 7 10-7"/></g>
+      <g id="ic-clock"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></g>
+      <g id="ic-check"><path d="M4 12.5l5 5L20 6.5"/></g>
+      <g id="ic-link"><path d="M9.5 14.5l5-5"/><path d="M8 16l-2 2a3.5 3.5 0 01-5-5l.5-.5M16 8l2-2a3.5 3.5 0 015 5l-.5.5" transform="translate(1.5 0)"/></g>
+      <g id="ic-close"><path d="M6 6l12 12M18 6L6 18"/></g>
+      <g id="ic-warning"><path d="M12 3L2.5 20h19L12 3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.5" fill="currentColor"/></g>
+      <g id="ic-arrow-right"><path d="M4 12h16M14 6l6 6-6 6"/></g>
+      <g id="ic-download"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 20h16"/></g>
+      <g id="ic-chart"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></g>
+      <g id="ic-hourglass"><path d="M6 3h12M6 21h12M7 3c0 5 5 5.5 5 9s-5 4-5 9M17 3c0 5-5 5.5-5 9s5 4 5 9"/></g>
+    </defs>
+  </svg>
+
   <header>
     <div class="nav-container">
       <a href="/" class="nav-logo" aria-label="CompoundCalc home">Compound<span class="nav-logo-accent">Calc</span></a>
@@ -78,7 +94,7 @@
 
       <div class="action-bar">
 
-        <button class="btn-clear" onclick="clearInputs()">
+        <button class="btn-secondary" onclick="clearInputs()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
           <span>Clear</span>
         </button>
@@ -224,7 +240,7 @@
 
   <div id="cookie-banner" style="display:none;">
     <span>We use cookies to analyse site traffic and serve relevant ads. <a href="/privacy-policy">Privacy Policy</a></span>
-    <button onclick="acceptCookies()">Got it</button>
+    <button class="btn-primary" onclick="acceptCookies()">Got it</button>
   </div>
 
   <script src="/assets/js/share.js"></script>

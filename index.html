@@ -78,6 +78,22 @@
 
 <body>
 
+  <!-- ═══ CompoundCalc Icon Sprite — editorial line icons, 1.5px stroke ═══ -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <defs>
+      <g id="ic-envelope"><rect x="2" y="4" width="20" height="16" rx="1.5"/><path d="M2 6l10 7 10-7"/></g>
+      <g id="ic-clock"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></g>
+      <g id="ic-check"><path d="M4 12.5l5 5L20 6.5"/></g>
+      <g id="ic-link"><path d="M9.5 14.5l5-5"/><path d="M8 16l-2 2a3.5 3.5 0 01-5-5l.5-.5M16 8l2-2a3.5 3.5 0 015 5l-.5.5" transform="translate(1.5 0)"/></g>
+      <g id="ic-close"><path d="M6 6l12 12M18 6L6 18"/></g>
+      <g id="ic-warning"><path d="M12 3L2.5 20h19L12 3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.5" fill="currentColor"/></g>
+      <g id="ic-arrow-right"><path d="M4 12h16M14 6l6 6-6 6"/></g>
+      <g id="ic-download"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 20h16"/></g>
+      <g id="ic-chart"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></g>
+      <g id="ic-hourglass"><path d="M6 3h12M6 21h12M7 3c0 5 5 5.5 5 9s-5 4-5 9M17 3c0 5-5 5.5-5 9s5 4 5 9"/></g>
+    </defs>
+  </svg>
+
   <header>
     <div class="nav-container">
       <a href="/" class="nav-logo" aria-label="CompoundCalc home">Compound<span class="nav-logo-accent">Calc</span></a>
@@ -109,7 +125,7 @@
 
       <div class="action-bar">
 
-        <button class="btn-clear" onclick="clearInputs()">
+        <button class="btn-secondary" onclick="clearInputs()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
@@ -196,7 +212,7 @@
 
                 <!-- Left: copy -->
                 <div class="email-capture-copy">
-                  <div class="email-capture-icon">📩</div>
+                  <div class="email-capture-icon"><svg class="ic ic--lg" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-envelope"/></svg></div>
                   <div>
                     <p class="email-capture-headline">Want to save this projection?</p>
                     <p class="email-capture-sub">
@@ -212,7 +228,7 @@
                     <div class="ec-input-row">
                       <input type="email" id="ec-email" class="ec-input" placeholder="your@email.com"
                         autocomplete="email" inputmode="email" aria-label="Email address" />
-                      <button id="ec-submit" class="ec-btn" onclick="submitEmailCapture()" type="button">
+                      <button id="ec-submit" class="btn-primary" onclick="submitEmailCapture()" type="button">
                         Send my PDF
                       </button>
                     </div>
@@ -225,7 +241,7 @@
 
                   <!-- Success state — shown after submit -->
                   <div id="ec-success-state" class="ec-success hidden">
-                    <span class="ec-success-icon">✅</span>
+                    <span class="ec-success-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg></span>
                     <div>
                       <p class="ec-success-headline">On its way!</p>
                       <p class="ec-success-sub">Check your inbox in the next few minutes.</p>
@@ -234,13 +250,13 @@
 
                   <!-- Error state -->
                   <div id="ec-error-state" class="ec-error hidden">
-                    <span>⚠️</span>
+                    <span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-warning"/></svg></span>
                     <p id="ec-error-msg">Something went wrong — please try again.</p>
                   </div>
                 </div>
 
                 <!-- Dismiss -->
-                <button class="ec-dismiss" onclick="dismissEmailCapture()" aria-label="Dismiss" type="button">✕</button>
+                <button class="ec-dismiss" onclick="dismissEmailCapture()" aria-label="Dismiss" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-close"/></svg></button>
 
               </div>
             </div>
@@ -313,7 +329,7 @@
             <!-- Cost of Delay Panel -->
             <div class="delay-cost-panel animated">
               <div class="delay-header">
-                ⏳ The cost of waiting
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-hourglass"/></svg> The cost of waiting
               </div>
               <div class="delay-body" id="delay-list">
                 <!-- Populated by JS -->
@@ -321,7 +337,7 @@
             </div>
 
             <div>
-              <div class="table-toggle" id="table-toggle-grow" onclick="toggleTable('grow')">
+              <div class="table-toggle btn-secondary" id="table-toggle-grow" onclick="toggleTable('grow')">
                 <span>Year-by-year breakdown</span>
                 <span class="arrow">▼</span>
               </div>
@@ -339,8 +355,8 @@
                   <tbody id="g-table-body"></tbody>
                 </table>
                 <div class="table-footer">
-                  <button class="btn-download" onclick="downloadPDF()">📄 Download PDF</button>
-                  <button class="btn-download" onclick="downloadCSV()">↓ CSV</button>
+                  <button class="btn-secondary" onclick="downloadPDF()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-download"/></svg> Download PDF</button>
+                  <button class="btn-secondary" onclick="downloadCSV()">↓ CSV</button>
                 </div>
               </div>
             </div>
@@ -567,7 +583,7 @@
     <span>We use cookies to analyse site traffic and serve relevant ads.
       <a href="/privacy-policy">Privacy Policy</a>
     </span>
-    <button onclick="acceptCookies()">
+    <button class="btn-primary" onclick="acceptCookies()">
       Got it
     </button>
   </div>
@@ -582,10 +598,10 @@
        or after email form becomes visible in the page
        ══════════════════════════════════════════════════ -->
   <div id="mobile-cta-pill" class="mobile-cta-pill hidden" role="complementary">
-    <span class="pill-icon">📩</span>
+    <span class="pill-icon"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-envelope"/></svg></span>
     <span class="pill-text">Get your free PDF projection</span>
     <button
-      class="pill-btn"
+      class="btn-primary btn-pill"
       onclick="scrollToEmailCapture()"
       type="button"
       aria-label="Get your free PDF projection"

@@ -196,13 +196,64 @@ button, .btn {
   border-radius: var(--radius);
   transition: background var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
 }
-/* Primary action buttons */
-.btn-primary, .ec-btn {
-  background: var(--accent);
-  color: #FFFFFF;
-  border: 1px solid var(--accent);
+
+/* ── Two-class button system (Sprint 11.1) ─────────────────
+   .btn-primary  — ink-filled, paper text (per DesignReview decision)
+   .btn-secondary — transparent, hairline ink border
+   Everything else is a layout modifier, never a new colour. */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease-out), opacity 0.15s;
 }
-.btn-primary:hover, .ec-btn:hover { background: var(--accent-hover); }
+.btn-primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #FFFFFF;
+}
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+/* Pill modifier — mobile CTA only: shape + compact height, no new colours */
+.btn-pill {
+  border-radius: 50px;
+  min-height: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ── Line icons (Sprint 11.1 sprite) ─────────────────────── */
+.ic {
+  width: 1.1em;
+  height: 1.1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -0.15em;
+  flex-shrink: 0;
+}
+.ic--lg { width: 1.4em; height: 1.4em; }
 
 /* --- Global Header & Nav — editorial masthead (Sprint 11B) --- */
 body > header {
@@ -677,24 +728,10 @@ select:focus { border-bottom-color: var(--accent); border-bottom-width: 2px; }
 @media (min-width: 480px) { .chart-container { height: 320px; } }
 @media (min-width: 768px) { .chart-container { height: 400px; } }
 
-/* Year-by-year table — editorial (Sprint 11C). Collapse trigger is a plain accent link. */
+/* Year-by-year table — collapse trigger visuals come from .btn-secondary (Sprint 11.1) */
 .table-toggle {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  cursor: pointer;
-  padding: var(--space-3) 0;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--accent);
   user-select: none;
 }
-
-.table-toggle:hover { color: var(--accent-hover); }
 
 .table-toggle .arrow {
   font-size: 0.75rem;
@@ -773,7 +810,8 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
   gap: 10px;
 }
 
-.btn-download, .btn-share, .btn-secondary, .btn-calculate, .btn-clear {
+/* Secondary (Clear, Copy link, downloads, table toggle) — quiet ink outline */
+.btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -785,31 +823,15 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: inherit;
-}
-
-/* Secondary (Clear, Copy link, downloads) — quiet ink outline */
-.btn-secondary, .btn-clear, .btn-download, .btn-share {
   background: transparent;
   border: 1px solid var(--ink);
   color: var(--ink);
 }
 
-.btn-secondary:hover, .btn-clear:hover, .btn-download:hover, .btn-share:hover {
+.btn-secondary:hover {
   background: var(--ink);
   color: var(--paper);
   border-color: var(--ink);
-}
-
-/* Primary action button */
-.btn-calculate {
-  background: var(--accent);
-  color: #FFFFFF;
-  border: 1px solid var(--accent);
-  font-weight: 600;
-}
-
-.btn-calculate:hover {
-  background: var(--accent-hover);
 }
 
 
@@ -1019,29 +1041,10 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
   border-color: var(--danger);
 }
 
-.ec-btn {
+/* Submit visuals come from .btn-primary; sizing scoped to the stable ID */
+#ec-submit {
   width: 100%;
   box-sizing: border-box;
-  padding: 9px 16px;
-  background: var(--green);
-  color: white;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: background 0.15s, opacity 0.15s;
-}
-
-.ec-btn:hover {
-  background: var(--accent-hover);
-}
-
-.ec-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 .ec-disclaimer {
@@ -1363,7 +1366,7 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
     flex-direction: column;
   }
 
-  .ec-btn {
+  #ec-submit {
     width: 100%;
     padding: 12px;
     font-size: 1rem;
@@ -1533,21 +1536,12 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
 
 #cookie-banner a { color: var(--accent); }
 
-#cookie-banner button {
-  background: var(--accent);
-  color: #FFFFFF;
-  border: none;
-  border-radius: var(--radius);
+/* Accept button visuals come from .btn-primary; layout scoped here */
+#cookie-banner .btn-primary {
   padding: 10px 18px;
-  min-height: 44px;
   width: 100%;
-  cursor: pointer;
-  font-family: inherit;
   font-size: 0.85rem;
-  white-space: nowrap;
 }
-
-#cookie-banner button:hover { background: var(--accent-hover); }
 
 @media (min-width: 480px) {
   #cookie-banner {
@@ -1557,7 +1551,7 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
     text-align: left;
     gap: 1rem;
   }
-  #cookie-banner button { width: auto; }
+  #cookie-banner .btn-primary { width: auto; }
 }
 
 /* Reduced motion — kill decorative animation/transition for users who ask */
@@ -1759,24 +1753,7 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
   line-height: 1.3;
 }
 
-.pill-btn {
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 8px 16px;
-  font-family: inherit;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.15s;
-  flex-shrink: 0;
-}
-
-.pill-btn:hover {
-  background: var(--accent-hover);
-}
+/* Pill CTA button visuals come from .btn-primary + .btn-pill (Sprint 11.1) */
 
 /* Desktop: never show the pill */
 @media (min-width: 641px) {
@@ -1990,15 +1967,17 @@ html { -webkit-tap-highlight-color: transparent; }
 .portfolio-header-top { flex-wrap: wrap; }
 .portfolio-primary { min-width: 0; }
 
-/* 3.2 / Task 4 — Tap targets ≥44px (WCAG 2.5.5) on toolbar + primary actions */
-.btn-clear, .btn-share, .btn-secondary, .btn-calculate, .btn-download {
+/* 3.2 / Task 4 — Tap targets ≥44px (WCAG 2.5.5) on toolbar + primary actions.
+   :not(.btn-pill) keeps the compact mobile pill CTA exempt (its own tap zone
+   is the full pill bar). */
+.btn-primary:not(.btn-pill), .btn-secondary {
   min-height: 44px;
 }
 
 /* 3.11 — Email capture: input + button side-by-side ≥480 (stacked at base) */
 @media (min-width: 480px) {
   .ec-input-row { flex-direction: row; }
-  .ec-btn { width: auto; }
+  #ec-submit { width: auto; }
 }
 
 /* Task 4 — restore editorial input sizing on desktop (no iOS zoom risk ≥768).

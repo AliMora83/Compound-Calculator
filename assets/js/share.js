@@ -114,7 +114,7 @@ function copyShareLink() {
     const btns = document.querySelectorAll('.btn-share');
     btns.forEach(btn => {
       const originalText = btn.innerHTML;
-      btn.innerHTML = '<span>✅ Copied!</span>';
+      btn.innerHTML = '<span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Copied!</span>';
       setTimeout(() => {
         btn.innerHTML = originalText;
       }, 2000);
