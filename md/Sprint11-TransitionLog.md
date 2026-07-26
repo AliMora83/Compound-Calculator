@@ -92,6 +92,24 @@ Still open after Phase C (unchanged scope):
   Phase C's task list; tokenised but not converted to hairline. Minor.
 - **Mobile floating CTA pill** still old pill shape + shadow.
 
+## Sprint 12.2 — TFSA expansion + rate verification — DONE 2026-07-26
+
+- **Sprint 12.1b was absorbed into 12.2 and NOT run separately.** Its Task 1 (R36,000 → R46,000)
+  and Task 2 (sitemap) are both delivered here.
+- **TFSA R46,000 verified** (Ali, July 2026, multiple SARS-referencing sources): annual limit
+  R46,000 for the 2026/27 tax year effective 1 March 2026; lifetime cap R500,000 unchanged;
+  over-contribution penalty 40%. Dated historical references to R36,000 are retained
+  deliberately ("up from R36,000"), only current-limit claims were changed.
+- **Repo rate / CPI**: left as approximate ranges ("around 7%", "4–6% range") — accurate and not
+  date-pinned. Re-confirm at the next content pass.
+- **Sidebar machinery**: `max="3000"` → `max="3833"`; no JS cap constant existed anywhere
+  (blog.js has none), so the attribute was — and still is — **cosmetic, not enforced**. Logged in
+  Master.md Known Issues. `calcTFSA()` was also switched from an ordinary-annuity to an
+  annuity-due formula so the widget matches production `simulate()`; it previously understated
+  by one month's growth and disagreed with the main calculator for identical inputs.
+- **Blog pages remain on the old card/image treatment and Lora display face** — unchanged by this
+  content sprint; still Sprint 15 scope.
+
 ## Scheduled for Phase D (blog)
 
 - **Blog display face is still Lora.** `blog.css` `:root` overrides

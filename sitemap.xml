@@ -6,17 +6,17 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://compoundcalc.co.za/investment-goal-calculator.html</loc>
+    <loc>https://compoundcalc.co.za/investment-goal-calculator</loc>
     <lastmod>2026-05-13</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://compoundcalc.co.za/compare-investments.html</loc>
+    <loc>https://compoundcalc.co.za/compare-investments</loc>
     <lastmod>2026-05-13</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://compoundcalc.co.za/retirement-calculator.html</loc>
+    <loc>https://compoundcalc.co.za/retirement-calculator</loc>
     <lastmod>2026-06-25</lastmod>
     <priority>0.8</priority>
   </url>
@@ -26,32 +26,47 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://compoundcalc.co.za/blog/compound-interest-south-africa.html</loc>
+    <loc>https://compoundcalc.co.za/blog/compound-interest-south-africa</loc>
     <lastmod>2026-07-26</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://compoundcalc.co.za/blog/rule-of-72.html</loc>
+    <loc>https://compoundcalc.co.za/blog/tax-free-savings-account-calculator-south-africa</loc>
     <lastmod>2026-07-26</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://compoundcalc.co.za/blog/how-long-to-save-1-million-rand.html</loc>
+    <loc>https://compoundcalc.co.za/blog/rule-of-72</loc>
+    <lastmod>2026-07-26</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://compoundcalc.co.za/blog/how-long-to-save-1-million-rand</loc>
     <lastmod>2026-05-13</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://compoundcalc.co.za/about.html</loc>
+    <loc>https://compoundcalc.co.za/blog/etfs-vs-traditional-savings-accounts</loc>
+    <lastmod>2026-07-26</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://compoundcalc.co.za/blog/maximize-compound-interest-monthly-savings</loc>
+    <lastmod>2026-07-26</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://compoundcalc.co.za/about</loc>
     <lastmod>2026-05-13</lastmod>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://compoundcalc.co.za/privacy-policy.html</loc>
+    <loc>https://compoundcalc.co.za/privacy-policy</loc>
     <lastmod>2026-05-13</lastmod>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://compoundcalc.co.za/terms-of-service.html</loc>
+    <loc>https://compoundcalc.co.za/terms-of-service</loc>
     <lastmod>2026-05-13</lastmod>
     <priority>0.4</priority>
   </url>

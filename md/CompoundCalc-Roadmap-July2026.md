@@ -34,8 +34,8 @@ The design system base plus the AdSense fix. Nothing new gets built until this p
 | Task | Claude | Ali + Claude Code | Ali (admin) |
 |---|---|---|---|
 | Expansion briefs for all 6 articles (target depth, new sections, FAQ schema, internal links) | Write briefs + full draft copy in brand voice | | Review + edit drafts |
-| Update article HTML (copy, JSON-LD, meta, sitemap lastmod) | Provide exact HTML blocks | Insert + deploy | |
-| Verify indexing | | | Request recrawl in Search Console |
+| Update article HTML (copy, JSON-LD, meta, sitemap lastmod) | Provide exact HTML blocks | 🟡 2 of 6 done — 12.1 compound-interest, 12.2 TFSA (12.1b absorbed into 12.2, not run separately) | |
+| Verify indexing | | | Request recrawl in Search Console — pending |
 
 **Phase 1 exit criteria:** Tokens live site-wide, ≥4 of 6 articles expanded and recrawled.
 
