@@ -1373,29 +1373,33 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
   }
 }
 
-/* ── AdSense ad slots ───────────────────────────────── */
+/* ── AdSense ad slots & placeholders ─────────────────── */
+.ad-placeholder,
 .ad-slot {
   position: relative;
   width: 100%;
+  max-width: 100%;
   overflow: hidden;
   margin: 2rem 0;
   padding: 1.75rem 1.25rem 1.25rem 1.25rem;
   background: var(--bg-surface);
   border: 1px dashed var(--border);
   border-radius: var(--radius);
-  /* Prevent layout reflow jumps during load */
+  /* Prevent layout reflow jumps during load (CLS safeguard) */
   min-height: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  text-align: center;
 }
 
+.ad-placeholder::before,
 .ad-slot::before {
   content: "ADVERTISEMENT";
   display: block;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
   font-size: 10px;
   font-weight: 600;
   color: var(--ink-faint);
@@ -1405,14 +1409,18 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
   width: 100%;
 }
 
-/* Collapse a slot AdSense reported as unfilled (or a truly empty one) so it
-   leaves no editorial gap. Filled/loading slots keep min-height for CLS.
-   Presentation only — the <ins> element and AdSense config are untouched. */
+/* Collapse unfilled/empty slots so they leave no editorial gap when AdSense runs.
+   Filled/loading slots keep min-height for CLS. Presentation only — the <ins>
+   element and AdSense config are untouched. */
+.ad-placeholder:has(ins[data-ad-status="unfilled"]),
+.ad-placeholder:empty,
 .ad-slot:has(ins[data-ad-status="unfilled"]),
 .ad-slot:empty {
   display: none;
 }
 
+.ad-placeholder.ad-leaderboard,
+.ad-slot.ad-leaderboard,
 .ad-leaderboard {
   max-width: 728px;
   margin-left: auto;
@@ -1420,6 +1428,8 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
   min-height: 140px;
 }
 
+.ad-placeholder.ad-rectangle,
+.ad-slot.ad-rectangle,
 .ad-rectangle {
   max-width: 336px;
   margin-left: auto;
@@ -1427,6 +1437,8 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
   min-height: 330px;
 }
 
+.ad-placeholder.ad-in-article,
+.ad-slot.ad-in-article,
 .ad-in-article {
   max-width: 100%;
   margin: 2.5rem auto;
@@ -1434,14 +1446,18 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
 }
 
 /* Sidebar sticky ad slot position */
+.ad-placeholder.ad-sidebar-sticky,
+.ad-slot.ad-sidebar-sticky,
 .ad-sidebar-sticky {
   position: sticky;
-  top: 24px;
+  top: 100px;
   min-height: 330px;
   margin: 1.5rem 0;
 }
 
 /* Multiplex ad slot styled to blend natively in grid */
+.ad-placeholder.ad-multiplex,
+.ad-slot.ad-multiplex,
 .ad-multiplex {
   grid-column: span 1;
   background: var(--bg-surface);
@@ -1453,6 +1469,8 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
 }
 
 /* Anchor ad slot (sticky footer) */
+.ad-placeholder.ad-anchor-sticky,
+.ad-slot.ad-anchor-sticky,
 .ad-anchor-sticky {
   position: fixed;
   bottom: 0;
@@ -1500,10 +1518,25 @@ tbody tr:nth-child(even) td { background: var(--paper-tint); }
   color: #ffffff;
 }
 
+/* Responsive safety guards */
+@media (max-width: 960px) {
+  .ad-placeholder.ad-sidebar-sticky,
+  .ad-slot.ad-sidebar-sticky,
+  .ad-sidebar-sticky {
+    position: static;
+  }
+}
+
 /* Hide ad slots on very small screens if they cause layout issues */
 @media (max-width: 360px) {
+  .ad-placeholder.ad-leaderboard,
+  .ad-slot.ad-leaderboard,
   .ad-leaderboard,
+  .ad-placeholder.ad-rectangle,
+  .ad-slot.ad-rectangle,
   .ad-rectangle,
+  .ad-placeholder.ad-anchor-sticky,
+  .ad-slot.ad-anchor-sticky,
   .ad-anchor-sticky {
     display: none !important;
   }

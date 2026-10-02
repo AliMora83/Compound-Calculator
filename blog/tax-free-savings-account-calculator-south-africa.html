@@ -136,7 +136,7 @@
 
         <h2>What a TFSA is (and what SARS actually calls it)</h2>
         <p>A Tax-Free Savings Account is a wrapper, not a product. Inside it, every tax that normally applies to investing is switched off: no tax on interest, no dividends tax, no capital gains tax — ever, and on withdrawal too. SARS's own term is "tax-free investment", which is the more honest name: the wrapper can hold cash, but it's wasted on cash.</p>
-        <p>Contributions are made with after-tax money — a TFSA doesn't reduce this year's taxable income the way a retirement annuity does. Its entire advantage sits on the growth side, and that advantage compounds.</p>
+        <p>Contributions are made with after-tax money — a TFSA doesn't provide an upfront tax deduction on your taxable income the way a Section 11F Retirement Annuity (RA) does. Under South Africa's Two-Pot Retirement System, contributions to an RA are split between the accessible Savings Pot (subject to marginal tax on early withdrawal) and the preserved Retirement Pot (locked until retirement to buy a compulsory annuity). In contrast, a TFSA offers complete flexibility with 100% tax-free withdrawals at any stage of life, though withdrawals permanently forfeit your lifetime contribution allowance. While an RA provides immediate Section 11F tax relief (up to 27.5% of taxable income), the TFSA's greatest power lies entirely in its back-end compounding: completely tax-free interest, dividends, and capital gains over decades.</p>
 
         <h2>The 2026/27 limits, plainly</h2>
         <ul>
@@ -183,7 +183,7 @@
              ADSENSE — In-article (after 2nd h2)
              Unit: cc-blog-in-article
              ══════════════════════════════════════════ -->
-        <div class="ad-slot ad-in-article" aria-hidden="true">
+        <div class="ad-placeholder ad-slot ad-in-article" aria-label="Advertisement" aria-hidden="true">
           <ins class="adsbygoogle"
                style="display:block; text-align:center;"
                data-ad-layout="in-article"
@@ -215,42 +215,44 @@
         <h2>TFSA vs Regular Savings Account — The Tax Difference</h2>
         <p>Why not just use a standard savings account? The difference lies entirely in how taxes eat away at your compounding returns. In a regular savings account, any interest earned above R23,800 per year is taxed at your marginal rate (up to 45%). Additionally, a regular investment account attracts capital gains tax and a 20% dividends withholding tax.</p>
         
-        <table>
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>TFSA</th>
-              <th>Regular Savings Account</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Interest Taxed?</td>
-              <td>No</td>
-              <td>Yes (above R23,800 exemption)</td>
-            </tr>
-            <tr>
-              <td>Capital Gains Taxed?</td>
-              <td>No</td>
-              <td>Yes</td>
-            </tr>
-            <tr>
-              <td>Dividends Taxed?</td>
-              <td>No</td>
-              <td>Yes (20% dividends tax)</td>
-            </tr>
-            <tr>
-              <td>Annual Contribution Limit</td>
-              <td>R46,000</td>
-              <td>None</td>
-            </tr>
-            <tr>
-              <td>Withdrawal Flexibility</td>
-              <td>Withdraw anytime (but cannot re-contribute)</td>
-              <td>Withdraw anytime</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="blog-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th class="highlight">TFSA</th>
+                <th>Regular Savings Account</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Interest Taxed?</td>
+                <td class="highlight"><strong>No (100% Tax-Free)</strong></td>
+                <td>Yes (above R23,800 exemption)</td>
+              </tr>
+              <tr>
+                <td>Capital Gains Taxed?</td>
+                <td class="highlight"><strong>No (0% CGT)</strong></td>
+                <td>Yes (40% inclusion rate)</td>
+              </tr>
+              <tr>
+                <td>Dividends Taxed?</td>
+                <td class="highlight"><strong>No (0% DWT)</strong></td>
+                <td>Yes (20% dividends tax)</td>
+              </tr>
+              <tr>
+                <td>Annual Contribution Limit</td>
+                <td class="highlight"><strong>R46,000 / year</strong></td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <td>Withdrawal Flexibility</td>
+                <td class="highlight"><strong>Withdraw anytime</strong> (cannot re-contribute)</td>
+                <td>Withdraw anytime</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <p>When you don't lose a quarter of your gains to SARS every year, those saved tax rands remain in your account and compound year after year. Over a 20-year horizon, this tax exemption can easily translate to an extra R200,000 to R500,000 in your pocket.</p>
 
@@ -288,6 +290,20 @@
               </p>
             </div>
           </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════
+             ADSENSE — In-article 2 (Mid-article break)
+             Unit: cc-blog-in-article-2
+             ══════════════════════════════════════════ -->
+        <div class="ad-placeholder ad-slot ad-in-article" aria-label="Advertisement" aria-hidden="true">
+          <ins class="adsbygoogle"
+               style="display:block; text-align:center;"
+               data-ad-layout="in-article"
+               data-ad-format="fluid"
+               data-ad-client="ca-pub-6017523378494978"
+               data-ad-slot="1000000003"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <h2>How to Use the CompoundCalc TFSA Calculator</h2>
@@ -348,7 +364,7 @@
           </div>
         </div>
 
-        <h2>Summary</h2>
+        <h2 id="summary">Summary</h2>
         <p>See what your TFSA could be worth. Enter your monthly contribution, expected return, and years — the calculator does the rest.</p>
 
         <a href="https://compoundcalc.co.za" class="btn-article-cta-large">
@@ -419,6 +435,7 @@
               <li><a href="#how-to-use-calculator">How to Use Calculator</a></li>
               <li><a href="#tfsa-platforms">TFSA Platforms</a></li>
               <li><a href="#faq">Frequently Asked Questions</a></li>
+              <li><a href="#summary">Summary</a></li>
             </ul>
           </div>
         </div>
@@ -427,7 +444,7 @@
              ADSENSE — Sidebar sticky
              Unit: cc-blog-sidebar
              ══════════════════════════════════════════ -->
-        <div class="ad-slot ad-sidebar-sticky" aria-hidden="true">
+        <div class="ad-placeholder ad-slot ad-sidebar-sticky" aria-label="Advertisement" aria-hidden="true">
           <ins class="adsbygoogle"
                style="display:block"
                data-ad-client="ca-pub-6017523378494978"
@@ -503,7 +520,8 @@
     "Cash TFSA vs equity TFSA: the choice that matters most": "where-to-hold",
     "How to Use the CompoundCalc TFSA Calculator": "how-to-use-calculator",
     "Which Platforms Offer TFSAs in South Africa?": "tfsa-platforms",
-    "Frequently Asked Questions": "faq"
+    "Frequently Asked Questions": "faq",
+    "Summary": "summary"
   }
   </script>
 
